@@ -70,12 +70,12 @@
 #define SIMON_GRAVITY			0.002f
 
 //Id animation of Whip
-#define ID_ANI_WHIP_SHORT_RIGHT			0
-#define ID_ANI_WHIP_SHORT_LEFT			1
-#define ID_ANI_WHIP_NORMAL_RIGHT		2
-#define ID_ANI_WHIP_NORMAL_LEFT			3
-#define ID_ANI_WHIP_MAX_RIGHT			4	
-#define ID_ANI_WHIP_MAX_LEFT			5
+#define ID_ANI_WHIP_SHORT_RIGHT			111
+#define ID_ANI_WHIP_SHORT_LEFT			112
+#define ID_ANI_WHIP_NORMAL_RIGHT		113
+#define ID_ANI_WHIP_NORMAL_LEFT			114
+#define ID_ANI_WHIP_LONG_RIGHT			115	
+#define ID_ANI_WHIP_LONG_LEFT			116
 
 //Boungding Box of Whip
 #define WHIP_BBOX_HEIGHT_SHORT			26

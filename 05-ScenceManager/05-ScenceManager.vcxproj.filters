@@ -31,6 +31,9 @@
     <Filter Include="Game Object\Stactic Object">
       <UniqueIdentifier>{ca620bac-72fb-4079-8a26-deefd0c8a561}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Object\simon\Weapon">
+      <UniqueIdentifier>{3ede9246-24d5-4e6b-b139-737dc8ff7445}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Brick.cpp">
@@ -92,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="Wall.cpp">
       <Filter>Game Object\Transparent Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Game Object\simon\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Whip.cpp">
+      <Filter>Game Object\simon\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="Wall.h">
       <Filter>Game Object\Transparent Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Game Object\simon\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Whip.h">
+      <Filter>Game Object\simon\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
