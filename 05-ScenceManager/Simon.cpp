@@ -5,6 +5,8 @@ Simon* Simon::__instance;
 
 Simon::Simon()
 {
+	DebugOut(L"[INFO]Create Simon and add animation\n");
+
 	AddAnimation(ID_ANI_SIMON_IDLE_RIGHT);				// Idle Right			0
 	AddAnimation(ID_ANI_SIMON_IDLE_LEFT);				// Idle Left			1
 	AddAnimation(ID_ANI_SIMON_WALK_RIGHT);				// Walk Right			2
@@ -62,7 +64,12 @@ void Simon::StartAttack()
 	if (attackStart > 0)
 		return;
 	ResetAnimation();
-	SetState(SIMON_STATE_ATTACK);
+
+	if (state == SIMON_STATE_SIT)
+		SetState(SIMON_STATE_SIT_ATTACK);
+	else
+		SetState(SIMON_STATE_ATTACK);
+
 	attackStart = GetTickCount();
 }
 
@@ -241,7 +248,9 @@ void Simon::Render()
 	if (untouchable)
 		alpha = 50;
 
-	animation_set->at(ani)->Render(x, y, alpha);
+	//Render animation
+	//animation_set->at(ani)->Render(x, y, alpha);
+	animations[ani]->Render(x, y, alpha);
 
 	RenderBoundingBox();
 }
@@ -293,9 +302,6 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 	bottom = y + SIMON_BBOX_HEIGHT;
 	if (state == SIMON_STATE_SIT)
 	{
-		left = x;
 		top = y + SIMON_BBOX_HEIGHT - 15;
-		right = x + SIMON_BBOX_WIDTH;
-		bottom = y + SIMON_BBOX_HEIGHT;
 	}
 }

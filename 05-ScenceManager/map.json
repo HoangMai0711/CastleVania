@@ -1,0 +1,9 @@
+{
+  "Start scene": 1,
+  "Scenes": {
+    "1": "scene1_map.json",
+    "2": "scene2_map.json",
+    "3": "scene3_map.json",
+    "4": "scene4_map.json"
+  }
+}

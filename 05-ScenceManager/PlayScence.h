@@ -9,6 +9,10 @@
 #include "Koopas.h"
 #include "Simon.h"
 #include "TileMap.h"
+#include "Wall.h"
+#include "Portal.h"
+#include "Torch.h"
+#include "HiddenObject.h"
 
 
 class CPlayScene: public CScene
@@ -24,7 +28,7 @@ protected:
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
-	void _ParseSection_OBJECTS(string line);
+	//void _ParseSection_OBJECTS(string line);
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
@@ -32,6 +36,8 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+
+	void LoadAnimations();
 
 	friend class CPlayScenceKeyHandler;
 };

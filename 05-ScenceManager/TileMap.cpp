@@ -12,6 +12,7 @@ TileAtlas::~TileAtlas()
 
 void TileAtlas::LoadTileAtlasFromFile(LPCWSTR filePath)
 {
+	DebugOut(L"[INFO]Start loading tile atlas from file: %s\n", filePath);
 	//Get information from file
 	ifstream file(filePath);
 	json j = json::parse(file);
@@ -25,31 +26,29 @@ void TileAtlas::LoadTileAtlasFromFile(LPCWSTR filePath)
 	//Calculate number of tile row
 	numOfRow = tileCount / numOfColumn;
 
-
 	//Get file image path to load
 	string tileMapPath = "textures\\" + j["/tilesets/0/image"_json_pointer].get<string>();
 
-	wstring sTmp;
-	sTmp = s2ws(tileMapPath);
-	LPCWSTR imagePath = sTmp.c_str();
+	LPCWSTR imagePath = ToLPCWSTR(tileMapPath);
 
 	//Add tile to list of Tile Atlas
 	for (int i = 0; i < numOfRow; i++)
 	{
-		for (int j = 0; i < numOfColumn; j++)
+		for (int j = 0; j < numOfColumn; j++)
 		{
 			RECT rTileMap = { j*tileWidth, i*tileHeight, (j + 1)*tileWidth, (i + 1)*tileHeight };
 			int idTileMap = j + 1 + (i*numOfColumn);
 			listTile.insert(pair<int, RECT>(idTileMap, rTileMap));
 		}
 	}
-
+	DebugOut(L"[INFO]Image path of tile sets: %s\n", imagePath);
 	//Add textures
-	CTextures::GetInstance()->Add(ID_TEX_TILE_SCENE01, imagePath, D3DCOLOR_XRGB(0, 0, 0));
+	CTextures::GetInstance()->Add(ID_TEX_TILE_SCENE01, imagePath, D3DCOLOR_XRGB(5, 5, 5));
 	this->texture = CTextures::GetInstance()->Get(ID_TEX_TILE_SCENE01);
 
 	//Close file
 	file.close();
+	DebugOut(L"[INFO]Done loading tile atlas\n");
 }
 
 void TileAtlas::DrawTileAtlas(int id, D3DXVECTOR2 position, int alpha)
@@ -86,6 +85,7 @@ TileMap::~TileMap()
 
 void TileMap::LoadTileMapFromFile(LPCWSTR filePath)
 {
+	DebugOut(L"[INFO]Start loading tilemap file: %s\n", filePath);
 	ifstream file(filePath);
 	json j = json::parse(file);
 
@@ -107,10 +107,12 @@ void TileMap::LoadTileMapFromFile(LPCWSTR filePath)
 		}
 	}
 	tileAtlas->LoadTileAtlasFromFile(filePath);
+	DebugOut(L"[INFO]Done loading tilemap file\n");
 }
 
 void TileMap::Draw(D3DXVECTOR2 position, int alpha)
 {
+	//DebugOut(L"[INFO]Start draw tilemap\n");
 	CGame* camPosition = CGame::GetInstance();
 
 	int camX = camPosition->GetCamPosX();
@@ -132,16 +134,21 @@ void TileMap::Draw(D3DXVECTOR2 position, int alpha)
 	if (endPosHeight > tileRow)
 		endPosHeight = tileRow;
 
+	//DebugOut(L"----Pos width: Start-End: %d-%d\n", startPosWidth, endPosWidth);
+	//DebugOut(L"----Pos height: Start-End: %d-%d\n", startPosHeight, endPosHeight);
+
 	for (int i = startPosHeight; i < endPosHeight; i++)
 	{
-		for (int j = startPosWidth; j < endPosWidth; i++)
+		for (int j = startPosWidth; j < endPosWidth; j++)
 		{
 			D3DXVECTOR2 pos;
 			pos.x = position.x + j * tileAtlas->GetTileWidth();
-			pos.y = position.y + j * tileAtlas->GetTileHeight();
-			tileAtlas->DrawTileAtlas(tileMap[i][j], pos, alpha);
+			pos.y = position.y + i * tileAtlas->GetTileHeight();
+			/*DebugOut(L"-----pos.x-pos.y: %f-%f\n", pos.x, pos.y);*/
+			tileAtlas->DrawTileAtlas(tileMap[i][j], pos, 255);
 		}
 	}
+	//DebugOut(L"[INFO]End draw tilemap\n");
 }
 
 int TileMap::GetTileMapWidth()

@@ -63,15 +63,28 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw 
 */
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, int isFlippedHorizontally)
 {
-	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
-	RECT r; 
+	D3DXVECTOR3 p(floor(x - cam_x), floor(y - cam_y), 0);
+	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
+
+	D3DXMATRIX mPre;
+	D3DXMATRIX mFlipped;
+	spriteHandler->GetTransform(&mPre);
+
+	if (isFlippedHorizontally == 1) {
+		spriteHandler->GetTransform(&mFlipped);
+		D3DXMatrixScaling(&mFlipped, -1.0f, 1.0f, .0f);
+		spriteHandler->SetTransform(&mFlipped);
+		p.x = -p.x - (right - left);
+	}
+
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->SetTransform(&mPre);
 }
 
 int CGame::IsKeyDown(int KeyCode)
@@ -349,41 +362,39 @@ void CGame::Load(LPCWSTR gameFile)
 {
 	DebugOut(L"[INFO] Start loading game file : %s\n", gameFile);
 
-	ifstream f;
-	f.open(gameFile);
-	char str[MAX_GAME_LINE];
+	ifstream file(gameFile);
+	json j = json::parse(file);
 
-	// current resource section flag
-	int section = GAME_FILE_SECTION_UNKNOWN;
+	//Get start scene
+	current_scene = j["Start scene"].get<int>();
 
-	while (f.getline(str, MAX_GAME_LINE))
+	DebugOut(L"[INFO] Load start scene: %d\n", current_scene);
+
+	LPSCENE scene;
+	for (auto i : j["Scenes"].items())
 	{
-		string line(str);
+		int id = stoi(i.key());
+		string strPath = (i.value()).get<string>();
+		string strFullPath = "textures\\" + strPath;
+		//Convert string to LPCWSTR
+		LPCWSTR path = ToLPCWSTR(strFullPath);
 
-		if (line[0] == '#') continue;	// skip comment lines	
+		DebugOut(L"\n[INFO]ID Path: %d\n", id);
+		DebugOut(L"[INFO]Load path: %s\n", path);
 
-		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
-		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
+		scene = new CPlayScene(id, path);
 
-		//
-		// data section
-		//
-		switch (section)
-		{
-			case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
-			case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
-		}
+		scenes.insert(make_pair(id, scene));
+		
+		DebugOut(L"[INFO]Current scene file path: %s - id: %d\n", scenes[1]->GetFilePath(), 1);
 	}
-	f.close();
+	file.close();
 
-
-	//LPSCENE scene = new CPlayScene(1, L"scene1.txt");
-	//scenes[1] = scene;
-	//scene = new CPlayScene(2, L"scene2.txt");
-	//scenes[2] = scene;
-
-	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n",gameFile);
-
+	for (auto e : scenes) {
+		DebugOut(L"ID: %d - path: %s\n", e.first, e.second->GetFilePath());
+	}
+	
+	DebugOut(L"\n[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 	SwitchScene(current_scene);
 }
 
@@ -391,7 +402,6 @@ void CGame::SwitchScene(int scene_id)
 {
 	// IMPORTANT: has to implement "unload" previous scene assets to avoid duplicate resources
 	current_scene = scene_id;
-
 	LPSCENE s = scenes[current_scene];
 	s->Unload();
 
@@ -400,5 +410,9 @@ void CGame::SwitchScene(int scene_id)
 	CAnimations::GetInstance()->Clear();
 
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+
+	DebugOut(L"\n[INFO]Switch to scene: %d\n", current_scene);
+	//DebugOut(L"[INFO]Current scene file path: %s\n", s->GetFilePath());
+
 	s->Load();
 }

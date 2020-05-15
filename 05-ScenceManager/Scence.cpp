@@ -3,5 +3,6 @@
 CScene::CScene(int id, LPCWSTR filePath)
 {
 	this->id = id;
-	this->sceneFilePath = filePath;
+	LPCWSTR c_filePath = _wcsdup(filePath);
+	this->sceneFilePath = c_filePath;
 }

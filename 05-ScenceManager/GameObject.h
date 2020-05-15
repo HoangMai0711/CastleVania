@@ -63,7 +63,7 @@ public:
 	DWORD dt; 
 
 	LPANIMATION_SET animation_set;
-	//vector<LPANIMATION> animations;
+	vector<LPANIMATION> animations;
 
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -73,7 +73,7 @@ public:
 
 	int GetState() { return this->state; }
 
-	void RenderBoundingBox();
+	void RenderBoundingBox(int alpha=255);
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
 

@@ -4,6 +4,7 @@
 #include "define.h"
 #include "Goomba.h"
 #include "TransparentObjects.h"
+#include "Utils.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -81,6 +82,6 @@ public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	bool IsOnAir() { return isOnAir; }
-	DWORD GetStartAttack() { return attackStart; }
+	DWORD GetTimeStartAttack() { return attackStart; }
 };
 

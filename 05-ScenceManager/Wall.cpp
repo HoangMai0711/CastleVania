@@ -30,7 +30,7 @@ Wall::~Wall()
 void Wall::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
-	top = y - height;
+	top = y;
 	right = x + width;
-	bottom = y;
+	bottom = y + height;
 }
