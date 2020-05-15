@@ -41,14 +41,21 @@ Whip::~Whip()
 {
 }
 
-void Whip::GetBoundingBox(float & left, float & top, float & bottom)
+void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR2 playerPos, int playerNx)
+{
+	this->x = playerPos.x;
+	this->y = playerPos.y;
+	this->nx = playerNx;
+}
+
+void Whip::GetBoundingBox(float & left, float & top, float &right, float & bottom)
 {
 
 }
 
 void Whip::Render()
 {
-	animation_set->at(GetCurrentAnimation())->Render(x, y);
+	animations[GetCurrentAnimation()]->Render(x, y);
 }
 
 void Whip::Upgrade()

@@ -17,8 +17,10 @@ class CSprite
 	int isFlippedHorizontally;
 
 	LPDIRECT3DTEXTURE9 texture;
+
+	D3DXVECTOR2 position;
 public: 
-	CSprite(int id, int left, int top, int right, int bottom, int idTexture, int isFlippedHorizontally);
+	CSprite(int id, int left, int top, int right, int bottom, int idTexture, int isFlippedHorizontally, D3DXVECTOR2 position);
 
 	void Draw(float x, float y, int alpha = 255);
 };
@@ -35,7 +37,7 @@ class CSprites
 	unordered_map<int, LPSPRITE> sprites;
 
 public:
-	void Add(int id, int left, int top, int right, int bottom, int idTexture, int isFlippedHorizontally);
+	void Add(int id, int left, int top, int right, int bottom, int idTexture, int isFlippedHorizontally, D3DXVECTOR2 position);
 	LPSPRITE Get(int id);
 	void CSprites::Clear();
 

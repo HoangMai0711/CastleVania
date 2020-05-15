@@ -61,8 +61,8 @@
 //Simon bounding box
 #define SIMON_BBOX_HEIGHT			30
 #define SIMON_BBOX_WIDTH			15
-#define SIMON_BBOX_SIT_WIDTH		15
 #define SIMON_BBOX_SIT_HEIGHT		20
+#define SIMON_BBOX_SIT_WIDTH		15
 
 //Simon velocity
 #define SIMON_WALKING_SPEED		0.1f
@@ -78,9 +78,9 @@
 #define ID_ANI_WHIP_LONG_LEFT			116
 
 //Boungding Box of Whip
-#define WHIP_BBOX_HEIGHT_SHORT			26
+#define WHIP_BBOX_HEIGHT_SHORT			25
 #define WHIP_BBOX_WIDTH_SHORT			8
-#define WHIP_BBOX_HEIGHT_NORMAL			26
+#define WHIP_BBOX_HEIGHT_NORMAL			28
 #define WHIP_BBOX_WIDTH_NORMAL			8
 #define WHIP_BBOX_HEIGHT_LONG			44
 #define WHIP_BBOX_WIDTH_LONG			8

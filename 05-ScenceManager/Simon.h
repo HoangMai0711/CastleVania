@@ -5,6 +5,10 @@
 #include "Goomba.h"
 #include "TransparentObjects.h"
 #include "Utils.h"
+#include "Whip.h"
+#include "Wall.h"
+#include "Portal.h"
+#include "Torch.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -64,6 +68,8 @@ class Simon: public CGameObject
 
 	DWORD untouchableStart;
 	DWORD attackStart;
+
+	Whip* whip;
 public:
 	~Simon();
 
@@ -83,5 +89,8 @@ public:
 
 	bool IsOnAir() { return isOnAir; }
 	DWORD GetTimeStartAttack() { return attackStart; }
+
+	void UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	void UpgradeWhip();
 };
 

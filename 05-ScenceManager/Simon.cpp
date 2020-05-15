@@ -38,6 +38,8 @@ Simon::Simon()
 	id = ID_SIMON;
 	isOnAir = false;
 	attackStart = 0;
+
+	whip = new Whip();
 }
 
 
@@ -78,6 +80,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount() - attackStart > 300)
 		attackStart = 0;
 
+	UpdateWhip(dt, coObjects);
+
 	CGameObject::Update(dt);
 
 	vy += SIMON_GRAVITY * dt;
@@ -96,7 +100,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEventsResult[i];
-		if (dynamic_cast<TransparentObjects *>(e->obj))
+		if (dynamic_cast<Wall*>(e->obj))
 			wallObjects.push_back(coObjects->at(i));
 	}
 
@@ -252,6 +256,9 @@ void Simon::Render()
 	//animation_set->at(ani)->Render(x, y, alpha);
 	animations[ani]->Render(x, y, alpha);
 
+	if (attackStart)
+		whip->Render();
+
 	RenderBoundingBox();
 }
 
@@ -296,12 +303,43 @@ void Simon::SetState(int state)
 
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x;
-	top = y;
-	right = x + SIMON_BBOX_WIDTH;
-	bottom = y + SIMON_BBOX_HEIGHT;
-	if (state == SIMON_STATE_SIT)
+	switch (state)
 	{
-		top = y + SIMON_BBOX_HEIGHT - 15;
+	case SIMON_STATE_SIT:
+	case SIMON_STATE_SIT_ATTACK:
+		left = x;
+		top = y + SIMON_BBOX_HEIGHT - SIMON_BBOX_SIT_HEIGHT;
+		right = x + SIMON_BBOX_SIT_WIDTH;
+		bottom = y + SIMON_BBOX_HEIGHT;
+		break;
+	default:
+		left = x;
+		top = y;
+		right = x + SIMON_BBOX_WIDTH;
+		bottom = y + SIMON_BBOX_HEIGHT;
+		break;
 	}
+}
+
+void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects)
+{
+	if (GetTickCount() - attackStart <= 300)
+	{
+		float playerX, playerY;
+		playerY = state == SIMON_STATE_SIT_ATTACK ? y + SIMON_BBOX_HEIGHT / 4 : y;
+		playerX = x - 2 * nx;
+
+		whip->Update(dt, objects, { playerX, playerY }, nx);
+	}
+	else if (attackStart > 0)
+	{
+		attackStart = 0;
+		state = (state == SIMON_STATE_SIT_ATTACK) ? SIMON_STATE_SIT : SIMON_STATE_IDLE;
+		whip->ResetAnimation();
+	}
+}
+
+void Simon::UpgradeWhip()
+{
+	whip->Upgrade();
 }
