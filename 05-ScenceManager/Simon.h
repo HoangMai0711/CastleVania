@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game.h"
 #include "GameObject.h"
 #include "define.h"
 #include "Goomba.h"
@@ -13,6 +14,10 @@
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define SIMON_DIE_DEFLECT_SPEED	 0.5f
+//Simon velocity
+#define SIMON_WALKING_SPEED		0.07f
+#define SIMON_JUMP_SPEED_Y		0.25f
+#define SIMON_GRAVITY			0.0007f
 
 #define SIMON_STATE_IDLE				0
 #define SIMON_STATE_WALKING_RIGHT		1
@@ -85,7 +90,7 @@ public:
 
 	float GetX() { return this->x; }
 	float GetY() { return this->y; }
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	bool IsOnAir() { return isOnAir; }
 	DWORD GetTimeStartAttack() { return attackStart; }

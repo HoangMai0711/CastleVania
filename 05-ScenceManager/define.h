@@ -22,9 +22,8 @@
 //ID textuters
 #define ID_TEX_TILE_SCENE01		-1
 #define ID_TEX_SIMON			0
-#define ID_TEX_ENEMY			10
-#define ID_TEX_MISC				20
 #define ID_TEX_WHIP				1
+#define ID_TEX_OBJECT			10
 
 //Id animation of simon
 #define ID_ANI_SIMON_IDLE_RIGHT					100
@@ -64,11 +63,6 @@
 #define SIMON_BBOX_SIT_HEIGHT		20
 #define SIMON_BBOX_SIT_WIDTH		15
 
-//Simon velocity
-#define SIMON_WALKING_SPEED		0.1f
-#define SIMON_JUMP_SPEED_Y		0.5f
-#define SIMON_GRAVITY			0.002f
-
 //Id animation of Whip
 #define ID_ANI_WHIP_SHORT_RIGHT			111
 #define ID_ANI_WHIP_SHORT_LEFT			112
@@ -84,3 +78,6 @@
 #define WHIP_BBOX_WIDTH_NORMAL			8
 #define WHIP_BBOX_HEIGHT_LONG			44
 #define WHIP_BBOX_WIDTH_LONG			8
+
+//Id animation of torch
+#define ID_ANI_TORCH			200

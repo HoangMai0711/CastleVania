@@ -319,7 +319,12 @@ void CGame::SweptAABB(
 
 }
 
-CGame *CGame::GetInstance()
+			bool CGame::IsColliding(RECT firstObject, RECT secondObject)
+			{
+				return firstObject.left<secondObject.right&&firstObject.left>secondObject.right&&firstObject.top<secondObject.bottom&&firstObject.top>secondObject.bottom;
+			}
+
+			CGame *CGame::GetInstance()
 {
 	if (__instance == NULL) __instance = new CGame();
 	return __instance;

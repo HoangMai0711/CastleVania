@@ -12,6 +12,5 @@ public:
 	~Torch();
 
 	virtual void GetBoundingBox(float &l, float &r, float &t, float &b);
-	virtual void Render();
 };
 

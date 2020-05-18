@@ -11,6 +11,6 @@ public:
 	Wall(D3DXVECTOR2 position, int width, int height);
 	~Wall();
 
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 

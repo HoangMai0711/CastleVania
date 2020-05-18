@@ -48,14 +48,43 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR2 playerP
 	this->nx = playerNx;
 }
 
-void Whip::GetBoundingBox(float & left, float & top, float &right, float & bottom)
+void Whip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	if (animations[GetCurrentAnimation()]->GetCurrentFrame() == 2) {
+		int width, height;
 
+		switch (level) {
+		case 0:
+			width = WHIP_BBOX_WIDTH_SHORT;
+			height = WHIP_BBOX_HEIGHT_SHORT;
+			break;
+		case 1:
+			width = WHIP_BBOX_WIDTH_NORMAL;
+			height = WHIP_BBOX_HEIGHT_NORMAL;
+			break;
+		case 2:
+			width = WHIP_BBOX_WIDTH_LONG;
+			height = WHIP_BBOX_HEIGHT_LONG;
+			break;
+		}
+		left = x + animations[GetCurrentAnimation()]->GetFramePosition().x;
+		top = y + animations[GetCurrentAnimation()]->GetFramePosition().y;
+		right = left + height;
+		bottom = top + width;
+		//DebugOut(L"[INFO]L-T-R-B: %f-%f-%f-%f\n", left, top, right, bottom);
+	}
+	else {
+		left = top = right = bottom = 0;
+	}
 }
 
 void Whip::Render()
 {
 	animations[GetCurrentAnimation()]->Render(x, y);
+
+	if (animations[GetCurrentAnimation()]->GetCurrentFrame() == 2) {
+		RenderBoundingBox();
+	}
 }
 
 void Whip::Upgrade()

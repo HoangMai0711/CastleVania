@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
+#include "Utils.h"
 
 #include "Sprites.h"
 
@@ -12,11 +13,12 @@ class CAnimationFrame
 {
 	LPSPRITE sprite;
 	DWORD time;
-
+	D3DXVECTOR2 position;
 public:
-	CAnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
+	CAnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; this->position = this->sprite->GetPosition(); }
 	DWORD GetTime() { return time; }
 	LPSPRITE GetSprite() { return sprite; }
+	D3DXVECTOR2 GetPosition() { return this->position; }
 };
 
 typedef CAnimationFrame *LPANIMATION_FRAME;
@@ -34,6 +36,7 @@ public:
 	void Render(float x, float y, int alpha = 255);
 	
 	int GetCurrentFrame() { return currentFrame; }
+	D3DXVECTOR2 GetFramePosition() { return frames[currentFrame]->GetPosition(); }
 };
 
 typedef CAnimation *LPANIMATION;

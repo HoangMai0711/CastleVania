@@ -2,6 +2,8 @@
 
 Torch::Torch(D3DXVECTOR2 position)
 {
+	AddAnimation(ID_ANI_TORCH);
+
 	id = ID_TORCH;
 	x = position.x;
 	y = position.y;
@@ -26,7 +28,3 @@ void Torch::GetBoundingBox(float & l, float & t, float & r, float & b)
 	}
 }
 
-void Torch::Render()
-{
-	RenderBoundingBox();
-}
