@@ -13,7 +13,7 @@ Torch::~Torch()
 {
 }
 
-void Torch::GetBoundingBox(float & l, float & t, float & r, float & b)
+void Torch::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	if (state == STATIC_OBJ_STATE_NORMAL)
 	{
@@ -26,5 +26,6 @@ void Torch::GetBoundingBox(float & l, float & t, float & r, float & b)
 	{
 		l = r = t = b = 0;
 	}
+	//DebugOut(L"[INFO]Torch BBOX: : %f-%f-%f-%f\n", l, t, r, b);
 }
 

@@ -72,6 +72,7 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
+	int GetId() { return this->id; }
 
 	void RenderBoundingBox(int alpha=255);
 
@@ -98,6 +99,7 @@ public:
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 	virtual void ResetAnimation();
+	virtual void IsHitted();
 
 	~CGameObject();
 };

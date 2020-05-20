@@ -14,11 +14,16 @@ class CAnimationFrame
 	LPSPRITE sprite;
 	DWORD time;
 	D3DXVECTOR2 position;
+
+	int idSprites;
 public:
-	CAnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; this->position = this->sprite->GetPosition(); }
+	CAnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; this->position = this->sprite->GetPosition(); this->idSprites = this->sprite->GetSpriteId(); }
 	DWORD GetTime() { return time; }
 	LPSPRITE GetSprite() { return sprite; }
+
+	//Get position of animation frame
 	D3DXVECTOR2 GetPosition() { return this->position; }
+	int GetSpriteId() { return this->idSprites; }
 };
 
 typedef CAnimationFrame *LPANIMATION_FRAME;
@@ -36,7 +41,10 @@ public:
 	void Render(float x, float y, int alpha = 255);
 	
 	int GetCurrentFrame() { return currentFrame; }
+
+	//Get position of current animarion frame
 	D3DXVECTOR2 GetFramePosition() { return frames[currentFrame]->GetPosition(); }
+	int GetFrameId() { return frames[currentFrame]->GetSpriteId(); }
 };
 
 typedef CAnimation *LPANIMATION;

@@ -19,6 +19,16 @@
 #define ID_TORCH				12
 #define ID_HIDDEN_OBJECTS		13
 
+//ID Items
+#define ID_SMALL_HEART			100
+#define ID_BIG_HEART			101
+#define ID_WHIP_UPGRADE			102
+#define ID_DAGGER				103
+#define ID_RED_MONEYBAG			104
+#define ID_BLUE_MONEYBAG 		105
+#define ID_YELLOW_MONEYBAG 		106
+#define ID_BIG_MONEYBAG			107
+
 //ID textuters
 #define ID_TEX_TILE_SCENE01		-1
 #define ID_TEX_SIMON			0

@@ -9,7 +9,7 @@
 CGame * CGame::__instance = NULL;
 
 /*
-	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for 
+	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for
 	rendering 2D images
 	- hInst: Application instance handle
 	- hWnd: Application window handle
@@ -18,7 +18,7 @@ void CGame::Init(HWND hWnd)
 {
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
-	this->hWnd = hWnd;									
+	this->hWnd = hWnd;
 
 	D3DPRESENT_PARAMETERS d3dpp;
 
@@ -61,7 +61,7 @@ void CGame::Init(HWND hWnd)
 }
 
 /*
-	Utility function to wrap LPD3DXSPRITE::Draw 
+	Utility function to wrap LPD3DXSPRITE::Draw
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, int isFlippedHorizontally)
 {
@@ -97,7 +97,7 @@ void CGame::InitKeyboard()
 	HRESULT
 		hr = DirectInput8Create
 		(
-			(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
 			DIRECTINPUT_VERSION,
 			IID_IDirectInput8, (VOID**)&di, NULL
 		);
@@ -111,7 +111,7 @@ void CGame::InitKeyboard()
 	hr = di->CreateDevice(GUID_SysKeyboard, &didv, NULL);
 
 	// TO-DO: put in exception handling
-	if (hr != DI_OK) 
+	if (hr != DI_OK)
 	{
 		DebugOut(L"[ERROR] CreateDevice failed!\n");
 		return;
@@ -161,7 +161,7 @@ void CGame::InitKeyboard()
 
 void CGame::ProcessKeyboard()
 {
-	HRESULT hr; 
+	HRESULT hr;
 
 	// Collect all key states first
 	hr = didv->GetDeviceState(sizeof(keyStates), keyStates);
@@ -171,8 +171,8 @@ void CGame::ProcessKeyboard()
 		if ((hr == DIERR_INPUTLOST) || (hr == DIERR_NOTACQUIRED))
 		{
 			HRESULT h = didv->Acquire();
-			if (h==DI_OK)
-			{ 
+			if (h == DI_OK)
+			{
 				DebugOut(L"[INFO] Keyboard re-acquired!\n");
 			}
 			else return;
@@ -222,8 +222,8 @@ CGame::~CGame()
 	Source: GameDev.net
 */
 void CGame::SweptAABB(
-	float ml, float mt,	float mr, float mb,			
-	float dx, float dy,			
+	float ml, float mt, float mr, float mb,
+	float dx, float dy,
 	float sl, float st, float sr, float sb,
 	float &t, float &nx, float &ny)
 {
@@ -231,8 +231,8 @@ void CGame::SweptAABB(
 	float dx_entry, dx_exit, tx_entry, tx_exit;
 	float dy_entry, dy_exit, ty_entry, ty_exit;
 
-	float t_entry; 
-	float t_exit; 
+	float t_entry;
+	float t_exit;
 
 	t = -1.0f;			// no collision
 	nx = ny = 0;
@@ -253,13 +253,13 @@ void CGame::SweptAABB(
 
 	if (dx > 0)
 	{
-		dx_entry = sl - mr; 
+		dx_entry = sl - mr;
 		dx_exit = sr - ml;
 	}
 	else if (dx < 0)
 	{
 		dx_entry = sr - ml;
-		dx_exit = sl- mr;
+		dx_exit = sl - mr;
 	}
 
 
@@ -284,7 +284,7 @@ void CGame::SweptAABB(
 		tx_entry = dx_entry / dx;
 		tx_exit = dx_exit / dx;
 	}
-	
+
 	if (dy == 0)
 	{
 		ty_entry = -99999.0f;
@@ -295,69 +295,40 @@ void CGame::SweptAABB(
 		ty_entry = dy_entry / dy;
 		ty_exit = dy_exit / dy;
 	}
-	
 
-	if (  (tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f) return;
+
+	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f) return;
 
 	t_entry = max(tx_entry, ty_entry);
 	t_exit = min(tx_exit, ty_exit);
-	
-	if (t_entry > t_exit) return; 
 
-	t = t_entry; 
+	if (t_entry > t_exit) return;
+
+	t = t_entry;
 
 	if (tx_entry > ty_entry)
 	{
 		ny = 0.0f;
 		dx > 0 ? nx = -1.0f : nx = 1.0f;
 	}
-	else 
+	else
 	{
 		nx = 0.0f;
-		dy > 0?ny = -1.0f:ny = 1.0f;
+		dy > 0 ? ny = -1.0f : ny = 1.0f;
 	}
 
 }
 
-			bool CGame::IsColliding(RECT firstObject, RECT secondObject)
-			{
-				return firstObject.left<secondObject.right&&firstObject.left>secondObject.right&&firstObject.top<secondObject.bottom&&firstObject.top>secondObject.bottom;
-			}
+bool CGame::IsColliding(RECT A, RECT B)
+{
+	DebugOut(L"[INFO]AABB Collision\n");
+	return A.left < B.right && A.right > B.left && A.top < B.bottom && A.bottom > B.top;
+}
 
-			CGame *CGame::GetInstance()
+CGame *CGame::GetInstance()
 {
 	if (__instance == NULL) __instance = new CGame();
 	return __instance;
-}
-
-#define MAX_GAME_LINE 1024
-
-
-#define GAME_FILE_SECTION_UNKNOWN -1
-#define GAME_FILE_SECTION_SETTINGS 1
-#define GAME_FILE_SECTION_SCENES 2
-
-void CGame::_ParseSection_SETTINGS(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 2) return;
-	if (tokens[0] == "start")
-		current_scene = atoi(tokens[1].c_str());
-	else
-		DebugOut(L"[ERROR] Unknown game setting %s\n", ToWSTR(tokens[0]).c_str());
-}
-
-void CGame::_ParseSection_SCENES(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 2) return;
-	int id = atoi(tokens[0].c_str());
-	LPCWSTR path = ToLPCWSTR(tokens[1]);
-
-	LPSCENE scene = new CPlayScene(id, path);
-	scenes[id] = scene;
 }
 
 /*
@@ -390,7 +361,7 @@ void CGame::Load(LPCWSTR gameFile)
 		scene = new CPlayScene(id, path);
 
 		scenes.insert(make_pair(id, scene));
-		
+
 		DebugOut(L"[INFO]Current scene file path: %s - id: %d\n", scenes[1]->GetFilePath(), 1);
 	}
 	file.close();
@@ -398,7 +369,7 @@ void CGame::Load(LPCWSTR gameFile)
 	for (auto e : scenes) {
 		DebugOut(L"ID: %d - path: %s\n", e.first, e.second->GetFilePath());
 	}
-	
+
 	DebugOut(L"\n[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 	SwitchScene(current_scene);
 }

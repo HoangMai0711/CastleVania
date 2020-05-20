@@ -24,7 +24,9 @@ public:
 
 	void Draw(float x, float y, int alpha = 255);
 
+	//Get sprites position
 	D3DXVECTOR2 GetPosition() { return this->position; }
+	int GetSpriteId() { return id; }
 };
 
 typedef CSprite * LPSPRITE;

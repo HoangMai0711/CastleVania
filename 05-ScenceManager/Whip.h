@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game.h"
 #include "Weapon.h"
 
 class Simon;

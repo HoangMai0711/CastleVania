@@ -152,6 +152,11 @@ void CGameObject::ResetAnimation()
 	}
 }
 
+void CGameObject::IsHitted()
+{
+	
+}
+
 CGameObject::~CGameObject()
 {
 

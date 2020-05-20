@@ -48,9 +48,6 @@ class CGame
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene; 
 
-	void _ParseSection_SETTINGS(string line);
-	void _ParseSection_SCENES(string line);
-
 public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
@@ -91,7 +88,7 @@ public:
 	float GetCamPosX() { return cam_x; }
 	float GetCamPosY() { return cam_y; }
 
-	bool IsColliding(RECT firstObject, RECT secondObject);
+	bool IsColliding(RECT A, RECT B);
 
 	static CGame * GetInstance();
 

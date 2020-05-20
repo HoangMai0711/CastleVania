@@ -33,4 +33,5 @@ void Wall::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	top = y;
 	right = x + width;
 	bottom = y + height;
+	//DebugOut(L"[INFO]Wall BBOX: : %f-%f-%f-%f\n", left, top, right, bottom);
 }

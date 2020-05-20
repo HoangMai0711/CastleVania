@@ -66,6 +66,12 @@
                  "height":30,
                  "id":4,
                  "name":"1",
+                 "properties":[
+                        {
+                         "name":"reward",
+                         "type":"int",
+                         "value":101
+                        }],
                  "rotation":0,
                  "type":"Torch",
                  "visible":true,

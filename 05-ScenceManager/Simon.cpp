@@ -80,7 +80,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount() - attackStart > 300)
 		attackStart = 0;
 
-	UpdateWhip(dt, coObjects);
+	//UpdateWhip(dt, coObjects);
 
 	CGameObject::Update(dt);
 
@@ -92,18 +92,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	//// turn off collision when die 
-	//if (state != SIMON_STATE_DIE)
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	//vector<LPGAMEOBJECT> wallObjects;
-
-	//for (UINT i = 0; i < coEventsResult.size(); i++)
-	//{
-	//	LPCOLLISIONEVENT e = coEventsResult[i];
-	//	if (dynamic_cast<Wall*>(e->obj)) {
-	//		wallObjects.push_back(coObjects->at(i));
-	//	}
-	//}
+	if (state != SIMON_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -128,42 +118,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0)
+		/*if (nx != 0)
 			vx = 0;
 		if (ny != 0)
-			vy = 0;
+			vy = 0;*/
 
 		// Collision logic with Goombas
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			//if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
-			//{
-			//	CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
-			//	// jump on top >> kill Goomba and deflect a bit 
-			//	if (e->ny < 0)
-			//	{
-			//		if (goomba->GetState() != GOOMBA_STATE_DIE)
-			//		{
-			//			goomba->SetState(GOOMBA_STATE_DIE);
-			//			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			//		}
-			//	}
-			//	else if (e->nx != 0)
-			//	{
-			//		if (untouchable == 0)
-			//		{
-			//			if (goomba->GetState() != GOOMBA_STATE_DIE)
-			//			{
-			//				SetState(SIMON_STATE_FLASH);
-			//				StartUntouchable();
-			//			}
-			//			else
-			//				SetState(SIMON_STATE_DIE);
-			//		}
-			//	}
-			//}
 
 			//Collion with Torch
 			if (dynamic_cast<Torch*>(e->obj))
@@ -180,34 +143,33 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	if (state == SIMON_STATE_ATTACK || state == SIMON_STATE_SIT_ATTACK)
-	{
-		DebugOut(L"-------simon attacking\n");
-		for (auto i : animations) {
-			// Only check collsion at the last frame of the whip
-			if (i->GetCurrentFrame() == 2) 
-			{
-				for (UINT i = 0; i < coObjects->size(); i++)
-				{
-					LPGAMEOBJECT collideObject = coObjects->at(i);
-					if (dynamic_cast<Torch*>(collideObject))
-					{
-						DebugOut(L">>>>Collide\n");
-						Torch* torch = dynamic_cast<Torch*> (collideObject);
-						float firstLeft, firstTop, firstRight, firstBottom;
-						float secLeft, secTop, secRight, secBottom;
-						torch->GetBoundingBox(firstLeft, firstTop, firstRight, firstBottom);
-						whip->GetBoundingBox(secLeft, secTop, secRight, secBottom);
+	//if (state == SIMON_STATE_ATTACK || state == SIMON_STATE_SIT_ATTACK)
+	//{
+	//	DebugOut(L"-------Simon's attacking. State: %d\n",state);
+	//	if (animations[state]->GetCurrentFrame() == 2) {
+	//		/*DebugOut(L"----Sprites: %d\n", i->GetFrameId());
+	//		DebugOut(L"-----x-y: %f-%f\n", i->GetFramePosition().x, i->GetFramePosition().y);*/
+	//		for (UINT i = 0; i < coObjects->size(); i++)
+	//		{
+	//			LPGAMEOBJECT collideObject = coObjects->at(i);
+	//			if (dynamic_cast<Torch*>(collideObject))
+	//			{
+	//				Torch* torch = dynamic_cast<Torch*> (collideObject);
+	//				float firstLeft, firstTop, firstRight, firstBottom;
+	//				float secLeft, secTop, secRight, secBottom;
+	//				torch->GetBoundingBox(firstLeft, firstTop, firstRight, firstBottom);
+	//				whip->GetBoundingBox(secLeft, secTop, secRight, secBottom);
+	//				if (CGame::GetInstance()->IsColliding({ long(firstLeft),long(firstTop),long(firstRight),long(firstBottom) }, { long(secLeft),long(secTop),long(secRight),long(secBottom) })) {
+	//					DebugOut(L"[INFO]Whip collide with Torch\n");
+	//					torch->SetState(STATIC_OBJ_STATE_HITTED);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	CalcPotentialCollisions(coObjects, coEvents);
 
-						if (CGame::GetInstance()->IsColliding({ long(firstLeft),long(firstTop),long(firstRight),long(firstBottom) }, { long(secLeft),long(secTop),long(secRight),long(secBottom) })) {
-							DebugOut(L"[INFO]Whip collide with Torch\n");
-							torch->SetState(STATIC_OBJ_STATE_HITTED);
-						}
-					}
-				}
-			}
-		}
-	}
+	UpdateWhip(dt, coObjects);
 }
 
 void Simon::Render()
@@ -232,10 +194,17 @@ void Simon::Render()
 			ani = SIMON_ANI_SIT_ATTACK_LEFT;
 		break;
 	case SIMON_STATE_JUMP:
-		if (nx > 0)
-			ani = SIMON_ANI_IDLE_RIGHT;
+		if (vy < 0) {
+			if (nx > 0)
+				ani = SIMON_ANI_SIT_RIGHT;
+			else
+				ani = SIMON_ANI_SIT_LEFT;
+		}
 		else
-			ani = SIMON_ANI_IDLE_LEFT;
+			if (nx > 0)
+				ani = SIMON_ANI_IDLE_RIGHT;
+			else
+				ani = SIMON_ANI_IDLE_LEFT;
 	case SIMON_STATE_SIT:
 		if (nx > 0)
 			ani = SIMON_ANI_SIT_RIGHT;
