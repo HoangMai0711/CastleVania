@@ -83,6 +83,12 @@
                  "height":30,
                  "id":5,
                  "name":"2",
+                 "properties":[
+                        {
+                         "name":"reward",
+                         "type":"int",
+                         "value":102
+                        }],
                  "rotation":0,
                  "type":"Torch",
                  "visible":true,
@@ -94,6 +100,12 @@
                  "height":30,
                  "id":6,
                  "name":"3",
+                 "properties":[
+                        {
+                         "name":"reward",
+                         "type":"int",
+                         "value":102
+                        }],
                  "rotation":0,
                  "type":"Torch",
                  "visible":true,
@@ -105,6 +117,12 @@
                  "height":30,
                  "id":7,
                  "name":"4",
+                 "properties":[
+                        {
+                         "name":"reward",
+                         "type":"int",
+                         "value":101
+                        }],
                  "rotation":0,
                  "type":"Torch",
                  "visible":true,
@@ -116,6 +134,12 @@
                  "height":30,
                  "id":8,
                  "name":"5",
+                 "properties":[
+                        {
+                         "name":"reward",
+                         "type":"int",
+                         "value":103
+                        }],
                  "rotation":0,
                  "type":"Torch",
                  "visible":true,

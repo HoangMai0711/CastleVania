@@ -7,6 +7,7 @@
 
 class StaticObjects : public CGameObject
 {
+	int hitEffectStart;
 public:
 	StaticObjects();
 	~StaticObjects();
@@ -14,5 +15,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* objects);
 	virtual void Render();
 	virtual void IsHitted();
+
+	int GetHitEffectTime() { return hitEffectStart; }
 };
 

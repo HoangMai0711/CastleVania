@@ -91,3 +91,9 @@
 
 //Id animation of torch
 #define ID_ANI_TORCH			200
+
+//Id animation of hit effect
+#define ID_ANI_HIT_EFFECT		300
+
+//Id state item destroyed
+#define STATE_DESTROYED			99
