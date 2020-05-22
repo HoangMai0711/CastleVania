@@ -8,7 +8,7 @@
 class Torch : public StaticObjects
 {
 public:
-	Torch(D3DXVECTOR2 position);
+	Torch(D3DXVECTOR2 position, int reward);
 	~Torch();
 
 	virtual void GetBoundingBox(float &l, float &r, float &t, float &b);

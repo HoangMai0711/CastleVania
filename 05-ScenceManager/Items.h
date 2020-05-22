@@ -2,13 +2,14 @@
 
 #include "GameObject.h"
 
-class Weapon : public CGameObject
+class Items : public CGameObject
 {
 public:
-	Weapon();
-	~Weapon();
+	Items();
+	~Items();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
+	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 };
 

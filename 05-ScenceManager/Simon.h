@@ -18,6 +18,7 @@
 #define SIMON_WALKING_SPEED		0.07f
 #define SIMON_JUMP_SPEED_Y		0.25f
 #define SIMON_GRAVITY			0.0007f
+#define SIMON_FLASH_TIME		900
 
 #define SIMON_STATE_IDLE				0
 #define SIMON_STATE_WALKING_RIGHT		1
@@ -73,6 +74,9 @@ class Simon: public CGameObject
 
 	DWORD untouchableStart;
 	DWORD attackStart;
+	DWORD flashStart;
+
+	bool disableControl;
 
 	Whip* whip;
 public:
@@ -81,7 +85,8 @@ public:
 	static Simon* GetInstance();
 
 	void Jump();
-	void StartAttack();
+	void Attack();
+	void AttackSubWeapon();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
@@ -90,12 +95,15 @@ public:
 
 	float GetX() { return this->x; }
 	float GetY() { return this->y; }
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	bool IsOnAir() { return isOnAir; }
 	DWORD GetTimeStartAttack() { return attackStart; }
+	bool GetDisableControl() { return disableControl; }
 
 	void UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects);
 	void UpgradeWhip();
+	void DisableControl() { disableControl = true; }
+	void EnableControl() { disableControl = false; }
 };
 

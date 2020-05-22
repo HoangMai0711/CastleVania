@@ -10,7 +10,7 @@ TransparentObjects::~TransparentObjects()
 {
 }
 
-void TransparentObjects::GetBoundingBox(float & l, float & t, float & r, float & b)
+void TransparentObjects::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 }
 

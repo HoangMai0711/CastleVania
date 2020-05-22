@@ -13,6 +13,7 @@ CGameObject::CGameObject()
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;	
+	isOnGround = false;
 }
 
 void CGameObject::AddAnimation(int aniId)
@@ -120,6 +121,12 @@ void CGameObject::FilterCollision(
 	if (min_iy>=0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
+
+int CGameObject::GetRewardId()
+{
+	DebugOut(L"-------ID Reward: %d\n", idReward);
+	return idReward;
+}
 
 void CGameObject::RenderBoundingBox(int alpha)
 {

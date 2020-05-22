@@ -125,8 +125,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BigHeart.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="HiddenObject.cpp" />
+    <ClCompile Include="ItemDagger.cpp" />
+    <ClCompile Include="Items.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Simon.cpp" />
@@ -147,12 +150,16 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Whip.cpp" />
+    <ClCompile Include="WhipUpgrade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="BigHeart.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="HiddenObject.h" />
+    <ClInclude Include="ItemDagger.h" />
+    <ClInclude Include="Items.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Simon.h" />
@@ -173,6 +180,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Whip.h" />
+    <ClInclude Include="WhipUpgrade.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

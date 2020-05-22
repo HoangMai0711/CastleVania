@@ -27,7 +27,7 @@ Wall::~Wall()
 {
 }
 
-void Wall::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void Wall::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
 	top = y;

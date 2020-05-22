@@ -74,10 +74,12 @@ void CPlayScene::Load()
 				float y = i["y"];
 				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
 
-				Torch* torch = new Torch(position);
+				int idReward = i["properties"][0]["value"];
+
+				Torch* torch = new Torch(position,idReward);
 
 				objects.push_back(torch);
-				//DebugOut(L"--->Torch W-H-X-Y: %d-%d-%f-%f\n", width, height, x, y);
+				DebugOut(L"--->Torch W-H-X-Y: %d-%d-%f-%f\nNext item:%d\n", width, height, x, y,idReward);
 			}
 		else if(iter["name"]=="Hidden Objects")
 			for (auto i : iter["objects"]) {
@@ -126,12 +128,16 @@ void CPlayScene::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
+		if (objects[i]->GetState() == STATE_DESTROYED) {
+			objects.erase(objects.begin() + i);
+			i--;
+		}
 		coObjects.push_back(objects[i]);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		objects[i]->Update(dt, &objects);
 	}
 
 
@@ -218,12 +224,13 @@ void CPlayScene::LoadAnimations()
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-
-	CMario *mario = ((CPlayScene*)scence)->player;
 	Simon* simon = ((CPlayScene*)scence)->simon;
 
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+
+	if (simon->GetDisableControl())
+		return;
+
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
@@ -231,7 +238,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			simon->Jump();
 		break;
 	case DIK_S:
-		simon->StartAttack();
+		simon->Attack();
 		break;
 	}
 }
@@ -251,6 +258,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		return;
 
 	if (simon->GetState() == SIMON_STATE_DIE)
+		return;
+
+	if (simon->GetDisableControl())
 		return;
 
 	simon->SetState(SIMON_STATE_IDLE);

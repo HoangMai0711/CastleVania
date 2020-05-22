@@ -1,19 +1,21 @@
 #include "Torch.h"
 
-Torch::Torch(D3DXVECTOR2 position)
+Torch::Torch(D3DXVECTOR2 position, int reward)
 {
 	AddAnimation(ID_ANI_TORCH);
 
 	id = ID_TORCH;
 	x = position.x;
 	y = position.y;
+
+	this->idReward = reward;
 }
 
 Torch::~Torch()
 {
 }
 
-void Torch::GetBoundingBox(float& l, float& t, float& r, float& b)
+void Torch::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	if (state == STATIC_OBJ_STATE_NORMAL)
 	{

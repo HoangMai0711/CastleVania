@@ -1,13 +1,20 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Items.h"
+#include "BigHeart.h"
+#include "WhipUpgrade.h"
+#include "ItemDagger.h"
 
 #define STATIC_OBJ_STATE_NORMAL		0
 #define STATIC_OBJ_STATE_HITTED		1
 
+#define HIT_EFFECT_TIME				450
+
 class StaticObjects : public CGameObject
 {
-	int hitEffectStart;
+	DWORD hitEffectStart;
+	bool isDropped;
 public:
 	StaticObjects();
 	~StaticObjects();

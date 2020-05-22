@@ -14,6 +14,8 @@ CPortal::CPortal(D3DXVECTOR2 position)
 {
 	x = position.x;
 	y = position.y;
+
+	id = ID_PORTAL;
 }
 
 void CPortal::Render()

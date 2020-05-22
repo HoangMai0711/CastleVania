@@ -76,7 +76,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR2 playerP
 	this->nx = playerNx;
 }
 
-void Whip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void Whip::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	if (animations[GetCurrentAnimation()]->GetCurrentFrame() == 2) {
 		int width, height;

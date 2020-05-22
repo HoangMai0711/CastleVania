@@ -97,3 +97,9 @@
 
 //Id state item destroyed
 #define STATE_DESTROYED			99
+
+//Id animation of items
+#define ID_ANI_BIG_HEART			400
+#define ID_ANI_WHIP_UPGRADE			401
+#define ID_ANI_DAGGER_RIGHT			402
+#define ID_ANI_DAGGER_LEFT			403

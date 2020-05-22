@@ -65,6 +65,9 @@ public:
 	LPANIMATION_SET animation_set;
 	vector<LPANIMATION> animations;
 
+	int idReward;
+	bool isOnGround;
+
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
@@ -73,6 +76,7 @@ public:
 
 	int GetState() { return this->state; }
 	int GetId() { return this->id; }
+	int GetRewardId();
 
 	void RenderBoundingBox(int alpha=255);
 
@@ -94,7 +98,7 @@ public:
 
 	void AddAnimation(int aniId);
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }

@@ -38,6 +38,9 @@ Simon::Simon()
 	id = ID_SIMON;
 	isOnAir = false;
 	attackStart = 0;
+	flashStart = 0;
+
+	disableControl = false;
 
 	whip = new Whip();
 }
@@ -61,10 +64,11 @@ void Simon::Jump()
 	isOnAir = true;
 }
 
-void Simon::StartAttack()
+void Simon::Attack()
 {
 	if (attackStart > 0)
 		return;
+
 	ResetAnimation();
 
 	if (state == SIMON_STATE_SIT)
@@ -73,6 +77,12 @@ void Simon::StartAttack()
 		SetState(SIMON_STATE_ATTACK);
 
 	attackStart = GetTickCount();
+}
+
+void Simon::AttackSubWeapon()
+{
+	if (attackStart > 0)
+		return;
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -123,7 +133,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0)
 			vy = 0;*/
 
-		// Collision logic with Goombas
+			// Collision logic with Torch
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -140,36 +150,82 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-	//if (state == SIMON_STATE_ATTACK || state == SIMON_STATE_SIT_ATTACK)
-	//{
-	//	DebugOut(L"-------Simon's attacking. State: %d\n",state);
-	//	if (animations[state]->GetCurrentFrame() == 2) {
-	//		/*DebugOut(L"----Sprites: %d\n", i->GetFrameId());
-	//		DebugOut(L"-----x-y: %f-%f\n", i->GetFramePosition().x, i->GetFramePosition().y);*/
-	//		for (UINT i = 0; i < coObjects->size(); i++)
-	//		{
-	//			LPGAMEOBJECT collideObject = coObjects->at(i);
-	//			if (dynamic_cast<Torch*>(collideObject))
-	//			{
-	//				Torch* torch = dynamic_cast<Torch*> (collideObject);
-	//				float firstLeft, firstTop, firstRight, firstBottom;
-	//				float secLeft, secTop, secRight, secBottom;
-	//				torch->GetBoundingBox(firstLeft, firstTop, firstRight, firstBottom);
-	//				whip->GetBoundingBox(secLeft, secTop, secRight, secBottom);
-	//				if (CGame::GetInstance()->IsColliding({ long(firstLeft),long(firstTop),long(firstRight),long(firstBottom) }, { long(secLeft),long(secTop),long(secRight),long(secBottom) })) {
-	//					DebugOut(L"[INFO]Whip collide with Torch\n");
-	//					torch->SetState(STATIC_OBJ_STATE_HITTED);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-	CalcPotentialCollisions(coObjects, coEvents);
-
+	//Collision when attack
 	UpdateWhip(dt, coObjects);
+
+	//Collision with items
+	for (auto i : coEvents) {
+		LPGAMEOBJECT object = i->obj;
+
+		//Skip if items is destroyed
+		if (object->GetState() == STATE_DESTROYED)
+			continue;
+
+		switch (object->GetId())
+		{
+		case ID_BIG_HEART:
+		case ID_DAGGER:
+			object->SetState(STATE_DESTROYED);
+			break;
+		case ID_WHIP_UPGRADE:
+			UpgradeWhip();
+			object->SetState(STATE_DESTROYED);
+			state = SIMON_STATE_FLASH;
+			SetSpeed(0, 0);
+			DisableControl();
+			flashStart = GetTickCount();
+			break;
+		default:
+			break;
+		}
+	}
+
+	//Enable control after flash time
+	if (GetTickCount() - flashStart > SIMON_FLASH_TIME && flashStart > 0) {
+		EnableControl();
+		flashStart = 0;
+	}
+
+	//Clean up SweptAABB collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	coEvents.clear();
+
+	//Check collision if 2 object is already overlapped
+	for (auto iter : *coObjects)
+	{
+		float al, at, ar, ab;
+		float bl, bt, br, bb;
+		GetBoundingBox(al, at, ar, ab);
+		iter->GetBoundingBox(bl, bt, br, bb);
+
+		RECT A, B;
+		A = { long(al),long(at),long(ar),long(ab) };
+		B = { long(bl),long(bt),long(br),long(bb) };
+
+		if (CGame::GetInstance()->IsColliding(A, B)) {
+			if (iter->GetState() == STATE_DESTROYED)
+				continue;
+
+			switch (iter->GetId())
+			{
+			case ID_BIG_HEART:
+			case ID_DAGGER:
+				iter->SetState(STATE_DESTROYED);
+				break;
+			case ID_WHIP_UPGRADE:
+				UpgradeWhip();
+				iter->SetState(STATE_DESTROYED);
+				state = SIMON_STATE_FLASH;
+				SetSpeed(0, 0);
+				DisableControl();
+				flashStart = GetTickCount();
+				break;
+			default:
+				break;
+			}
+		}
+
+	}
 }
 
 void Simon::Render()
@@ -235,17 +291,17 @@ void Simon::Render()
 		else
 			ani = SIMON_ANI_INJURED_LEFT;
 		break;
-	case SIMON_STATE_FLASH:
-		if (nx > 0)
-			ani = SIMON_ANI_FLASH_RIGHT;
-		else
-			ani = SIMON_ANI_FLASH_LEFT;
-		break;
 	case SIMON_STATE_IDLE:
 		if (nx > 0)
 			ani = SIMON_ANI_IDLE_RIGHT;
 		else
 			ani = SIMON_ANI_IDLE_LEFT;
+		break;
+	case SIMON_STATE_FLASH:
+		if (nx > 0)
+			ani = SIMON_ANI_FLASH_RIGHT;
+		else
+			ani = SIMON_ANI_FLASH_LEFT;
 		break;
 	}
 
@@ -260,7 +316,7 @@ void Simon::Render()
 	if (attackStart)
 		whip->Render();
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Simon::SetState(int state)
@@ -302,7 +358,7 @@ void Simon::SetState(int state)
 	}
 }
 
-void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	switch (state)
 	{

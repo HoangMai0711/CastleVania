@@ -13,7 +13,9 @@
 #include "Portal.h"
 #include "Torch.h"
 #include "HiddenObject.h"
-
+#include "Items.h"
+#include "BigHeart.h"
+#include "ItemDagger.h"
 
 class CPlayScene: public CScene
 {
