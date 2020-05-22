@@ -143,13 +143,24 @@ void CPlayScene::Update(DWORD dt)
 
 	// Update camera to follow mario
 	float cx, cy;
-	//player->GetPosition(cx, cy);
 	simon->GetPosition(cx, cy);
 
 
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
+
+	// check if camera is out of screen
+	int minWidth = 0;
+	int maxWidth = tileMap->GetTileMapWidth();
+
+	if (cx < minWidth) {
+		//DebugOut(L"------cx<0: %f\n", cx);
+		cx = minWidth;
+	}
+	if (cx + game->GetScreenWidth() > maxWidth) {
+		cx = maxWidth - game->GetScreenWidth();
+	}
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 }
@@ -234,11 +245,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		if (simon->GetState() != SIMON_STATE_JUMP)
+		if (simon->GetState() != SIMON_STATE_JUMP && simon->GetState() != SIMON_STATE_ATTACK)
 			simon->Jump();
 		break;
 	case DIK_S:
 		simon->Attack();
+		break;
+	case DIK_D:
+		simon->AttackSubWeapon();
 		break;
 	}
 }
@@ -257,7 +271,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	if (simon->GetTimeStartAttack() > 0)
 		return;
 
-	if (simon->GetState() == SIMON_STATE_DIE)
+	if (simon->GetState() == SIMON_STATE_DIE/* || simon->GetState() == SIMON_STATE_SIT*/)
 		return;
 
 	if (simon->GetDisableControl())

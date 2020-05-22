@@ -153,10 +153,11 @@ void TileMap::Draw(D3DXVECTOR2 position, int alpha)
 
 int TileMap::GetTileMapWidth()
 {
-	return tileAtlas->GetTileWidth();
+	//DebugOut(L"Tile row: %d\n", tileRow);
+	return tileColumn*tileAtlas->GetTileWidth();
 }
 
 int TileMap::GetTileMapHeight()
 {
-	return tileAtlas->GetTileHeight();
+	return tileRow*tileAtlas->GetTileHeight();
 }

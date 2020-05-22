@@ -26,11 +26,7 @@ void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 
 		LPGAMEOBJECT reward;
 		int rewardId = GetRewardId();
-		/*if (GetRewardId() == ID_BIG_HEART && !isDropped) {
-			LPGAMEOBJECT reward = new BigHeart({ x,y });
-			objects->push_back(reward);
-			isDropped = TRUE;
-		}*/
+
 		switch (rewardId)
 		{
 		case ID_BIG_HEART:
@@ -61,7 +57,5 @@ void StaticObjects::Render()
 void StaticObjects::IsHitted()
 {
 	hitEffectStart = GetTickCount();
-	DebugOut(L"------Hit effect time: %d\n", hitEffectStart);
-	DebugOut(L"----Object ID Hitted: %d\n", id);
 	state = STATIC_OBJ_STATE_HITTED;
 }

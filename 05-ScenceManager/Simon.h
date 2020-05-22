@@ -10,10 +10,13 @@
 #include "Wall.h"
 #include "Portal.h"
 #include "Torch.h"
+#include "Weapon.h"
+#include "Dagger.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define SIMON_DIE_DEFLECT_SPEED	 0.5f
+
 //Simon velocity
 #define SIMON_WALKING_SPEED		0.07f
 #define SIMON_JUMP_SPEED_Y		0.25f
@@ -74,11 +77,14 @@ class Simon: public CGameObject
 
 	DWORD untouchableStart;
 	DWORD attackStart;
+	DWORD attackSubWeaponStart;
 	DWORD flashStart;
 
 	bool disableControl;
+	int idSubWeapon;
 
 	Whip* whip;
+	vector<LPWEAPON> subWeapon;
 public:
 	~Simon();
 
@@ -102,8 +108,12 @@ public:
 	bool GetDisableControl() { return disableControl; }
 
 	void UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	void UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT>* objects);
 	void UpgradeWhip();
+
 	void DisableControl() { disableControl = true; }
 	void EnableControl() { disableControl = false; }
+
+	void AddSubWeapon(int subWeapon) { this->idSubWeapon = subWeapon; }
 };
 

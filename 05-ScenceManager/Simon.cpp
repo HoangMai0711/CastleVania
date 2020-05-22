@@ -37,7 +37,10 @@ Simon::Simon()
 
 	id = ID_SIMON;
 	isOnAir = false;
+	isOnGround = false;
+
 	attackStart = 0;
+	attackSubWeaponStart = 0;
 	flashStart = 0;
 
 	disableControl = false;
@@ -48,6 +51,12 @@ Simon::Simon()
 
 Simon::~Simon()
 {
+	delete whip;
+
+	for (auto i : subWeapon)
+		delete i;
+	subWeapon.clear();
+
 	delete __instance;
 	__instance = NULL;
 }
@@ -62,6 +71,7 @@ void Simon::Jump()
 {
 	SetState(SIMON_STATE_JUMP);
 	isOnAir = true;
+	isOnGround = false;
 }
 
 void Simon::Attack()
@@ -70,6 +80,7 @@ void Simon::Attack()
 		return;
 
 	ResetAnimation();
+	whip->ResetAnimation();
 
 	if (state == SIMON_STATE_SIT)
 		SetState(SIMON_STATE_SIT_ATTACK);
@@ -83,6 +94,25 @@ void Simon::AttackSubWeapon()
 {
 	if (attackStart > 0)
 		return;
+	if (attackSubWeaponStart > 0)
+		return;
+
+	ResetAnimation();
+
+	if (state == SIMON_STATE_SIT)
+		SetState(SIMON_STATE_SIT_ATTACK);
+	else
+		SetState(SIMON_STATE_ATTACK);
+
+	attackSubWeaponStart = GetTickCount();
+
+	D3DXVECTOR2 simonCurrentPosition;
+	GetPosition(simonCurrentPosition.x, simonCurrentPosition.y);
+
+	if (idSubWeapon == ID_DAGGER) {
+		Dagger* dagger = new Dagger(simonCurrentPosition, nx);
+		subWeapon.push_back(dagger);
+	}
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -90,6 +120,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount() - attackStart > 300)
 		attackStart = 0;
 
+	if (GetTickCount() - attackSubWeaponStart > 300)
+		attackSubWeaponStart = 0;
 	//UpdateWhip(dt, coObjects);
 
 	CGameObject::Update(dt);
@@ -121,6 +153,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		// block 
 		isOnAir = false;
+		if(!isOnGround) isOnGround = true;
 
 		if (state == SIMON_STATE_ATTACK)
 			SetSpeed(0, 0);
@@ -153,6 +186,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//Collision when attack
 	UpdateWhip(dt, coObjects);
 
+	UpdateSubWeapon(dt, coObjects);
+
 	//Collision with items
 	for (auto i : coEvents) {
 		LPGAMEOBJECT object = i->obj;
@@ -164,7 +199,10 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		switch (object->GetId())
 		{
 		case ID_BIG_HEART:
+			object->SetState(STATE_DESTROYED);
+			break;
 		case ID_DAGGER:
+			AddSubWeapon(ID_DAGGER);
 			object->SetState(STATE_DESTROYED);
 			break;
 		case ID_WHIP_UPGRADE:
@@ -310,7 +348,6 @@ void Simon::Render()
 		alpha = 50;
 
 	//Render animation
-	//animation_set->at(ani)->Render(x, y, alpha);
 	animations[ani]->Render(x, y, alpha);
 
 	if (attackStart)
@@ -324,6 +361,8 @@ void Simon::SetState(int state)
 	if (isOnAir == true)
 		return;
 	if (attackStart > 0)
+		return;
+	if (!isOnGround && state != SIMON_STATE_ATTACK)
 		return;
 
 	CGameObject::SetState(state);
@@ -394,6 +433,26 @@ void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		state = (state == SIMON_STATE_SIT_ATTACK ? SIMON_STATE_SIT : SIMON_STATE_IDLE);
 		whip->ResetAnimation();
 	}
+}
+
+void Simon::UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT>* objects)
+{
+	if (GetTickCount() - attackSubWeaponStart > 300 && attackSubWeaponStart > 0) {
+		attackSubWeaponStart = 0;
+		state = (state == SIMON_STATE_SIT_ATTACK ? SIMON_STATE_SIT : SIMON_STATE_IDLE);
+	}
+
+	for (auto i : subWeapon)
+		i->Update(dt, objects);
+
+
+	//delete subweapon
+	for (int i = 0; i < subWeapon.size(); i++)
+		if (subWeapon[i]->GetState() == STATE_DESTROYED)
+		{
+			subWeapon.erase(subWeapon.begin() + i);
+			i--;
+		}
 }
 
 void Simon::UpgradeWhip()

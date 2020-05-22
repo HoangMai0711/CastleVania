@@ -321,7 +321,7 @@ void CGame::SweptAABB(
 
 bool CGame::IsColliding(RECT A, RECT B)
 {
-	DebugOut(L"[INFO]AABB Collision\n");
+	//DebugOut(L"[INFO]AABB Collision\n");
 	return A.left < B.right && A.right > B.left && A.top < B.bottom && A.bottom > B.top;
 }
 

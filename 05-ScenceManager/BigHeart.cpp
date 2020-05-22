@@ -4,10 +4,9 @@ BigHeart::BigHeart(D3DXVECTOR2 position)
 {
 	this->x = position.x;
 	this->y = position.y;
+	id = ID_BIG_HEART;
 
 	AddAnimation(ID_ANI_BIG_HEART);
-
-	id = ID_BIG_HEART;
 }
 
 BigHeart::~BigHeart()
@@ -20,10 +19,6 @@ void BigHeart::GetBoundingBox(float & left, float & top, float & right, float & 
 	top = y;
 	right = x + BIG_HEART_BBOX_WIDTH;
 	bottom = y + BIG_HEART_BBOX_HEIGHT;
-}
-
-void BigHeart::Render()
-{
 }
 
 void BigHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
