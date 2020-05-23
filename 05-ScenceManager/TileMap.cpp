@@ -43,8 +43,10 @@ void TileAtlas::LoadTileAtlasFromFile(LPCWSTR filePath)
 	}
 	DebugOut(L"[INFO]Image path of tile sets: %s\n", imagePath);
 	//Add textures
-	CTextures::GetInstance()->Add(ID_TEX_TILE_SCENE01, imagePath, D3DCOLOR_XRGB(5, 5, 5));
-	this->texture = CTextures::GetInstance()->Get(ID_TEX_TILE_SCENE01);
+
+	int idTextures = j["properties"][0]["value"];
+	CTextures::GetInstance()->Add(idTextures, imagePath, D3DCOLOR_XRGB(5, 5, 5));
+	this->texture = CTextures::GetInstance()->Get(idTextures);
 
 	//Close file
 	file.close();

@@ -200,6 +200,12 @@
  "nextlayerid":6,
  "nextobjectid":12,
  "orientation":"orthogonal",
+ "properties":[
+        {
+         "name":"ID Textures",
+         "type":"int",
+         "value":-1
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.2.5",
  "tileheight":8,

@@ -29,4 +29,5 @@ void Dagger::Render()
 {
 	int ani = nx > 0 ? 0 : 1;
 	animations[ani]->Render(x, y);
+	RenderBoundingBox();
 }

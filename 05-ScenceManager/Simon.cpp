@@ -46,6 +46,7 @@ Simon::Simon()
 	disableControl = false;
 
 	whip = new Whip();
+	idSubWeapon = ID_DAGGER;
 }
 
 
@@ -71,7 +72,6 @@ void Simon::Jump()
 {
 	SetState(SIMON_STATE_JUMP);
 	isOnAir = true;
-	isOnGround = false;
 }
 
 void Simon::Attack()
@@ -84,8 +84,10 @@ void Simon::Attack()
 
 	if (state == SIMON_STATE_SIT)
 		SetState(SIMON_STATE_SIT_ATTACK);
-	else
+	else {
 		SetState(SIMON_STATE_ATTACK);
+		DebugOut(L"[INFO] Changed state to attack");
+	}
 
 	attackStart = GetTickCount();
 }
@@ -98,6 +100,7 @@ void Simon::AttackSubWeapon()
 		return;
 
 	ResetAnimation();
+	whip->ResetAnimation();
 
 	if (state == SIMON_STATE_SIT)
 		SetState(SIMON_STATE_SIT_ATTACK);
@@ -117,10 +120,10 @@ void Simon::AttackSubWeapon()
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (GetTickCount() - attackStart > 300)
+	if (GetTickCount() - attackStart > SIMON_ATTACK_TIME)
 		attackStart = 0;
 
-	if (GetTickCount() - attackSubWeaponStart > 300)
+	if (GetTickCount() - attackSubWeaponStart > SIMON_ATTACK_TIME)
 		attackSubWeaponStart = 0;
 	//UpdateWhip(dt, coObjects);
 
@@ -128,14 +131,27 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vy += SIMON_GRAVITY * dt;
 
+	vector<LPGAMEOBJECT> *realCoObjects;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+	realCoObjects = new vector<LPGAMEOBJECT>;
+
+	for (auto i : *coObjects) {
+		switch (i->GetId())
+		{
+		case ID_WALL:
+			realCoObjects->push_back(i);
+			break;
+		default:
+			break;
+		}
+	}
 
 	//// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
+		CalcPotentialCollisions(realCoObjects, coEvents);
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -158,6 +174,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (state == SIMON_STATE_ATTACK)
 			SetSpeed(0, 0);
 
+
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
@@ -165,22 +182,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = 0;
 		if (ny != 0)
 			vy = 0;*/
-
-			// Collision logic with Torch
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			//Collion with Torch
-			if (dynamic_cast<Torch*>(e->obj))
-			{
-				DebugOut(L"[INFO] Collision Simon and Torch %d %d\n", e->nx, e->ny);
-				// Process normally
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0) y += dy;
-			}
-
-		}
 	}
 
 	//Collision when attack
@@ -353,17 +354,22 @@ void Simon::Render()
 	if (attackStart)
 		whip->Render();
 
+	for (auto i : subWeapon) {
+		i->Render();
+	}
+
 	//RenderBoundingBox();
 }
 
 void Simon::SetState(int state)
 {
-	if (isOnAir == true)
-		return;
+	//if (isOnAir && (state == SIMON_STATE_ATTACK))
+	//	return;
 	if (attackStart > 0)
 		return;
-	if (!isOnGround && state != SIMON_STATE_ATTACK)
+	if (attackSubWeaponStart > 0)
 		return;
+
 
 	CGameObject::SetState(state);
 	switch (state)
@@ -419,7 +425,7 @@ void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 
 void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects)
 {
-	if (GetTickCount() - attackStart <= 300)
+	if (GetTickCount() - attackStart <= SIMON_ATTACK_TIME)
 	{
 		float playerX, playerY;
 		playerY = (state == SIMON_STATE_SIT_ATTACK ? y + SIMON_BBOX_HEIGHT / 4 : y);
@@ -437,7 +443,7 @@ void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects)
 
 void Simon::UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT>* objects)
 {
-	if (GetTickCount() - attackSubWeaponStart > 300 && attackSubWeaponStart > 0) {
+	if (GetTickCount() - attackSubWeaponStart > SIMON_ATTACK_TIME && attackSubWeaponStart > 0) {
 		attackSubWeaponStart = 0;
 		state = (state == SIMON_STATE_SIT_ATTACK ? SIMON_STATE_SIT : SIMON_STATE_IDLE);
 	}
