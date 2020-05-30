@@ -95,6 +95,20 @@ void TileMap::LoadTileMapFromFile(LPCWSTR filePath)
 	tileColumn = j["/layers/0/width"_json_pointer].get<int>();
 	height = j["/height"_json_pointer].get<int>();
 
+	camLimitX = new int*[j["cam_limit"].size()];
+	for (auto iter : j["cam_limit"])
+	{
+		camLimitX[numOfLevel] = new int[2];
+		camLimitX[numOfLevel][0] = int(iter[0]);
+		camLimitX[numOfLevel][1] = int(iter[1]);
+		++numOfLevel;
+	}
+	DebugOut(L"[INFO] Num of map level: %d", numOfLevel);
+
+	/*for (int i = 0; i < numOfLevel; ++i) {
+		DebugOut(L"----asdc %d-%d\n", camLimitX[i][0], camLimitX[i][1]);
+	}*/
+
 	vector<int> data = j["/layers/0/data"_json_pointer].get<vector<int>>();
 
 	//Map data from vector to matrix
@@ -155,11 +169,29 @@ void TileMap::Draw(D3DXVECTOR2 position, int alpha)
 
 int TileMap::GetTileMapWidth()
 {
-	//DebugOut(L"Tile row: %d\n", tileRow);
+	//DebugOut(L"---Tile map width: %d\n", tileColumn*tileAtlas->GetTileWidth());
 	return tileColumn*tileAtlas->GetTileWidth();
 }
 
 int TileMap::GetTileMapHeight()
 {
+	//DebugOut(L"---Tile map height: %f\n", tileRow*tileAtlas->GetTileHeight());
 	return tileRow*tileAtlas->GetTileHeight();
+}
+
+int TileMap::GetCamLtdMin(int numOfLevel)
+{
+	DebugOut(L"[INFO] Cam limited min: %d\n", camLimitX[numOfLevel][0]);
+	return camLimitX[numOfLevel][0];
+}
+
+int TileMap::GetCamLtdMax(int numOfLevel)
+{
+	DebugOut(L"[INFO] Cam limited max: %d\n", camLimitX[numOfLevel][1]);
+	return camLimitX[numOfLevel][1];
+}
+
+int TileMap::GetMapMaxLevel()
+{
+	return numOfLevel;
 }

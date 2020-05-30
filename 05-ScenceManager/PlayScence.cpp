@@ -9,7 +9,7 @@
 
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR filePath):
+CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
@@ -45,7 +45,9 @@ void CPlayScene::Load()
 	tileMap = new TileMap();
 	//DebugOut(L"[INFO] Start loading tilemap\n");
 	tileMap->LoadTileMapFromFile(sceneFilePath);
-	//DebugOut(L"[INFO] End loading tilemap\n");
+	DebugOut(L"[INFO] End loading tilemap\n");
+
+	float simonPosX, simonPosY;
 
 	ifstream f(sceneFilePath);
 	json j = json::parse(f);
@@ -76,12 +78,12 @@ void CPlayScene::Load()
 
 				int idReward = i["properties"][0]["value"];
 
-				Torch* torch = new Torch(position,idReward);
+				Torch* torch = new Torch(position, idReward);
 
 				objects.push_back(torch);
-				DebugOut(L"--->Torch W-H-X-Y: %d-%d-%f-%f\nNext item:%d\n", width, height, x, y,idReward);
+				//DebugOut(L"--->Torch W-H-X-Y: %d-%d-%f-%f\nNext item:%d\n", width, height, x, y,idReward);
 			}
-		else if(iter["name"]=="Hidden Objects")
+		else if (iter["name"] == "Hidden Objects")
 			for (auto i : iter["objects"]) {
 				int width = i["width"];
 				int height = i["height"];
@@ -89,12 +91,16 @@ void CPlayScene::Load()
 				float y = i["y"];
 				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
 
-				HiddenObject* hiddenObj = new HiddenObject(position);
+				int idReward = i["properties"][0]["value"];
+
+				D3DXVECTOR2 rewardPos = D3DXVECTOR2({ i["properties"][1]["value"],i["properties"][2]["value"] });
+
+				HiddenObject* hiddenObj = new HiddenObject(position, idReward, rewardPos);
 
 				objects.push_back(hiddenObj);
 				//DebugOut(L"--->Hidden object W-H-X-Y: %d-%d-%f-%f\n", width, height, x, y);
 			}
-		else if(iter["name"]=="Portal")
+		else if (iter["name"] == "Portal")
 			for (auto i : iter["objects"]) {
 				int width = i["width"];
 				int height = i["height"];
@@ -102,10 +108,17 @@ void CPlayScene::Load()
 				float y = i["y"];
 				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
 
-				CPortal* portal = new CPortal(position);
+				int nextSceneId = i["properties"][0]["value"];
+
+				CPortal* portal = new CPortal(width, height, position, nextSceneId);
 
 				objects.push_back(portal);
-				//DebugOut(L"--->Portal W-H-X-Y: %d-%d-%f-%f\n", width, height, x, y);
+				DebugOut(L"--->Portal W-H-X-Y: %d-%d-%f-%f\nNext scene Id: %d\n", width, height, x, y, nextSceneId);
+			}
+		else if (iter["name"] == "SimonPos")
+			for (auto i : iter["objects"]) {
+				simonPosX = float(i["x"]);
+				simonPosY = float(i["y"]);
 			}
 	}
 
@@ -113,7 +126,11 @@ void CPlayScene::Load()
 	//DebugOut(L"[INFO] Done loading objects\n");
 
 	simon = Simon::GetInstance();
-	simon->SetPosition(30.0f, 0.0f);
+
+	simon->SetPosition(simonPosX, simonPosY);
+
+	if (!CGame::GetInstance()->IsFirstLoad())
+		simon->Load();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -148,12 +165,36 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+	//cy -= game->GetScreenHeight() / 2;
 
 	// check if camera is out of screen
-	int minWidth = 0;
-	int maxWidth = tileMap->GetTileMapWidth();
 
+	//int minWidth = 0;
+	//int maxWidth = tileMap->GetTileMapWidth();
+	//if (cx < minWidth) {
+	//	//DebugOut(L"------cx<0: %f\n", cx);
+	//	cx = minWidth;
+	//}
+	//if (cx + game->GetScreenWidth() > maxWidth) {
+	//	cx = maxWidth - game->GetScreenWidth();
+	//}
+
+	float simonPosY = simon->GetY() + SIMON_BBOX_HEIGHT / 2;
+
+	DebugOut(L"----Tile Map Height: %d\n", tileMap->GetTileMapHeight());
+	DebugOut(L"-----Simon Position Y: %f\n", simonPosY);
+	//DebugOut(L"-----Cam height: %d\n", game->GetScreenHeight());
+
+	int camFloor = int(simonPosY) / CAM_HEIGHT;
+	DebugOut(L"----cam floor: %d\n", camFloor);
+
+	int maxMapLevel = tileMap->GetMapMaxLevel() - 1;
+
+	camFloor = camFloor > maxMapLevel ? maxMapLevel : camFloor;
+
+	int minWidth = tileMap->GetCamLtdMin(camFloor);
+	int maxWidth = tileMap->GetCamLtdMax(camFloor);
+	
 	if (cx < minWidth) {
 		//DebugOut(L"------cx<0: %f\n", cx);
 		cx = minWidth;
@@ -161,8 +202,9 @@ void CPlayScene::Update(DWORD dt)
 	if (cx + game->GetScreenWidth() > maxWidth) {
 		cx = maxWidth - game->GetScreenWidth();
 	}
+	cy = camFloor * CAM_HEIGHT;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, cy);
 }
 
 void CPlayScene::Render()
@@ -185,8 +227,6 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
-	player = NULL;
-	simon = NULL;
 }
 
 void CPlayScene::LoadAnimations()
@@ -202,6 +242,8 @@ void CPlayScene::LoadAnimations()
 
 	DebugOut(L"[INFO] Start loading animations from: animation.json \n");
 
+	animations->Clear();
+
 	for (auto i : j["texture"])
 	{
 		LPCWSTR filePath = ToLPCWSTR(i[1]);
@@ -211,7 +253,7 @@ void CPlayScene::LoadAnimations()
 
 	for (auto i : j["sprites"])
 	{
-		sprites->Add(i[0], i[1], i[2], i[3], i[4], i[5], i[6], {i[7],i[8]});
+		sprites->Add(i[0], i[1], i[2], i[3], i[4], i[5], i[6], { i[7],i[8] });
 	}
 
 	LPANIMATION ani;

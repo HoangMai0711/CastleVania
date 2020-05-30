@@ -13,7 +13,7 @@ class CPortal : public CGameObject
 	int height; 
 public:
 	//CPortal(float l, float t, float r, float b, int scene_id);
-	CPortal(D3DXVECTOR2 position);
+	CPortal(int width, int height, D3DXVECTOR2 position, int nextSceneId);
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	int GetSceneId() { return scene_id;  }

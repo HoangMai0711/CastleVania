@@ -12,6 +12,9 @@
 #include "Torch.h"
 #include "Weapon.h"
 #include "Dagger.h"
+#include "Portal.h"
+#include "MoneyBag.h"
+#include "HiddenObject.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -69,6 +72,7 @@
 
 class Simon: public CGameObject
 {
+private:
 	Simon();
 
 	static Simon* __instance;
@@ -86,11 +90,13 @@ class Simon: public CGameObject
 
 	Whip* whip;
 	vector<LPWEAPON> subWeapon;
+
 public:
 	~Simon();
 
 	static Simon* GetInstance();
-
+	void Load();
+	void Unload();
 	void Jump();
 	void Attack();
 	void AttackSubWeapon();
@@ -116,5 +122,6 @@ public:
 	void EnableControl() { disableControl = false; }
 
 	void AddSubWeapon(int subWeapon) { this->idSubWeapon = subWeapon; }
+	void UnloadWhip();
 };
 

@@ -129,6 +129,9 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>Game Object\simon\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="MoneyBag.cpp">
+      <Filter>Game Object\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="Dagger.h">
       <Filter>Game Object\simon\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="MoneyBag.h">
+      <Filter>Game Object\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

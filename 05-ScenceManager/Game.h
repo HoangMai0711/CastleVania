@@ -48,6 +48,8 @@ class CGame
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene; 
 
+	bool isFirstLoad;
+
 public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
@@ -63,6 +65,7 @@ public:
 
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
+	bool IsFirstLoad() { return isFirstLoad; }
 
 	static void SweptAABB(
 		float ml,			// move left 

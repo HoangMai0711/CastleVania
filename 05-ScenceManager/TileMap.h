@@ -44,6 +44,8 @@ class TileMap
 	int tileRow;
 	int tileColumn;
 	int height;
+	int** camLimitX;
+	int numOfLevel = 0;
 
 	LPTILEATLAS tileAtlas;
 	int** tileMap;
@@ -58,6 +60,9 @@ public:
 	void Draw(D3DXVECTOR2 position, int alpha = 255);
 	int GetTileMapWidth();
 	int GetTileMapHeight();
+	int GetCamLtdMin(int numOfLevel);
+	int GetCamLtdMax(int numOfLevel);
+	int GetMapMaxLevel();
 };
 
 typedef TileMap* LPTILEMAP;

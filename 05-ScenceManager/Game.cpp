@@ -16,6 +16,8 @@ CGame * CGame::__instance = NULL;
 */
 void CGame::Init(HWND hWnd)
 {
+	isFirstLoad = TRUE;
+
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
 	this->hWnd = hWnd;
@@ -376,6 +378,7 @@ void CGame::Load(LPCWSTR gameFile)
 
 void CGame::SwitchScene(int scene_id)
 {
+	DebugOut(L"[INFO] Switch to scene id: %d\n", scene_id);
 	// IMPORTANT: has to implement "unload" previous scene assets to avoid duplicate resources
 	current_scene = scene_id;
 	LPSCENE s = scenes[current_scene];
@@ -391,4 +394,6 @@ void CGame::SwitchScene(int scene_id)
 	//DebugOut(L"[INFO]Current scene file path: %s\n", s->GetFilePath());
 
 	s->Load();
+
+	isFirstLoad = FALSE;
 }
