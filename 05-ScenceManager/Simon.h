@@ -15,6 +15,8 @@
 #include "Portal.h"
 #include "MoneyBag.h"
 #include "HiddenObject.h"
+#include "Stair.h"
+#include "MovingBrick.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -22,10 +24,15 @@
 
 //Simon velocity
 #define SIMON_WALKING_SPEED		0.07f
-#define SIMON_JUMP_SPEED_Y		0.25f
-#define SIMON_GRAVITY			0.0007f
+#define SIMON_JUMP_SPEED_Y		0.21f
+#define SIMON_ON_STAIR_SPEED	0.027f
+#define SIMON_GRAVITY			0.0006f
 #define SIMON_FLASH_TIME		900
 #define SIMON_ATTACK_TIME		300
+#define SIMON_INJURED_DEFLECT_SPEED_Y	0.15f
+#define SIMON_INJURED_DEFLECT_SPEED_X	0.06f
+
+#define SIMON_UNTOUCHABLE_TIME		2000
 
 #define SIMON_STATE_IDLE				0
 #define SIMON_STATE_WALKING_RIGHT		1
@@ -78,6 +85,7 @@ private:
 	static Simon* __instance;
 
 	bool isOnAir;
+	bool isOnStair;
 	int untouchable;
 
 	DWORD untouchableStart;
@@ -90,6 +98,9 @@ private:
 
 	Whip* whip;
 	vector<LPWEAPON> subWeapon;
+
+	Stair* stair;
+	Stair* collidedStair;
 
 public:
 	~Simon();
@@ -111,6 +122,7 @@ public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	bool IsOnAir() { return isOnAir; }
+	bool IsOnStair() { return isOnStair; }
 	DWORD GetTimeStartAttack() { return attackStart; }
 	bool GetDisableControl() { return disableControl; }
 
@@ -123,5 +135,13 @@ public:
 
 	void AddSubWeapon(int subWeapon) { this->idSubWeapon = subWeapon; }
 	void UnloadWhip();
+
+	void CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>* listObject);
+
+	Stair* GetStair() { return stair; }
+	Stair* GetCollidedStair() { return collidedStair; }
+	void SetStair(Stair* setStair) { stair = setStair; }
+
+	void BeInjured();
 };
 

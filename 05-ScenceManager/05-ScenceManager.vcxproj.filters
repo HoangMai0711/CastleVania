@@ -37,11 +37,11 @@
     <Filter Include="Texture">
       <UniqueIdentifier>{af3c0279-e9f3-4de0-bf6f-ce7049633a56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemy">
-      <UniqueIdentifier>{db733c66-8e2a-4410-a146-e50416df6abf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Object\Items">
       <UniqueIdentifier>{63f64177-55ea-463c-8068-556e44879792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Object\Enemy">
+      <UniqueIdentifier>{db733c66-8e2a-4410-a146-e50416df6abf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,10 +106,10 @@
       <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="Koopas.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>Game Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Goomba.cpp">
-      <Filter>Enemy</Filter>
+      <Filter>Game Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="HiddenObject.cpp">
       <Filter>Game Object</Filter>
@@ -130,6 +130,33 @@
       <Filter>Game Object\simon\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="MoneyBag.cpp">
+      <Filter>Game Object\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Game Object\Stactic Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBoomerang.cpp">
+      <Filter>Game Object\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>Game Object\Transparent Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Game Object\simon\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackKnight.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingBrick.cpp">
+      <Filter>Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallHeart.cpp">
       <Filter>Game Object\Items</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,10 +225,10 @@
       <Filter>Texture</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
-      <Filter>Enemy</Filter>
+      <Filter>Game Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Koopas.h">
-      <Filter>Enemy</Filter>
+      <Filter>Game Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="HiddenObject.h">
       <Filter>Game Object</Filter>
@@ -222,6 +249,33 @@
       <Filter>Game Object\simon\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="MoneyBag.h">
+      <Filter>Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
+      <Filter>Game Object\Stactic Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBoomerang.h">
+      <Filter>Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>Game Object\Transparent Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Game Object\simon\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackKnight.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingBrick.h">
+      <Filter>Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallHeart.h">
       <Filter>Game Object\Items</Filter>
     </ClInclude>
   </ItemGroup>

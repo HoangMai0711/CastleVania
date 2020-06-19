@@ -38,6 +38,12 @@ void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		case ID_DAGGER:
 			reward = new ItemDagger({ x,y });
 			break;
+		case ID_ITEM_BOOMERANG:
+			reward = new ItemBoomerang({ x,y });
+			break;
+		case ID_SMALL_HEART:
+			reward = new SmallHeart({ x,y });
+			break;
 		default:
 			reward = NULL;
 			break;
@@ -48,7 +54,7 @@ void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 
 void StaticObjects::Render()
 {
-	if (state == STATIC_OBJ_STATE_HITTED || state==STATE_DESTROYED)
+	if (state == STATIC_OBJ_STATE_HITTED || state == STATE_DESTROYED)
 		animations[0]->Render(x, y);
 	else
 		animations[1]->Render(x, y);

@@ -38,6 +38,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 
 void CPlayScene::Load()
 {
+	game = CGame::GetInstance();
+
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
 	LoadAnimations();
@@ -120,6 +122,82 @@ void CPlayScene::Load()
 				simonPosX = float(i["x"]);
 				simonPosY = float(i["y"]);
 			}
+		else if (iter["name"] == "Candle")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				int idReward = i["properties"][0]["value"];
+
+				Candle* candle = new Candle(position, idReward);
+
+				objects.push_back(candle);
+			}
+		else if (iter["name"] == "Stair")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				int stairHeight = i["properties"][0]["value"];
+				int nx = i["properties"][1]["value"];
+				int ny = i["properties"][2]["value"];
+
+				//DebugOut(L"---Add stair-nx: %s_%d\n", ToLPCWSTR(i["name"]), nx);
+
+				Stair* stair = new Stair(position, stairHeight, width, height, nx, ny);
+
+				objects.push_back(stair);
+			}
+		else if (iter["name"] == "Bat")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				int idReward = i["properties"][0]["value"];
+
+				DebugOut(L"-----Add Bat: %s\n", ToLPCWSTR(i["name"]));
+
+				Bat* bat = new Bat(position, width, idReward);
+
+				objects.push_back(bat);
+			}
+		else if (iter["name"] == "BlackKnight")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				int edge = i["properties"][0]["value"];
+				int nx = i["properties"][1]["value"];
+				int idReward = i["properties"][2]["value"];
+
+				BlackKnight* blackKnight = new BlackKnight(position, nx, idReward, edge);
+
+				objects.push_back(blackKnight);
+			}
+		else if(iter["name"] == "MovingBrick")
+		for (auto i : iter["objects"]) {
+			int width = i["width"];
+			int height = i["height"];
+			float x = i["x"];
+			float y = i["y"];
+			D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+			MovingBrick* movingBrick = new MovingBrick(position);
+
+			objects.push_back(movingBrick);
+		}
 	}
 
 	f.close();
@@ -162,31 +240,18 @@ void CPlayScene::Update(DWORD dt)
 	float cx, cy;
 	simon->GetPosition(cx, cy);
 
-
-	CGame *game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	//cy -= game->GetScreenHeight() / 2;
 
 	// check if camera is out of screen
 
-	//int minWidth = 0;
-	//int maxWidth = tileMap->GetTileMapWidth();
-	//if (cx < minWidth) {
-	//	//DebugOut(L"------cx<0: %f\n", cx);
-	//	cx = minWidth;
-	//}
-	//if (cx + game->GetScreenWidth() > maxWidth) {
-	//	cx = maxWidth - game->GetScreenWidth();
-	//}
-
 	float simonPosY = simon->GetY() + SIMON_BBOX_HEIGHT / 2;
 
-	DebugOut(L"----Tile Map Height: %d\n", tileMap->GetTileMapHeight());
-	DebugOut(L"-----Simon Position Y: %f\n", simonPosY);
-	//DebugOut(L"-----Cam height: %d\n", game->GetScreenHeight());
+	//DebugOut(L"----Tile Map Height: %d\n", tileMap->GetTileMapHeight());
+	//DebugOut(L"-----Simon Position Y: %f\n", simonPosY);
 
 	int camFloor = int(simonPosY) / CAM_HEIGHT;
-	DebugOut(L"----cam floor: %d\n", camFloor);
+	//DebugOut(L"----cam floor: %d\n", camFloor);
 
 	int maxMapLevel = tileMap->GetMapMaxLevel() - 1;
 
@@ -194,7 +259,7 @@ void CPlayScene::Update(DWORD dt)
 
 	int minWidth = tileMap->GetCamLtdMin(camFloor);
 	int maxWidth = tileMap->GetCamLtdMax(camFloor);
-	
+
 	if (cx < minWidth) {
 		//DebugOut(L"------cx<0: %f\n", cx);
 		cx = minWidth;
@@ -277,6 +342,7 @@ void CPlayScene::LoadAnimations()
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
+	CGame *game = CGame::GetInstance();
 	Simon* simon = ((CPlayScene*)scence)->simon;
 
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -286,21 +352,41 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	case DIK_X:
 		if (simon->GetState() != SIMON_STATE_JUMP && simon->GetState() != SIMON_STATE_ATTACK)
 			simon->Jump();
 		break;
-	case DIK_S:
-		simon->Attack();
+	case DIK_Z:
+		if (game->IsKeyDown(DIK_UP)) {
+			simon->AttackSubWeapon();
+		}
+		else
+			simon->Attack();
 		break;
-	case DIK_D:
+	case DIK_C:
 		simon->AttackSubWeapon();
 		break;
 	}
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
-{}
+{
+	CGame *game = CGame::GetInstance();
+	Simon* simon = ((CPlayScene*)scence)->simon;
+
+	switch (KeyCode)
+	{
+	case DIK_RIGHT:
+	case DIK_LEFT:
+	case DIK_DOWN:
+	case DIK_UP:
+		if (simon->IsOnStair())
+			simon->SetSpeed(0, 0);
+		break;
+	default:
+		break;
+	}
+}
 
 void CPlayScenceKeyHandler::KeyState(BYTE *states)
 {
@@ -328,5 +414,34 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		simon->SetState(SIMON_STATE_WALKING_LEFT);
 
 	if (game->IsKeyDown(DIK_DOWN))
-		simon->SetState(SIMON_STATE_SIT);
+		if (simon->IsOnStair()) {
+			simon->SetState(SIMON_STATE_DOWNSTAIR);
+		}
+		else if (simon->GetCollidedStair()) {
+			if (simon->GetCollidedStair()->GetNy() < 0) {
+				float x, y;
+				simon->GetCollidedStair()->GetPosition(x, y);
+				simon->SetStair(simon->GetCollidedStair());
+				simon->SetPosition(x - 10, y - SIMON_BBOX_HEIGHT + 10);
+				simon->SetState(SIMON_STATE_DOWNSTAIR);
+			}
+			else
+				simon->SetState(SIMON_STATE_SIT);
+		}
+		else
+			simon->SetState(SIMON_STATE_SIT);
+
+	if (game->IsKeyDown(DIK_UP))
+		if (simon->IsOnStair()) {
+			simon->SetState(SIMON_STATE_UPSTAIR);
+		}
+		else if (simon->GetCollidedStair()) {
+			if (simon->GetCollidedStair()->GetNy() > 0) {
+				float x, y;
+				simon->GetCollidedStair()->GetPosition(x, y);
+				simon->SetStair(simon->GetCollidedStair());
+				simon->SetPosition(x, y - SIMON_BBOX_HEIGHT);
+				simon->SetState(SIMON_STATE_UPSTAIR);
+			}
+		}
 }

@@ -5,14 +5,15 @@
 #include "BigHeart.h"
 #include "WhipUpgrade.h"
 #include "ItemDagger.h"
+#include "ItemBoomerang.h"
+#include "SmallHeart.h"
 
 #define STATIC_OBJ_STATE_NORMAL		0
 #define STATIC_OBJ_STATE_HITTED		1
 
-#define HIT_EFFECT_TIME				450
-
 class StaticObjects : public CGameObject
 {
+protected:
 	DWORD hitEffectStart;
 	bool isDropped;
 public:

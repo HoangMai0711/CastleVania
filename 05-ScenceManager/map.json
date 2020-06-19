@@ -1,5 +1,5 @@
 {
-  "Start scene": 2,
+  "Start scene": 3,
   "Scenes": {
     "1": "scene1_map.json",
     "2": "scene2_map.json",

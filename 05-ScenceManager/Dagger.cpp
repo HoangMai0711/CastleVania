@@ -27,7 +27,7 @@ void Dagger::GetBoundingBox(float & left, float & top, float & right, float & bo
 
 void Dagger::Render()
 {
-	int ani = nx > 0 ? 0 : 1;
+	int ani = nx > ITEM_RIGHT ? ITEM_RIGHT : ITEM_LEFT;
 	animations[ani]->Render(x, y);
 	RenderBoundingBox();
 }

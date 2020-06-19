@@ -28,6 +28,8 @@ void WhipUpgrade::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	Items::Update(dt, coObjects);
 
 	if (!isOnGround) {
+		DebugOut(L"----whip item isOnGround: FALSE\n");
 		vy += WHIP_UPGRADE_GRAVITY * dt;
+		DebugOut(L"----WHIP vy: %f\n", vy);
 	}
 }

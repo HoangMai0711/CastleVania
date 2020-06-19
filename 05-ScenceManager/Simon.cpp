@@ -31,6 +31,7 @@ Simon * Simon::GetInstance()
 void Simon::Load()
 {
 	whip = new Whip();
+
 	DebugOut(L"[INFO]Create Simon and add animation\n");
 	animations.clear();
 	AddAnimation(ID_ANI_SIMON_IDLE_RIGHT);				// Idle Right			0
@@ -64,12 +65,17 @@ void Simon::Load()
 	id = ID_SIMON;
 	isOnAir = false;
 	isOnGround = false;
+	isOnStair = false;
 
 	attackStart = 0;
 	attackSubWeaponStart = 0;
 	flashStart = 0;
+	untouchableStart = 0;
 
 	disableControl = false;
+
+	stair = NULL;
+	collidedStair = NULL;
 }
 
 void Simon::Unload()
@@ -87,6 +93,9 @@ void Simon::Attack()
 {
 	if (attackStart > 0)
 		return;
+
+	if (state != SIMON_STATE_JUMP)
+		vx = 0;
 
 	ResetAnimation();
 	whip->ResetAnimation();
@@ -138,8 +147,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		attackSubWeaponStart = 0;
 
 	CGameObject::Update(dt);
-
-	vy += SIMON_GRAVITY * dt;
+	if (!isOnStair)
+		vy += SIMON_GRAVITY * dt;
 
 	vector<LPGAMEOBJECT> *realCoObjects;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -153,9 +162,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 		case ID_WALL:
 		case ID_HIDDEN_OBJECTS:
-			realCoObjects->push_back(i);
-			break;
 		case ID_PORTAL:
+		case ID_MOVING_BRICK:
+			//case ID_STAIR:
 			realCoObjects->push_back(i);
 			break;
 		default:
@@ -181,22 +190,19 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		// block 
-		if(ny < 0)
-			isOnAir = false;
-		//if (!isOnGround) isOnGround = true;
-
-		if (state == SIMON_STATE_ATTACK)
-			SetSpeed(0, 0);
-
-
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		/*if (nx != 0)
+		if (nx != 0)
 			vx = 0;
-		if (ny != 0)
-			vy = 0;*/
+		if (ny < 0) {
+			vy = 0;
+			isOnAir = false;
+		}
+		else {
+			y += dy;
+		}
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -208,53 +214,31 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
+
+			if (dynamic_cast<MovingBrick*>(e->obj)) {
+				DebugOut(L"-------Step on moving brick\n");
+				MovingBrick* movingBrick = dynamic_cast<MovingBrick*>(e->obj);
+				SetSpeed(movingBrick->GetVx(), vy);
+			}
 		}
 	}
+
+	if (GetTickCount() - untouchableStart > SIMON_UNTOUCHABLE_TIME && untouchableStart > 0)
+		untouchableStart = 0;
 
 	//Collision when attack
 	UpdateWhip(dt, coObjects);
 
 	UpdateSubWeapon(dt, coObjects);
 
+	collidedStair = NULL;
+
 	//Collision with items
 	for (auto i : coEvents) {
 		LPGAMEOBJECT object = i->obj;
 
 		//Skip if items is destroyed
-		if (object->GetState() == STATE_DESTROYED)
-			continue;
-
-		switch (object->GetId())
-		{
-		case ID_BIG_HEART:
-			object->SetState(STATE_DESTROYED);
-			break;
-		case ID_BIG_MONEYBAG:
-			object->SetState(STATE_DESTROYED);
-			break;
-		case ID_DAGGER:
-			AddSubWeapon(ID_DAGGER);
-			object->SetState(STATE_DESTROYED);
-			break;
-		case ID_WHIP_UPGRADE:
-			UpgradeWhip();
-			object->SetState(STATE_DESTROYED);
-			state = SIMON_STATE_FLASH;
-			SetSpeed(0, 0);
-			DisableControl();
-			flashStart = GetTickCount();
-			break;
-		case ID_HIDDEN_OBJECTS:
-		{
-			DebugOut(L"----Collide with hidden object\n");
-			HiddenObject* hiddenObj = dynamic_cast<HiddenObject*>(object);
-			hiddenObj->IsCollide(coObjects);
-			break;
-		}
-			
-		default:
-			break;
-		}
+		CollideWithObjectAndItems(object, coObjects);
 	}
 
 	//Enable control after flash time
@@ -280,30 +264,24 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		B = { long(bl),long(bt),long(br),long(bb) };
 
 		if (CGame::GetInstance()->IsColliding(A, B)) {
-			if (iter->GetState() == STATE_DESTROYED)
-				continue;
-
-			switch (iter->GetId())
-			{
-			case ID_BIG_HEART:
-			case ID_DAGGER:
-			case ID_BIG_MONEYBAG:
-				iter->SetState(STATE_DESTROYED);
-				break;
-			case ID_WHIP_UPGRADE:
-				UpgradeWhip();
-				iter->SetState(STATE_DESTROYED);
-				state = SIMON_STATE_FLASH;
-				SetSpeed(0, 0);
-				DisableControl();
-				flashStart = GetTickCount();
-				break;
-			default:
-				break;
-			}
+			CollideWithObjectAndItems(iter, coObjects);
 		}
-
 	}
+
+	if (isOnStair && stair) {
+		float sx, sy;
+		stair->GetPosition(sx, sy);
+		if ((stair->GetNy() > 0 && (y <= sy - stair->GetStairHeight() - SIMON_BBOX_HEIGHT || y >= sy - SIMON_BBOX_HEIGHT + 5)) ||
+			(stair->GetNy() < 0 && (y + SIMON_BBOX_HEIGHT <= sy || y >= sy + stair->GetStairHeight() - SIMON_BBOX_HEIGHT + 5))) {
+			isOnStair = false;
+			state = SIMON_STATE_IDLE;
+			SetSpeed(0, 0);
+			DebugOut(L"---Simon Pos X-Y: %f-%f\n", x, y);
+			DebugOut(L"---Stair POS x-y,NY: %f-%f,%d\n", sx, sy, stair->GetNy());
+			stair = NULL;
+		}
+	}
+
 }
 
 void Simon::Render()
@@ -346,6 +324,7 @@ void Simon::Render()
 			ani = SIMON_ANI_SIT_LEFT;
 		break;
 	case SIMON_STATE_UPSTAIR:
+		//DebugOut(L"-------Simon upstair\n");
 		if (nx > 0)
 			ani = SIMON_ANI_WALK_UPSTAIR_RIGHT;
 		else
@@ -364,16 +343,14 @@ void Simon::Render()
 		ani = SIMON_ANI_WALK_LEFT;
 		break;
 	case SIMON_STATE_INJURED:
-		if (nx > 0)
+		if (nx > 0) {
+			DebugOut(L"----SIMON injured right\n");
 			ani = SIMON_ANI_INJURED_RIGHT;
-		else
+		}
+		else {
+			DebugOut(L"----SIMON injured left\n");
 			ani = SIMON_ANI_INJURED_LEFT;
-		break;
-	case SIMON_STATE_IDLE:
-		if (nx > 0)
-			ani = SIMON_ANI_IDLE_RIGHT;
-		else
-			ani = SIMON_ANI_IDLE_LEFT;
+		}
 		break;
 	case SIMON_STATE_FLASH:
 		if (nx > 0)
@@ -381,12 +358,27 @@ void Simon::Render()
 		else
 			ani = SIMON_ANI_FLASH_LEFT;
 		break;
+	default:
+		if (isOnStair && vx == 0 && vy == 0) {
+			if (nx > 0 && ny > 0)
+				ani = SIMON_ANI_IDLE_UPSTAIR_RIGHT;
+			else if (nx < 0 && ny < 0)
+				ani = SIMON_ANI_IDLE_DOWNSTAIR_LEFT;
+			break;
+		}
+		else if (nx > 0)
+			ani = SIMON_ANI_IDLE_RIGHT;
+		else
+			ani = SIMON_ANI_IDLE_LEFT;
+		break;
 	}
 
 	int alpha = 255;
 	if (untouchable)
 		alpha = 50;
 
+	if (untouchableStart > 0)
+		alpha = rand() % 100 > 50 ? 80 : 170;
 	//Render animation
 	animations[ani]->Render(x, y, alpha);
 
@@ -438,6 +430,18 @@ void Simon::SetState(int state)
 		SetSpeed(0, 0);
 		break;
 	case SIMON_STATE_INJURED:
+		break;
+	case SIMON_STATE_UPSTAIR:
+		nx = stair->GetNx();
+		ny = 1;
+		isOnStair = true;
+		SetSpeed(nx * SIMON_ON_STAIR_SPEED, -ny * SIMON_ON_STAIR_SPEED);
+		break;
+	case SIMON_STATE_DOWNSTAIR:
+		nx = -stair->GetNx();
+		ny = -1;
+		isOnStair = true;
+		SetSpeed(nx * SIMON_ON_STAIR_SPEED, -ny * SIMON_ON_STAIR_SPEED);
 		break;
 	}
 }
@@ -508,4 +512,68 @@ void Simon::UpgradeWhip()
 void Simon::UnloadWhip()
 {
 	delete whip;
+}
+
+void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>* listObject)
+{
+	if (object->GetState() == STATE_DESTROYED)
+		return;
+
+	switch (object->GetId())
+	{
+	case ID_BIG_HEART:
+	case ID_SMALL_HEART:
+	case ID_BIG_MONEYBAG:
+		object->SetState(STATE_DESTROYED);
+		break;
+	case ID_DAGGER:
+		AddSubWeapon(ID_DAGGER);
+		object->SetState(STATE_DESTROYED);
+		break;
+	case ID_WHIP_UPGRADE:
+		UpgradeWhip();
+		object->SetState(STATE_DESTROYED);
+		state = SIMON_STATE_FLASH;
+		SetSpeed(0, 0);
+		DisableControl();
+		flashStart = GetTickCount();
+		break;
+	case ID_HIDDEN_OBJECTS:
+	{
+		//DebugOut(L"----Collide with hidden object\n");
+		HiddenObject* hiddenObj = dynamic_cast<HiddenObject*>(object);
+		hiddenObj->IsCollide(listObject);
+		break;
+	}
+	case ID_ITEM_BOOMERANG:
+		AddSubWeapon(ID_BOOMERANG);
+		object->SetState(STATE_DESTROYED);
+		break;
+	case ID_STAIR:
+		if (!isOnStair)
+			stair = dynamic_cast<Stair*>(object);
+		collidedStair = dynamic_cast<Stair*>(object);
+		break;
+	case ID_BAT:
+	case ID_BLACK_KNIGHT:
+		if (untouchableStart > 0)
+			break;
+		BeInjured();
+		break;	
+	default:
+		break;
+	}
+}
+
+void Simon::BeInjured()
+{
+	if (untouchableStart > 0)
+		return;
+
+	if(!isOnStair) {
+		untouchableStart = GetTickCount();
+		SetSpeed(-nx * 10, -SIMON_INJURED_DEFLECT_SPEED_Y);
+		isOnGround = false;
+		state = SIMON_STATE_INJURED;
+	}
 }

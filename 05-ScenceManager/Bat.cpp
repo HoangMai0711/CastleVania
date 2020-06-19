@@ -1,0 +1,167 @@
+#include "Bat.h"
+
+
+Bat::Bat(D3DXVECTOR2 position, int width, int reward)
+{
+	this->x = position.x;
+	this->y = position.y;
+	this->idReward = reward;
+	delta = 0;
+	originY = y;
+	startFlyDown = 0;
+	//health = 1;
+
+	SetState(ENEMY_STATE_IDLE);
+
+	id = ID_BAT;
+
+	AddAnimation(ID_ANI_BAT_IDLE);
+	AddAnimation(ID_ANI_BAT_FLY);
+}
+
+Bat::~Bat()
+{
+}
+
+void Bat::Render()
+{
+	int ani = 0;
+
+	switch (state)
+	{
+	case ENEMY_STATE_IDLE:
+		ani = BAT_ANI_IDLE;
+		break;
+	case BAT_FLY_DOWN:
+	case BAT_FLY_NORMAL:
+		ani = BAT_ANI_FLY;
+		break;
+	case ENEMY_STATE_HITTED:
+		ani = ENEMY_ANI_HITTED;
+		break;
+	default:
+		break;
+	}
+
+	animations[ani]->Render(x, y);
+}
+
+void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+{
+	CGameObject::Update(dt);
+	x += dx;
+	y += dy;
+	if (state == ENEMY_STATE_IDLE) {
+		float sl, st, sr, sb;
+		float bl, bt, br, bb;
+
+		Simon::GetInstance()->GetBoundingBox(sl, st, sr, sb);
+		GetBoundingBox(bl, bt, br, bb);
+
+		if (abs(bl - sl) < 99 && abs(bb - st) < 38) {
+			if (!isActive)
+			{
+				isActive = true;
+				startFlyDown = GetTickCount();
+				SetState(BAT_FLY_DOWN);
+			}
+		
+		}
+	}
+
+	if (startFlyDown > 0 && GetTickCount() - startFlyDown >= BAT_TIME_FLYDOWN) {
+		startFlyDown = 0;
+		originY = y;
+	}
+
+	if (startFlyDown == 0 && isActive) {
+		x += dx;
+		SetState(BAT_FLY_NORMAL);
+	}
+
+	DWORD effectTimeCount = GetTickCount() - hitEffectStart;
+	if (effectTimeCount > HIT_EFFECT_TIME && hitEffectStart > 0) {
+		hitEffectStart = 0;
+		state = STATE_DESTROYED;
+
+		LPGAMEOBJECT reward;
+		int rewardId = GetRewardId();
+
+		switch (rewardId)
+		{
+		case ID_BIG_HEART:
+			reward = new BigHeart({ x,y });
+			break;
+		case ID_WHIP_UPGRADE:
+			reward = new WhipUpgrade({ x,y });
+			break;
+		case ID_DAGGER:
+			reward = new ItemDagger({ x,y });
+			break;
+		case ID_ITEM_BOOMERANG:
+			reward = new ItemBoomerang({ x,y });
+			break;
+		case ID_SMALL_HEART:
+			reward = new SmallHeart({ x,y });
+			break;
+		default:
+			reward = NULL;
+			break;
+		}
+		objects->push_back(reward);
+	}
+
+	//Delete when bat fly out of screen
+	float al, at, ar, ab;
+	float bl, bt, br, bb;
+
+	float x = CGame::GetInstance()->GetCamPosX();
+	float y = CGame::GetInstance()->GetCamPosY();
+
+	al = x;
+	at = y;
+	ar = x + SCREEN_WIDTH;
+	ab = y + SCREEN_HEIGHT;
+
+	GetBoundingBox(bl, bt, br, bb);
+
+	RECT A, B;
+	A = { long(al),long(at),long(ar),long(ab) };
+	B = { long(bl),long(bt),long(br),long(bb) };
+
+	if (!CGame::GetInstance()->IsColliding(A, B)) {
+		DebugOut(L"------Bat fly out off screen\n");
+		state = STATE_DESTROYED;
+	}
+}
+
+void Bat::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+{
+	if (state != ENEMY_STATE_HITTED) {
+		left = x;
+		top = y;
+		right = x + BAT_BBOX_WIDTH;
+		bottom = y + BAT_BBOX_HEIGHT;
+	}
+	else
+		left = top = right = bottom = 0;
+}
+
+void Bat::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case BAT_FLY_DOWN:
+		vx = BAT_SPEED_X;
+		vy = BAT_SPEED_y;
+		break;
+	case ENEMY_STATE_IDLE:
+		vx = vy = 0;
+		break;
+	case BAT_FLY_NORMAL:
+		delta += 3.7f;
+		y = sin(delta * 3.14 / 180) * 12 + originY;
+		break;
+	}
+}

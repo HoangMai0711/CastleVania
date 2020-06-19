@@ -16,6 +16,12 @@
 #include "Items.h"
 #include "BigHeart.h"
 #include "ItemDagger.h"
+#include "Candle.h"
+#include "ItemBoomerang.h"
+#include "Stair.h"
+#include "Bat.h"
+#include "BlackKnight.h"
+#include "MovingBrick.h"
 
 class CPlayScene: public CScene
 {
@@ -25,6 +31,7 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 	LPTILEMAP tileMap;
+	CGame* game;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

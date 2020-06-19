@@ -395,5 +395,8 @@ void CGame::SwitchScene(int scene_id)
 
 	s->Load();
 
-	isFirstLoad = FALSE;
+	//if (current_scene == 1)
+	//	isFirstLoad = TRUE;
+	//else
+		isFirstLoad = FALSE;
 }

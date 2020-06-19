@@ -43,7 +43,7 @@ Whip::~Whip()
 
 void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR2 playerPos, int playerNx)
 {
-	DebugOut(L"[INFO]Simon attack Whip\n");
+	//DebugOut(L"[INFO]Simon attack Whip\n");
 	
 	Weapon::Update(dt, coObjects);
 
@@ -80,7 +80,7 @@ void Whip::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 	else {
 		left = top = right = bottom = 0;
 	}
-	DebugOut(L"[INFO]Whip BBOX: %f-%f-%f-%f\n", left, top, right, bottom);
+	//DebugOut(L"[INFO]Whip BBOX: %f-%f-%f-%f\n", left, top, right, bottom);
 }
 
 void Whip::Render()

@@ -103,7 +103,7 @@ void TileMap::LoadTileMapFromFile(LPCWSTR filePath)
 		camLimitX[numOfLevel][1] = int(iter[1]);
 		++numOfLevel;
 	}
-	DebugOut(L"[INFO] Num of map level: %d", numOfLevel);
+	//DebugOut(L"[INFO] Num of map level: %d", numOfLevel);
 
 	/*for (int i = 0; i < numOfLevel; ++i) {
 		DebugOut(L"----asdc %d-%d\n", camLimitX[i][0], camLimitX[i][1]);
@@ -181,13 +181,13 @@ int TileMap::GetTileMapHeight()
 
 int TileMap::GetCamLtdMin(int numOfLevel)
 {
-	DebugOut(L"[INFO] Cam limited min: %d\n", camLimitX[numOfLevel][0]);
+	//DebugOut(L"[INFO] Cam limited min: %d\n", camLimitX[numOfLevel][0]);
 	return camLimitX[numOfLevel][0];
 }
 
 int TileMap::GetCamLtdMax(int numOfLevel)
 {
-	DebugOut(L"[INFO] Cam limited max: %d\n", camLimitX[numOfLevel][1]);
+	//DebugOut(L"[INFO] Cam limited max: %d\n", camLimitX[numOfLevel][1]);
 	return camLimitX[numOfLevel][1];
 }
 

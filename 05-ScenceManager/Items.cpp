@@ -18,7 +18,8 @@ void Items::Render()
 
 void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt);
+	//DebugOut(L"[INFO] Item update\n");
+	CGameObject::Update(dt, coObjects);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -26,15 +27,21 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	vector<LPGAMEOBJECT> wallObjects;
-	for (int i = 1; i < coObjects->size(); i++)
+
+	//DebugOut(L"---coobject size: %d\n", coObjects->size());
+
+	for (int i = 1; i < coObjects->size(); i++) {
 		if (coObjects->at(i)->GetId() == ID_WALL)
 			wallObjects.push_back(coObjects->at(i));
+	}
+		
 
 	CalcPotentialCollisions(&wallObjects, coEvents);
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		//DebugOut(L"----No collision\n");
 		x += dx;
 		y += dy;
 	}
@@ -45,6 +52,8 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdy = 0;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		//DebugOut(L"-----ny: %f\n", ny);
 
 		// block 
 		y += min_ty * dy + ny * 0.4f;

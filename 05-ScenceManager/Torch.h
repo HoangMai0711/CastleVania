@@ -11,6 +11,6 @@ public:
 	Torch(D3DXVECTOR2 position, int reward);
 	~Torch();
 
-	virtual void GetBoundingBox(float &l, float &r, float &t, float &b);
+	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 };
 

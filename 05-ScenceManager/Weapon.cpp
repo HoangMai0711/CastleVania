@@ -20,15 +20,20 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	for (auto iter : *coObjects)
 	{
-		DebugOut(L"----ID Object: %d\n", iter->GetId());
-		if (iter->GetId() == ID_TORCH) {
+		//DebugOut(L"----ID Object: %d\n", iter->GetId());
+		switch (iter->GetId())
+		{
+		case ID_TORCH:
+		case ID_CANDLE:
+		case ID_BAT:
+		case ID_BLACK_KNIGHT:
 			float al, at, ar, ab;
 			float bl, bt, br, bb;
 			GetBoundingBox(al, at, ar, ab);
-			DebugOut(L"---A:  %f-%f-%f-%f\n", al, at, ar, ab);
+			//DebugOut(L"---A:  %f-%f-%f-%f\n", al, at, ar, ab);
 			iter->GetBoundingBox(bl, bt, br, bb);
-			DebugOut(L"----ID B: %d\n", iter->GetId());
-			DebugOut(L"---B:  %f-%f-%f-%f\n", bl, bt, br, bb);
+			//DebugOut(L"----ID B: %d\n", iter->GetId());
+			//DebugOut(L"---B:  %f-%f-%f-%f\n", bl, bt, br, bb);
 
 			RECT A, B;
 			A = { long(al),long(at),long(ar),long(ab) };
@@ -40,6 +45,8 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (id == ID_DAGGER)
 					state = STATE_DESTROYED;
 			}
+		default:
+			break;
 		}
 	}
 

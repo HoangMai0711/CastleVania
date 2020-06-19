@@ -54,7 +54,8 @@ public:
 	float vx;
 	float vy;
 
-	int nx;	 
+	int nx;
+	int ny;
 
 	int state;
 
@@ -77,6 +78,11 @@ public:
 	int GetState() { return this->state; }
 	int GetId() { return this->id; }
 	int GetRewardId();
+
+	int GetNx() { return nx; }
+	int GetNy() { return ny; }
+	float GetVx() { return vx; }
+	float GetVy() { return vy; }
 
 	void RenderBoundingBox(int alpha=255);
 

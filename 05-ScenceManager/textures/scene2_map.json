@@ -27,8 +27,8 @@
           "type": "Wall",
           "visible": true,
           "width": 209.772727272727,
-          "x": 239.454545454545,
-          "y": 369.409090909091
+          "x": 240,
+          "y": 370
         },
         {
           "height": 64.2727272727273,
@@ -38,8 +38,8 @@
           "type": "Wall",
           "visible": true,
           "width": 16,
-          "x": 449.090909090909,
-          "y": 305.386363636364
+          "x": 449,
+          "y": 305
         },
         {
           "height": 14,
@@ -49,8 +49,8 @@
           "type": "Wall",
           "visible": true,
           "width": 48,
-          "x": 400.545454545455,
-          "y": 305.272727272727
+          "x": 400,
+          "y": 305
         },
         {
           "height": 14,
@@ -60,8 +60,8 @@
           "type": "Wall",
           "visible": true,
           "width": 125,
-          "x": 257.090909090909,
-          "y": 273.272727272727
+          "x": 257,
+          "y": 273
         },
         {
           "height": 61,
@@ -71,8 +71,8 @@
           "type": "Wall",
           "visible": true,
           "width": 16,
-          "x": 239.636363636364,
-          "y": 257.818181818182
+          "x": 240,
+          "y": 258
         },
         {
           "height": 128.363636363636,
@@ -82,8 +82,8 @@
           "type": "Wall",
           "visible": true,
           "width": 16,
-          "x": 223.454545454545,
-          "y": 190.090909090909
+          "x": 224,
+          "y": 190
         },
         {
           "height": 78.9090909090909,
@@ -93,8 +93,8 @@
           "type": "Wall",
           "visible": true,
           "width": 30.5454545454545,
-          "x": 449.272727272727,
-          "y": 193.272727272727
+          "x": 449,
+          "y": 193
         },
         {
           "height": 33.0909090909091,
@@ -104,8 +104,8 @@
           "type": "Wall",
           "visible": true,
           "width": 15.6363636363636,
-          "x": 464.545454545455,
-          "y": 272.181818181818
+          "x": 464,
+          "y": 272
         },
         {
           "height": 14.5454545454545,
@@ -115,7 +115,7 @@
           "type": "Wall",
           "visible": true,
           "width": 15.6363636363636,
-          "x": 464.545454545455,
+          "x": 464,
           "y": 112
         },
         {
@@ -126,8 +126,8 @@
           "type": "Wall",
           "visible": true,
           "width": 31,
-          "x": 480.545454545455,
-          "y": -0.363636363636364
+          "x": 480,
+          "y": 0
         },
         {
           "height": 14.9090909090909,
@@ -137,8 +137,8 @@
           "type": "Wall",
           "visible": true,
           "width": 94.9090909090909,
-          "x": 352.727272727273,
-          "y": 80.1818181818182
+          "x": 352,
+          "y": 80
         },
         {
           "height": 62.7272727272727,
@@ -148,8 +148,8 @@
           "type": "Wall",
           "visible": true,
           "width": 31.6363636363636,
-          "x": 352.181818181818,
-          "y": 95.0909090909091
+          "x": 353,
+          "y": 95
         },
         {
           "height": 14,
@@ -159,8 +159,8 @@
           "type": "Wall",
           "visible": true,
           "width": 31,
-          "x": 320.727272727273,
-          "y": 144.363636363636
+          "x": 321,
+          "y": 144
         },
         {
           "height": 14,
@@ -170,8 +170,8 @@
           "type": "Wall",
           "visible": true,
           "width": 32,
-          "x": 288.363636363636,
-          "y": 111.818181818182
+          "x": 288,
+          "y": 112
         },
         {
           "height": 96.5454545454546,
@@ -181,7 +181,7 @@
           "type": "Wall",
           "visible": true,
           "width": 45.6363636363637,
-          "x": 225.272727272727,
+          "x": 226,
           "y": 94
         },
         {
@@ -192,8 +192,8 @@
           "type": "Wall",
           "visible": true,
           "width": 95,
-          "x": 192.727272727273,
-          "y": 79.8181818181818
+          "x": 193,
+          "y": 80
         },
         {
           "height": 97,
@@ -203,8 +203,8 @@
           "type": "Wall",
           "visible": true,
           "width": 31,
-          "x": 128.727272727273,
-          "y": 94.1818181818182
+          "x": 129,
+          "y": 94
         },
         {
           "height": 14,
@@ -214,8 +214,8 @@
           "type": "Wall",
           "visible": true,
           "width": 63,
-          "x": 96.7272727272727,
-          "y": 79.6363636363636
+          "x": 97,
+          "y": 80
         },
         {
           "height": 14,
@@ -225,8 +225,8 @@
           "type": "Wall",
           "visible": true,
           "width": 32,
-          "x": 64.7272727272727,
-          "y": 112.363636363636
+          "x": 65,
+          "y": 112
         },
         {
           "height": 14,
@@ -235,9 +235,9 @@
           "rotation": 0,
           "type": "Wall",
           "visible": true,
-          "width": 15,
-          "x": 16.5454545454545,
-          "y": 80.3636363636364
+          "width": 31,
+          "x": 0,
+          "y": 80
         },
         {
           "height": 51.25,
@@ -249,6 +249,17 @@
           "width": 20.75,
           "x": 223.25,
           "y": 318.25
+        },
+        {
+          "height": 29.875,
+          "id": 76,
+          "name": "21",
+          "rotation": 0,
+          "type": "Wall",
+          "visible": true,
+          "width": 8.5,
+          "x": 6.25,
+          "y": 0
         }
       ],
       "opacity": 1,
@@ -261,7 +272,150 @@
       "draworder": "topdown",
       "id": 7,
       "name": "Portal",
-      "objects": [],
+      "objects": [
+        {
+          "height": 49.875,
+          "id": 77,
+          "name": "1",
+          "properties": [
+            {
+              "name": "nextSceneId",
+              "type": "int",
+              "value": 3
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 6.75,
+          "x": 8,
+          "y": 30
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 11,
+      "name": "Stair",
+      "objects": [
+        {
+          "height": 5,
+          "id": 53,
+          "name": "Upstair_1",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 61
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": 1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 330,
+          "y": 364
+        },
+        {
+          "height": 5,
+          "id": 54,
+          "name": "Downstair_1",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 61
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 398,
+          "y": 300
+        },
+        {
+          "height": 5,
+          "id": 55,
+          "name": "Upstair_2",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 159
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": 1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 298,
+          "y": 268
+        },
+        {
+          "height": 5,
+          "id": 56,
+          "name": "Downstair_2",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 159
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 462,
+          "y": 106.375
+        }
+      ],
       "opacity": 1,
       "type": "objectgroup",
       "visible": true,
@@ -304,8 +458,8 @@
           "type": "Break Wall",
           "visible": true,
           "width": 15,
-          "x": 449.272727272727,
-          "y": 290.181818181818
+          "x": 449,
+          "y": 290
         },
         {
           "height": 16.0909090909091,
@@ -315,8 +469,8 @@
           "type": "Break Wall",
           "visible": true,
           "width": 15,
-          "x": 449.454545454545,
-          "y": 272.727272727273
+          "x": 449,
+          "y": 273
         }
       ],
       "opacity": 1,
@@ -334,67 +488,181 @@
           "height": 15,
           "id": 10,
           "name": "1",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
           "rotation": 0,
           "type": "Candle",
           "visible": true,
           "width": 8,
           "x": 300,
-          "y": 304.363636363636
+          "y": 304
         },
         {
           "height": 15,
           "id": 11,
           "name": "2",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 101
+            }
+          ],
           "rotation": 0,
           "type": "Candle",
           "visible": true,
           "width": 8,
-          "x": 427.636363636364,
-          "y": 304.681818181818
+          "x": 428,
+          "y": 305
         },
         {
           "height": 15,
           "id": 33,
           "name": "3",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 100
+            }
+          ],
           "rotation": 0,
           "type": "Candle",
           "visible": true,
           "width": 12,
-          "x": 457.75,
-          "y": 15
+          "x": 458,
+          "y": 13
         },
         {
           "height": 15,
           "id": 35,
           "name": "4",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 100
+            }
+          ],
           "rotation": 0,
           "type": "Candle",
           "visible": true,
           "width": 12,
           "x": 394,
-          "y": 15
+          "y": 13
         },
         {
           "height": 15,
           "id": 36,
           "name": "5",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
           "rotation": 0,
           "type": "Candle",
           "visible": true,
           "width": 12,
-          "x": 329.5,
-          "y": 15
+          "x": 330,
+          "y": 13
         },
         {
           "height": 15,
           "id": 37,
-          "name": "5",
+          "name": "6",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
           "rotation": 0,
           "type": "Candle",
           "visible": true,
           "width": 12,
-          "x": 261.75,
-          "y": 15
+          "x": 262,
+          "y": 13
+        },
+        {
+          "height": 15,
+          "id": 67,
+          "name": "6",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 12,
+          "x": 362.125,
+          "y": 216.25
+        },
+        {
+          "height": 15,
+          "id": 71,
+          "name": "7",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 12,
+          "x": 202,
+          "y": 13
+        },
+        {
+          "height": 15,
+          "id": 72,
+          "name": "7",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 12,
+          "x": 139,
+          "y": 13
+        },
+        {
+          "height": 15,
+          "id": 73,
+          "name": "7",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 12,
+          "x": 76,
+          "y": 13
         }
       ],
       "opacity": 1,
@@ -405,30 +673,163 @@
     },
     {
       "draworder": "topdown",
-      "id": 5,
-      "name": "Enemy",
+      "id": 12,
+      "name": "Bat",
       "objects": [
         {
           "height": 15,
-          "id": 12,
+          "id": 63,
           "name": "1",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 100
+            }
+          ],
           "rotation": 0,
-          "type": "Enemy",
+          "type": "Bat",
           "visible": true,
           "width": 12,
-          "x": 260.909090909091,
-          "y": 201.818181818182
+          "x": 261,
+          "y": 202
         },
         {
-          "height": 31.4545454545454,
-          "id": 31,
+          "height": 15,
+          "id": 68,
           "name": "2",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 100
+            }
+          ],
           "rotation": 0,
-          "type": "Enemy",
+          "type": "Bat",
           "visible": true,
-          "width": 126.545454545455,
-          "x": 256.545454545455,
-          "y": 242.727272727273
+          "width": 12,
+          "x": 298,
+          "y": 19
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 14,
+      "name": "MovingBrick",
+      "objects": [
+        {
+          "height": 7,
+          "id": 75,
+          "name": "1",
+          "rotation": 0,
+          "type": "MovingBrick",
+          "visible": true,
+          "width": 31,
+          "x": 30.875,
+          "y": 80
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 13,
+      "name": "BlackKnight",
+      "objects": [
+        {
+          "height": 32,
+          "id": 64,
+          "name": "1",
+          "properties": [
+            {
+              "name": "edge",
+              "type": "int",
+              "value": 375
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 102
+            }
+          ],
+          "rotation": 0,
+          "type": "BlackKnight",
+          "visible": true,
+          "width": 15,
+          "x": 270,
+          "y": 241
+        },
+        {
+          "height": 32,
+          "id": 66,
+          "name": "2",
+          "properties": [
+            {
+              "name": "edge",
+              "type": "int",
+              "value": 338
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 102
+            }
+          ],
+          "rotation": 0,
+          "type": "BlackKnight",
+          "visible": true,
+          "width": 15,
+          "x": 320,
+          "y": 112
+        },
+        {
+          "height": 32,
+          "id": 69,
+          "name": "3",
+          "properties": [
+            {
+              "name": "edge",
+              "type": "int",
+              "value": 144
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 102
+            }
+          ],
+          "rotation": 0,
+          "type": "BlackKnight",
+          "visible": true,
+          "width": 15,
+          "x": 97,
+          "y": 48
         }
       ],
       "opacity": 1,
@@ -438,8 +839,8 @@
       "y": 0
     }
   ],
-  "nextlayerid": 9,
-  "nextobjectid": 48,
+  "nextlayerid": 15,
+  "nextobjectid": 78,
   "orientation": "orthogonal",
   "properties": [
     {
