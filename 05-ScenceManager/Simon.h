@@ -17,6 +17,7 @@
 #include "HiddenObject.h"
 #include "Stair.h"
 #include "MovingBrick.h"
+#include "Boomerang.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f

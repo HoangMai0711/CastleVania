@@ -15,6 +15,9 @@
 #define BAT_FLY_DOWN		10
 #define BAT_FLY_NORMAL		11
 
+#define BAT_ACTIVE_DISTANCE_WIDTH	99
+#define BAT_ACTIVE_DISTANCE_HEIGHT	38
+
 class Bat :
 	public Enemy
 {

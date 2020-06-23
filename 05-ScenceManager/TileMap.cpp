@@ -143,7 +143,7 @@ void TileMap::Draw(D3DXVECTOR2 position, int alpha)
 		startPosHeight = 0;
 
 	endPosWidth = startPosWidth + 272 / tileAtlas->GetTileWidth();
-	endPosHeight = startPosHeight + 176 / tileAtlas->GetTileHeight();
+	endPosHeight = startPosHeight + 176 / tileAtlas->GetTileHeight() + 2;
 
 	if (endPosWidth > tileColumn)
 		endPosWidth = tileColumn;

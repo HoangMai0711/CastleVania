@@ -22,6 +22,8 @@
 #include "Bat.h"
 #include "BlackKnight.h"
 #include "MovingBrick.h"
+#include "Ghost.h"
+#include "Fleaman.h"
 
 class CPlayScene: public CScene
 {

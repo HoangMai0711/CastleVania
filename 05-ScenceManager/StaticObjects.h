@@ -7,6 +7,7 @@
 #include "ItemDagger.h"
 #include "ItemBoomerang.h"
 #include "SmallHeart.h"
+#include "MoneyBag.h"
 
 #define STATIC_OBJ_STATE_NORMAL		0
 #define STATIC_OBJ_STATE_HITTED		1

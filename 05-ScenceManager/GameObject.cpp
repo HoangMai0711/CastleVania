@@ -14,6 +14,7 @@ CGameObject::CGameObject()
 	vx = vy = 0;
 	nx = ny = 1;
 	isOnGround = false;
+	score = 0;
 }
 
 void CGameObject::AddAnimation(int aniId)

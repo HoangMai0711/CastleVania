@@ -119,6 +119,9 @@ void Simon::AttackSubWeapon()
 	if (subWeapon.size() > 0)
 		return;
 
+	if (state != SIMON_STATE_JUMP)
+		vx = 0;
+
 	ResetAnimation();
 
 	if (state == SIMON_STATE_SIT)
@@ -131,9 +134,22 @@ void Simon::AttackSubWeapon()
 	D3DXVECTOR2 simonCurrentPosition;
 	GetPosition(simonCurrentPosition.x, simonCurrentPosition.y);
 
-	if (idSubWeapon == ID_DAGGER) {
+	switch (idSubWeapon)
+	{
+	case ID_DAGGER:
+	{
 		Dagger* dagger = new Dagger(simonCurrentPosition, nx);
 		subWeapon.push_back(dagger);
+		break;
+	}
+	case ID_BOOMERANG:
+	{
+		Boomerang* boomerang = new Boomerang(simonCurrentPosition, nx);
+		subWeapon.push_back(boomerang);
+		break;
+	}
+	default:
+		break;
 	}
 }
 
@@ -324,18 +340,23 @@ void Simon::Render()
 			ani = SIMON_ANI_SIT_LEFT;
 		break;
 	case SIMON_STATE_UPSTAIR:
-		//DebugOut(L"-------Simon upstair\n");
+	{
+		
 		if (nx > 0)
 			ani = SIMON_ANI_WALK_UPSTAIR_RIGHT;
 		else
 			ani = SIMON_ANI_WALK_UPSTAIR_LEFT;
 		break;
+	}
 	case SIMON_STATE_DOWNSTAIR:
+	{
+		
 		if (nx > 0)
 			ani = SIMON_ANI_WALK_DOWNSTAIR_RIGHT;
 		else
 			ani = SIMON_ANI_WALK_DOWNSTAIR_LEFT;
 		break;
+	}
 	case SIMON_STATE_WALKING_RIGHT:
 		ani = SIMON_ANI_WALK_RIGHT;
 		break;
@@ -364,6 +385,11 @@ void Simon::Render()
 				ani = SIMON_ANI_IDLE_UPSTAIR_RIGHT;
 			else if (nx < 0 && ny < 0)
 				ani = SIMON_ANI_IDLE_DOWNSTAIR_LEFT;
+			else if (nx < 0 && ny > 0)
+				ani = SIMON_ANI_IDLE_UPSTAIR_LEFT;
+			else
+				ani = SIMON_ANI_IDLE_DOWNSTAIR_RIGHT;
+
 			break;
 		}
 		else if (nx > 0)
@@ -372,6 +398,8 @@ void Simon::Render()
 			ani = SIMON_ANI_IDLE_LEFT;
 		break;
 	}
+
+	//DebugOut(L"----Simon state/ ani/ nx/ ny: %d/ %d/ %d/ %d\n", state, ani, nx, ny);
 
 	int alpha = 255;
 	if (untouchable)
@@ -523,7 +551,6 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	{
 	case ID_BIG_HEART:
 	case ID_SMALL_HEART:
-	case ID_BIG_MONEYBAG:
 		object->SetState(STATE_DESTROYED);
 		break;
 	case ID_DAGGER:
@@ -556,10 +583,20 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		break;
 	case ID_BAT:
 	case ID_BLACK_KNIGHT:
+	case ID_GHOST:
 		if (untouchableStart > 0)
 			break;
 		BeInjured();
-		break;	
+		break;
+	case ID_RED_MONEYBAG:
+	case ID_BLUE_MONEYBAG:
+	case ID_YELLOW_MONEYBAG:
+	case ID_BIG_MONEYBAG:
+	{
+		MoneyBag* moneybag = dynamic_cast<MoneyBag*>(object);
+		moneybag->StartShowScore();
+		break;
+	}
 	default:
 		break;
 	}
@@ -570,9 +607,10 @@ void Simon::BeInjured()
 	if (untouchableStart > 0)
 		return;
 
-	if(!isOnStair) {
-		untouchableStart = GetTickCount();
-		SetSpeed(-nx * 10, -SIMON_INJURED_DEFLECT_SPEED_Y);
+	untouchableStart = GetTickCount();
+
+	if (!isOnStair) {
+		SetSpeed(-nx*SIMON_INJURED_DEFLECT_SPEED_X, -SIMON_INJURED_DEFLECT_SPEED_Y);
 		isOnGround = false;
 		state = SIMON_STATE_INJURED;
 	}

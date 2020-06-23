@@ -347,8 +347,732 @@
           "type": "SimonPos",
           "visible": true,
           "width": 20,
-          "x": 736,
+          "x": 742,
           "y": 322
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 5,
+      "name": "Candle",
+      "objects": [
+        {
+          "height": 15,
+          "id": 38,
+          "name": "1",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 106
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 762,
+          "y": 304
+        },
+        {
+          "height": 15,
+          "id": 39,
+          "name": "2",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 700,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 40,
+          "name": "3",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 632,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 41,
+          "name": "4",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 571,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 42,
+          "name": "5",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 102
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 506,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 43,
+          "name": "6",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 443,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 44,
+          "name": "7",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 102
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 378,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 45,
+          "name": "8",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 315,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 46,
+          "name": "9",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 102
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 251,
+          "y": 337
+        },
+        {
+          "height": 15,
+          "id": 47,
+          "name": "10",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 125,
+          "y": 320
+        },
+        {
+          "height": 15,
+          "id": 48,
+          "name": "11",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 190,
+          "y": 256
+        },
+        {
+          "height": 15,
+          "id": 49,
+          "name": "12",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 156,
+          "y": 65
+        },
+        {
+          "height": 15,
+          "id": 50,
+          "name": "13",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 100
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 219,
+          "y": 128
+        },
+        {
+          "height": 15,
+          "id": 51,
+          "name": "14",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 101
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 284,
+          "y": 128
+        },
+        {
+          "height": 15,
+          "id": 52,
+          "name": "15",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 350,
+          "y": 128
+        },
+        {
+          "height": 15,
+          "id": 53,
+          "name": "16",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 418,
+          "y": 98
+        },
+        {
+          "height": 15,
+          "id": 54,
+          "name": "17",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 479,
+          "y": 145
+        },
+        {
+          "height": 15,
+          "id": 55,
+          "name": "18",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 541,
+          "y": 145
+        },
+        {
+          "height": 15,
+          "id": 56,
+          "name": "19",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 601,
+          "y": 128
+        },
+        {
+          "height": 15,
+          "id": 57,
+          "name": "20",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 671,
+          "y": 127
+        },
+        {
+          "height": 15,
+          "id": 58,
+          "name": "21",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "float",
+              "value": 108
+            }
+          ],
+          "rotation": 0,
+          "type": "Candle",
+          "visible": true,
+          "width": 8,
+          "x": 729,
+          "y": 80
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 7,
+      "name": "Portal",
+      "objects": [
+        {
+          "height": 49,
+          "id": 74,
+          "name": "1",
+          "properties": [
+            {
+              "name": "nextSceneId",
+              "type": "int",
+              "value": 4
+            }
+          ],
+          "rotation": 0,
+          "type": "Portal",
+          "visible": true,
+          "width": 8,
+          "x": 752,
+          "y": 80
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 6,
+      "name": "Stair",
+      "objects": [
+        {
+          "height": 5,
+          "id": 59,
+          "name": "Upstair_1",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 127
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": -1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": 1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 189,
+          "y": 283
+        },
+        {
+          "height": 5,
+          "id": 64,
+          "name": "Downstair_1",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 127
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": -1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 64,
+          "y": 160
+        },
+        {
+          "height": 5,
+          "id": 65,
+          "name": "Upstair_2",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 62
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": 1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 64,
+          "y": 152
+        },
+        {
+          "height": 5,
+          "id": 66,
+          "name": "Downstair_2",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 62
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 124,
+          "y": 91
+        },
+        {
+          "height": 5,
+          "id": 67,
+          "name": "Upstair_3",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 31
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": 1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 381,
+          "y": 155
+        },
+        {
+          "height": 5,
+          "id": 69,
+          "name": "Downstair_3",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 31
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 412,
+          "y": 123
+        },
+        {
+          "height": 5,
+          "id": 71,
+          "name": "Upstair_4",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 64
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": -1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": 1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 638,
+          "y": 156
+        },
+        {
+          "height": 5,
+          "id": 72,
+          "name": "Downstair_4",
+          "properties": [
+            {
+              "name": "height",
+              "type": "int",
+              "value": 64
+            },
+            {
+              "name": "nx",
+              "type": "int",
+              "value": -1
+            },
+            {
+              "name": "ny",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "Stair",
+          "visible": true,
+          "width": 5,
+          "x": 575,
+          "y": 91
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 8,
+      "name": "Ghost",
+      "objects": [
+        {
+          "height": 16,
+          "id": 75,
+          "name": "1",
+          "rotation": 0,
+          "type": "Ghost",
+          "visible": true,
+          "width": 16,
+          "x": 769,
+          "y": 368
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 9,
+      "name": "Fleaman",
+      "objects": [
+        {
+          "height": 16,
+          "id": 76,
+          "name": "1",
+          "rotation": 0,
+          "type": "Fleaman",
+          "visible": true,
+          "width": 16,
+          "x": 464,
+          "y": 304
+        },
+        {
+          "height": 16,
+          "id": 77,
+          "name": "2",
+          "rotation": 0,
+          "type": "Fleaman",
+          "visible": true,
+          "width": 16,
+          "x": 335,
+          "y": 304
+        },
+        {
+          "height": 16,
+          "id": 78,
+          "name": "3",
+          "rotation": 0,
+          "type": "Fleaman",
+          "visible": true,
+          "width": 16,
+          "x": 208,
+          "y": 273
         }
       ],
       "opacity": 1,
@@ -358,8 +1082,8 @@
       "y": 0
     }
   ],
-  "nextlayerid": 5,
-  "nextobjectid": 38,
+  "nextlayerid": 10,
+  "nextobjectid": 79,
   "orientation": "orthogonal",
   "properties": [
     {

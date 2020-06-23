@@ -44,6 +44,18 @@ void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		case ID_SMALL_HEART:
 			reward = new SmallHeart({ x,y });
 			break;
+		case ID_RED_MONEYBAG:
+			reward = new MoneyBag({ x,y }, rewardId);
+			break;
+		case ID_BLUE_MONEYBAG:
+			reward = new MoneyBag({ x,y }, rewardId);
+			break;
+		case ID_YELLOW_MONEYBAG:
+			reward = new MoneyBag({ x,y }, rewardId);
+			break;
+		case ID_BIG_MONEYBAG:
+			reward = new MoneyBag({ x,y }, rewardId);
+			break;
 		default:
 			reward = NULL;
 			break;

@@ -9,6 +9,7 @@ Bat::Bat(D3DXVECTOR2 position, int width, int reward)
 	delta = 0;
 	originY = y;
 	startFlyDown = 0;
+	isActive = false;
 	//health = 1;
 
 	SetState(ENEMY_STATE_IDLE);
@@ -58,7 +59,9 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		Simon::GetInstance()->GetBoundingBox(sl, st, sr, sb);
 		GetBoundingBox(bl, bt, br, bb);
 
-		if (abs(bl - sl) < 99 && abs(bb - st) < 38) {
+		DebugOut(L"------Bl-Sl-Bb-St: %f/ %f/ %f/ %f\n", bl, sl, bb, st);
+
+		if (abs(bl - sl) < BAT_ACTIVE_DISTANCE_WIDTH && abs(bb - st) < BAT_ACTIVE_DISTANCE_HEIGHT) {
 			if (!isActive)
 			{
 				isActive = true;
@@ -111,27 +114,33 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		objects->push_back(reward);
 	}
 
-	//Delete when bat fly out of screen
-	float al, at, ar, ab;
-	float bl, bt, br, bb;
+	if (state == ENEMY_STATE_IDLE)
+		return;
+	else {
 
-	float x = CGame::GetInstance()->GetCamPosX();
-	float y = CGame::GetInstance()->GetCamPosY();
+		//Delete when bat fly out of screen
+		float al, at, ar, ab;
+		float bl, bt, br, bb;
 
-	al = x;
-	at = y;
-	ar = x + SCREEN_WIDTH;
-	ab = y + SCREEN_HEIGHT;
+		float x = CGame::GetInstance()->GetCamPosX();
+		float y = CGame::GetInstance()->GetCamPosY();
 
-	GetBoundingBox(bl, bt, br, bb);
+		al = x;
+		at = y;
+		ar = x + SCREEN_WIDTH;
+		ab = y + SCREEN_HEIGHT;
 
-	RECT A, B;
-	A = { long(al),long(at),long(ar),long(ab) };
-	B = { long(bl),long(bt),long(br),long(bb) };
+		GetBoundingBox(bl, bt, br, bb);
 
-	if (!CGame::GetInstance()->IsColliding(A, B)) {
-		DebugOut(L"------Bat fly out off screen\n");
-		state = STATE_DESTROYED;
+		RECT A, B;
+		A = { long(al),long(at),long(ar),long(ab) };
+		B = { long(bl),long(bt),long(br),long(bb) };
+
+		if (!CGame::GetInstance()->IsColliding(A, B)) {
+			DebugOut(L"-----Bat vx, vy, state: %f/ %f/ %d\n", vx, vy, state);
+			DebugOut(L"------Bat fly out off screen\n");
+			state = STATE_DESTROYED;
+		}
 	}
 }
 

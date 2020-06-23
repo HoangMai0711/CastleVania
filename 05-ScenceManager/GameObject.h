@@ -68,6 +68,7 @@ public:
 
 	int idReward;
 	bool isOnGround;
+	int score;
 
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }

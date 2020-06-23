@@ -186,18 +186,42 @@ void CPlayScene::Load()
 
 				objects.push_back(blackKnight);
 			}
-		else if(iter["name"] == "MovingBrick")
-		for (auto i : iter["objects"]) {
-			int width = i["width"];
-			int height = i["height"];
-			float x = i["x"];
-			float y = i["y"];
-			D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+		else if (iter["name"] == "MovingBrick")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
 
-			MovingBrick* movingBrick = new MovingBrick(position);
+				MovingBrick* movingBrick = new MovingBrick(position);
 
-			objects.push_back(movingBrick);
-		}
+				objects.push_back(movingBrick);
+			}
+		else if (iter["name"] == "Ghost")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				Ghost* ghost = new Ghost(position);
+
+				objects.push_back(ghost);
+			}
+		else if (iter["name"] == "Fleaman")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				Fleaman* fleaman = new Fleaman({ x,y });
+
+				objects.push_back(fleaman);
+			}
 	}
 
 	f.close();
@@ -366,6 +390,18 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_C:
 		simon->AttackSubWeapon();
 		break;
+	case DIK_1:
+		game->SwitchScene(1);
+		break;
+	case DIK_2:
+		game->SwitchScene(2);
+		break;
+	case DIK_3:
+		game->SwitchScene(3);
+		break;
+	case DIK_4:
+		game->SwitchScene(4);
+		break;
 	}
 }
 
@@ -408,10 +444,22 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	simon->SetState(SIMON_STATE_IDLE);
 
 	if (game->IsKeyDown(DIK_RIGHT))
-		simon->SetState(SIMON_STATE_WALKING_RIGHT);
+		if (simon->IsOnStair())
+			if (simon->GetStair()->GetNx() > 0)
+				simon->SetState(SIMON_STATE_UPSTAIR);
+			else
+				simon->SetState(SIMON_STATE_DOWNSTAIR);
+		else
+			simon->SetState(SIMON_STATE_WALKING_RIGHT);
 
 	if (game->IsKeyDown(DIK_LEFT))
-		simon->SetState(SIMON_STATE_WALKING_LEFT);
+		if (simon->IsOnStair())
+			if (simon->GetStair()->GetNx() < 0)
+				simon->SetState(SIMON_STATE_UPSTAIR);
+			else
+				simon->SetState(SIMON_STATE_DOWNSTAIR);
+		else
+			simon->SetState(SIMON_STATE_WALKING_LEFT);
 
 	if (game->IsKeyDown(DIK_DOWN))
 		if (simon->IsOnStair()) {
@@ -422,7 +470,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 				float x, y;
 				simon->GetCollidedStair()->GetPosition(x, y);
 				simon->SetStair(simon->GetCollidedStair());
-				simon->SetPosition(x - 10, y - SIMON_BBOX_HEIGHT + 10);
+				simon->SetPosition(x, y - SIMON_BBOX_HEIGHT);
 				simon->SetState(SIMON_STATE_DOWNSTAIR);
 			}
 			else

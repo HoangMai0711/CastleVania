@@ -37,7 +37,7 @@ void HiddenObject::IsCollide(vector<LPGAMEOBJECT>* objects)
 	switch (rewardId)
 	{
 	case ID_BIG_MONEYBAG:
-		reward = new MoneyBag({ rewardPosition.x,rewardPosition.y });
+		reward = new MoneyBag({ rewardPosition.x,rewardPosition.y }, rewardId);
 		DebugOut(L"-----Create reward object ID = %d", rewardId);
 		break;
 	default:

@@ -27,6 +27,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case ID_CANDLE:
 		case ID_BAT:
 		case ID_BLACK_KNIGHT:
+		case ID_GHOST:
 			float al, at, ar, ab;
 			float bl, bt, br, bb;
 			GetBoundingBox(al, at, ar, ab);

@@ -26,12 +26,12 @@
           "rotation": 0,
           "type": "Wall",
           "visible": true,
-          "width": 209.772727272727,
+          "width": 215.522727272727,
           "x": 240,
           "y": 370
         },
         {
-          "height": 64.2727272727273,
+          "height": 64.8977272727273,
           "id": 2,
           "name": "2",
           "rotation": 0,
@@ -595,12 +595,12 @@
         {
           "height": 15,
           "id": 67,
-          "name": "6",
+          "name": "7",
           "properties": [
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 104
             }
           ],
           "rotation": 0,
@@ -613,7 +613,7 @@
         {
           "height": 15,
           "id": 71,
-          "name": "7",
+          "name": "8",
           "properties": [
             {
               "name": "reward",
@@ -631,7 +631,7 @@
         {
           "height": 15,
           "id": 72,
-          "name": "7",
+          "name": "9",
           "properties": [
             {
               "name": "reward",
@@ -649,7 +649,7 @@
         {
           "height": 15,
           "id": 73,
-          "name": "7",
+          "name": "10",
           "properties": [
             {
               "name": "reward",

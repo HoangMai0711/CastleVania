@@ -133,6 +133,8 @@
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Fleaman.cpp" />
+    <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="HiddenObject.cpp" />
     <ClCompile Include="ItemBoomerang.cpp" />
     <ClCompile Include="ItemDagger.cpp" />
@@ -174,6 +176,8 @@
     <ClInclude Include="Dagger.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Fleaman.h" />
+    <ClInclude Include="Ghost.h" />
     <ClInclude Include="HiddenObject.h" />
     <ClInclude Include="ItemBoomerang.h" />
     <ClInclude Include="ItemDagger.h" />

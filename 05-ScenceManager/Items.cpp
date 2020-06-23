@@ -4,6 +4,7 @@
 
 Items::Items()
 {
+	disappearStart = 0;
 }
 
 
@@ -63,10 +64,19 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = 0;
 			vy = 0;
 			isOnGround = true;
+			StartDisappear();
 		}
 	}
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	coEvents.clear();
+
+	if (GetTickCount() - disappearStart > ITEM_DISAPPEAR_TIME && disappearStart > 0)
+		SetState(STATE_DESTROYED);
+}
+
+void Items::StartDisappear()
+{
+	disappearStart = GetTickCount();
 }
