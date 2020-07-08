@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GroundObject.h"
-#include "Items.h"
+#include "Item.h"
 #include "BigHeart.h"
 #include "WhipUpgrade.h"
 #include "ItemDagger.h"

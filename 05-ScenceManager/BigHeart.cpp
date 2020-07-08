@@ -23,7 +23,7 @@ void BigHeart::GetBoundingBox(float & left, float & top, float & right, float & 
 
 void BigHeart::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Items::Update(dt, nonGridObject, gridObject);
+	Item::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround)
 		vy += BIG_HEART_GRAVITY * dt;

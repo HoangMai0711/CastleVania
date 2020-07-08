@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Items.h"
+#include "Item.h"
 
 #define SMALL_HEART_GRAVITY			0.0006f
 #define SMALL_HEART_BBOX_WIDTH		8
@@ -10,7 +10,7 @@
 #define SMALL_HEART_AMPLITUDE_X		15
 
 class SmallHeart :
-	public Items
+	public Item
 {
 	float originX;
 	float delta;

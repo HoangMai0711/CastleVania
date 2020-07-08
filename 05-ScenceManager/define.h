@@ -27,6 +27,7 @@
 #define ID_CANDLE				14
 #define ID_STAIR				15
 #define ID_MOVING_BRICK			16
+#define ID_BRICK
 
 //ID Items
 #define ID_SMALL_HEART			100
@@ -39,6 +40,8 @@
 #define ID_BIG_MONEYBAG			107
 #define ID_ITEM_BOOMERANG		108
 #define ID_ITEM_AXE				109
+#define ID_DOUBLE_SHOT			110
+#define ID_TRIPLE_SHOT			111
 
 //ID Enemy
 #define ID_BAT					30
@@ -118,10 +121,15 @@
 #define ID_ANI_AXE_RIGHT		303
 #define ID_ANI_AXE_LEFT			304
 
+//Id animation of multishot items
+#define ID_ANI_DOUBLE_SHOT		305
+#define ID_ANI_TRIPLE_SHOT		306
+
 //Id animation of static objects
 #define ID_ANI_TORCH			200
 #define ID_ANI_CANDLE			201
 #define ID_ANI_MOVING_BRICK		202
+#define ID_ANI_BRICK			203
 
 //Id animation of hit effect
 #define ID_ANI_HIT_EFFECT		500

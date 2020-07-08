@@ -1,12 +1,18 @@
 #pragma once
-#include "GameObject.h"
+#include "StaticObjects.h"
 
 #define BRICK_BBOX_WIDTH  16
-#define BRICK_BBOX_HEIGHT 16
+#define BRICK_BBOX_HEIGHT 13
 
-class CBrick : public CGameObject
+class CBrick : public StaticObjects
 {
+	bool isBroken;
 public:
+	CBrick(D3DXVECTOR2 position, int reward);
+	~CBrick();
+
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void Render();
-	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
+	virtual void IsHitted();
 };

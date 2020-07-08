@@ -143,10 +143,11 @@
     <ClCompile Include="ItemAxe.cpp" />
     <ClCompile Include="ItemBoomerang.cpp" />
     <ClCompile Include="ItemDagger.cpp" />
-    <ClCompile Include="Items.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="MoneyBag.cpp" />
     <ClCompile Include="MovingBrick.cpp" />
+    <ClCompile Include="MultishotItem.cpp" />
     <ClCompile Include="PhantomBat.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Raven.cpp" />
@@ -196,10 +197,11 @@
     <ClInclude Include="ItemAxe.h" />
     <ClInclude Include="ItemBoomerang.h" />
     <ClInclude Include="ItemDagger.h" />
-    <ClInclude Include="Items.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="MoneyBag.h" />
     <ClInclude Include="MovingBrick.h" />
+    <ClInclude Include="MultishotItem.h" />
     <ClInclude Include="PhantomBat.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Raven.h" />

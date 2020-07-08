@@ -1,23 +1,23 @@
-#include "Items.h"
+#include "Item.h"
 
 
 
-Items::Items()
+Item::Item()
 {
 	disappearStart = 0;
 }
 
 
-Items::~Items()
+Item::~Item()
 {
 }
 
-void Items::Render()
+void Item::Render()
 {
 	animations[0]->Render(x, y);
 }
 
-void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJECT> gridObject)
+void Item::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	//DebugOut(L"[INFO] Item update\n");
 	CGameObject::Update(dt, nonGridObject, gridObject);
@@ -75,7 +75,7 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJE
 		SetState(STATE_DESTROYED);
 }
 
-void Items::StartDisappear()
+void Item::StartDisappear()
 {
 	disappearStart = GetTickCount();
 }

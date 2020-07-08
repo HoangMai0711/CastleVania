@@ -114,9 +114,6 @@
     <ClCompile Include="Goomba.cpp">
       <Filter>Game Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Items.cpp">
-      <Filter>Game Object\Items</Filter>
-    </ClCompile>
     <ClCompile Include="BigHeart.cpp">
       <Filter>Game Object\Items</Filter>
     </ClCompile>
@@ -198,6 +195,12 @@
     <ClCompile Include="PhantomBat.cpp">
       <Filter>Game Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game Object\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="MultishotItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -268,9 +271,6 @@
     </ClInclude>
     <ClInclude Include="Koopas.h">
       <Filter>Game Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Items.h">
-      <Filter>Game Object\Items</Filter>
     </ClInclude>
     <ClInclude Include="BigHeart.h">
       <Filter>Game Object\Items</Filter>
@@ -352,6 +352,12 @@
     </ClInclude>
     <ClInclude Include="PhantomBat.h">
       <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="MultishotItem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

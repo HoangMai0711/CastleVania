@@ -25,7 +25,7 @@ void ItemBoomerang::GetBoundingBox(float & left, float & top, float & right, flo
 
 void ItemBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Items::Update(dt, nonGridObject, gridObject);
+	Item::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround)
 		vy += ITEM_BOOMERANG_GRAVITY * dt;

@@ -81,7 +81,6 @@ void CPlayScene::Load()
 				}
 
 				grid->AddObject(wall);
-				//DebugOut(L"---> Wall W-H-X-Y: %d-%d-%f-%f\n", width, height, x, y);
 			}
 		else if (iter["name"] == "Torch")
 			for (auto i : iter["objects"]) {
@@ -340,23 +339,21 @@ void CPlayScene::Update(DWORD dt)
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
-	vector<LPGAMEOBJECT> objects;
 	set<LPGAMEOBJECT> currentGridObjects;
 
 	currentGridObjects = grid->GetCurrentObject();
+	//DebugOut(L"--current grid object: %d\n", currentGridObjects.size());
+	DebugOut(L"--non grid object: %d\n", nonGridObject.size());
 
-	// merge non grid objects & grid objects to objects
-	//for (auto obj : nonGridObject)
-	//	objects.push_back(obj);
-	//for (auto obj : currentGridObjects)
-	//	objects.push_back(obj);
 
 	// update simon
 	simon->Update(dt, &nonGridObject, currentGridObjects);
 
 	// update non grid objects
-	for (auto obj : nonGridObject)
-		obj->Update(dt, &nonGridObject, currentGridObjects);
+
+	for (int i = 0; i < nonGridObject.size(); i++) {
+		nonGridObject[i]->Update(dt, &nonGridObject, currentGridObjects);
+	}
 
 	grid->Update(dt, &nonGridObject, currentGridObjects);
 
@@ -409,9 +406,11 @@ void CPlayScene::Render()
 	//DebugOut(L"[INFO]Render objects in Playscene\n");
 	tileMap->Draw({ 0,0 }, 255);
 	for (int i = 0; i < nonGridObject.size(); i++) {
+		DebugOut(L"id: %d\n", nonGridObject[i]->GetId());
 		nonGridObject[i]->RenderBoundingBox();
 		nonGridObject[i]->Render();
 	}
+	DebugOut(L"--------------------------------------------------------\n");
 	grid->Render();
 	simon->Render();
 }

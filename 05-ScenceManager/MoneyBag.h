@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Items.h"
+#include "Item.h"
 
 #define MONEYBAG_BBOX_WIDTH			15
 #define MONEYBAG_BBOX_HEIGHT		15
@@ -16,7 +16,7 @@
 #define BIG_MONEYBAG_ANI				6
 #define BIG_MONEYBAG_SCORE_ANI			7
 
-class MoneyBag : public Items
+class MoneyBag : public Item
 {
 	DWORD showScoreStart;
 public:

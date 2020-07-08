@@ -188,11 +188,8 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 
 			MoveToSimon();
 
-			if (!isAttack)
-			{
-				Attack(dt, nonGridObject, gridObject);
-			}
-			
+			Attack(dt, nonGridObject, gridObject);
+
 		}
 	}
 	if (!isFirstActive && isActive) {

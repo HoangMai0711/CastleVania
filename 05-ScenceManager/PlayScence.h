@@ -13,7 +13,7 @@
 #include "Portal.h"
 #include "Torch.h"
 #include "HiddenObject.h"
-#include "Items.h"
+#include "Item.h"
 #include "BigHeart.h"
 #include "ItemDagger.h"
 #include "Candle.h"

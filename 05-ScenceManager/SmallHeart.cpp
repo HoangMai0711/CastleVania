@@ -32,5 +32,5 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAM
 		x = sin(delta) * SMALL_HEART_AMPLITUDE_X + originX;
 	}
 
-	Items::Update(dt, nonGridObject, gridObject);
+	Item::Update(dt, nonGridObject, gridObject);
 }

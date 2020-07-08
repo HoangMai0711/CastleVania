@@ -34,7 +34,7 @@ void Fleaman::Render()
 		ani = ENEMY_ANI_HITTED;
 		break;
 	case ENEMY_STATE_IDLE:
-		if (nx < 0)
+		if (nx > 0)
 			ani = FLEAMAN_ANI_IDLE_RIGHT;
 		else
 			ani = FLEAMAN_ANI_IDLE_LEFT;
@@ -132,7 +132,7 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 		GetBoundingBox(fl, ft, fr, fb);
 
 		if (abs(fl - sl) < FLEAMAN_ACTIVE_DISTANCE_WIDTH) {
-			//StartActive();
+			StartActive();
 			//DebugOut(L"--After first active vx, vy: %f/ %f\n", vx, vy);
 		}
 	}

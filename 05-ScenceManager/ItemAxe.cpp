@@ -17,7 +17,7 @@ ItemAxe::~ItemAxe()
 
 void ItemAxe::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Items::Update(dt, nonGridObject, gridObject);
+	Item::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround)
 		vy += ITEM_AXE_GRAVITTY * dt;

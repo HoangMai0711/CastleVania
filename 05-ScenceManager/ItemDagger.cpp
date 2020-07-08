@@ -24,7 +24,7 @@ void ItemDagger::GetBoundingBox(float & left, float & top, float & right, float 
 
 void ItemDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Items::Update(dt, nonGridObject, gridObject);
+	Item::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround)
 		vy += ITEM_DAGGER_GRAVITY * dt;

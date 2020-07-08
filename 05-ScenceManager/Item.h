@@ -4,13 +4,13 @@
 
 #define ITEM_DISAPPEAR_TIME		5000
 
-class Items : public CGameObject
+class Item : public CGameObject
 {
 protected:
 	DWORD disappearStart;
 public:
-	Items();
-	~Items();
+	Item();
+	~Item();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	virtual void Render();
