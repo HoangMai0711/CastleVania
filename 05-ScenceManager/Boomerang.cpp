@@ -35,9 +35,9 @@ void Boomerang::Render()
 	RenderBoundingBox();
 }
 
-void Boomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void Boomerang::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Weapon::Update(dt, objects);
+	Weapon::Update(dt, nonGridObject, gridObject);
 
 	if (leaveStart > 0 && GetTickCount() - leaveStart > BOOMERANG_DISAPPEAR_TIME)
 	{

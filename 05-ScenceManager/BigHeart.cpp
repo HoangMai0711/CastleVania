@@ -21,9 +21,9 @@ void BigHeart::GetBoundingBox(float & left, float & top, float & right, float & 
 	bottom = y + BIG_HEART_BBOX_HEIGHT;
 }
 
-void BigHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void BigHeart::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Items::Update(dt, coObjects);
+	Items::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround)
 		vy += BIG_HEART_GRAVITY * dt;

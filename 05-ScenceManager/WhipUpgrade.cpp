@@ -23,9 +23,9 @@ void WhipUpgrade::GetBoundingBox(float & left, float & top, float & right, float
 	bottom = y + WHIP_UPGRADE_BBOX_HEIGHT;
 }
 
-void WhipUpgrade::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void WhipUpgrade::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Items::Update(dt, coObjects);
+	Items::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround) {
 		DebugOut(L"----whip item isOnGround: FALSE\n");

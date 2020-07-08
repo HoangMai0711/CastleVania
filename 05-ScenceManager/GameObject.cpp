@@ -24,7 +24,7 @@ void CGameObject::AddAnimation(int aniId)
 	//animation_set->push_back(ani);
 }
 
-void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	this->dt = dt;
 	dx = vx*dt;

@@ -25,12 +25,6 @@
     <Filter Include="Tilemap">
       <UniqueIdentifier>{f72402b9-17e5-4111-abc5-21a7391ccb15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Object\Transparent Object">
-      <UniqueIdentifier>{cb8134d2-82d1-41b1-b411-c047cec6aa01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Object\Stactic Object">
-      <UniqueIdentifier>{ca620bac-72fb-4079-8a26-deefd0c8a561}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Object\simon\Weapon">
       <UniqueIdentifier>{3ede9246-24d5-4e6b-b139-737dc8ff7445}</UniqueIdentifier>
     </Filter>
@@ -42,6 +36,15 @@
     </Filter>
     <Filter Include="Game Object\Enemy">
       <UniqueIdentifier>{db733c66-8e2a-4410-a146-e50416df6abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Object\GroundObject">
+      <UniqueIdentifier>{b897240b-50c3-4a7e-b7d7-da6dca4afcab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Object\GroundObject\Stactic Object">
+      <UniqueIdentifier>{ca620bac-72fb-4079-8a26-deefd0c8a561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Object\GroundObject\Transparent Object">
+      <UniqueIdentifier>{cb8134d2-82d1-41b1-b411-c047cec6aa01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,16 +64,16 @@
       <Filter>Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="Torch.cpp">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClCompile>
     <ClCompile Include="StaticObjects.cpp">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClCompile>
     <ClCompile Include="TransparentObjects.cpp">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClCompile>
     <ClCompile Include="Wall.cpp">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Game Object\simon\Weapon</Filter>
@@ -79,7 +82,7 @@
       <Filter>Game Object\simon\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>Game Object</Filter>
@@ -100,7 +103,7 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Texture</Filter>
@@ -110,9 +113,6 @@
     </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Game Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="HiddenObject.cpp">
-      <Filter>Game Object</Filter>
     </ClCompile>
     <ClCompile Include="Items.cpp">
       <Filter>Game Object\Items</Filter>
@@ -133,13 +133,13 @@
       <Filter>Game Object\Items</Filter>
     </ClCompile>
     <ClCompile Include="Candle.cpp">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClCompile>
     <ClCompile Include="ItemBoomerang.cpp">
       <Filter>Game Object\Items</Filter>
     </ClCompile>
     <ClCompile Include="Stair.cpp">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Game Object\Enemy</Filter>
@@ -165,6 +165,39 @@
     <ClCompile Include="Fleaman.cpp">
       <Filter>Game Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="ZombieZone.cpp">
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Raven.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bone.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemAxe.cpp">
+      <Filter>Game Object\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Game Object\simon\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenObject.cpp">
+      <Filter>Game Object\GroundObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundObject.cpp">
+      <Filter>Game Object\GroundObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PhantomBat.cpp">
+      <Filter>Game Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -183,16 +216,16 @@
       <Filter>Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="Torch.h">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClInclude>
     <ClInclude Include="StaticObjects.h">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClInclude>
     <ClInclude Include="TransparentObjects.h">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Game Object\simon\Weapon</Filter>
@@ -201,7 +234,7 @@
       <Filter>Game Object\simon\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
       <Filter>Game Object</Filter>
@@ -225,7 +258,7 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Texture</Filter>
@@ -235,9 +268,6 @@
     </ClInclude>
     <ClInclude Include="Koopas.h">
       <Filter>Game Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="HiddenObject.h">
-      <Filter>Game Object</Filter>
     </ClInclude>
     <ClInclude Include="Items.h">
       <Filter>Game Object\Items</Filter>
@@ -258,13 +288,13 @@
       <Filter>Game Object\Items</Filter>
     </ClInclude>
     <ClInclude Include="Candle.h">
-      <Filter>Game Object\Stactic Object</Filter>
+      <Filter>Game Object\GroundObject\Stactic Object</Filter>
     </ClInclude>
     <ClInclude Include="ItemBoomerang.h">
       <Filter>Game Object\Items</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
-      <Filter>Game Object\Transparent Object</Filter>
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Game Object\Enemy</Filter>
@@ -288,6 +318,39 @@
       <Filter>Game Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Fleaman.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ZombieZone.h">
+      <Filter>Game Object\GroundObject\Transparent Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Raven.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bone.h">
+      <Filter>Game Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemAxe.h">
+      <Filter>Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Game Object\simon\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenObject.h">
+      <Filter>Game Object\GroundObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundObject.h">
+      <Filter>Game Object\GroundObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PhantomBat.h">
       <Filter>Game Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

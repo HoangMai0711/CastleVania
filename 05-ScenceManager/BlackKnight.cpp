@@ -25,7 +25,7 @@ BlackKnight::~BlackKnight()
 
 void BlackKnight::Render()
 {
-	int ani = 0;
+	int ani;
 
 	switch (state)
 	{
@@ -45,9 +45,9 @@ void BlackKnight::Render()
 	animations[ani]->Render(x, y);
 }
 
-void BlackKnight::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void BlackKnight::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Enemy::Update(dt, objects);
+	Enemy::Update(dt, nonGridObject, gridObject);
 
 	if (x < edgeLeft) {
 		nx = 1;

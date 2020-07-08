@@ -24,6 +24,12 @@
 #include "MovingBrick.h"
 #include "Ghost.h"
 #include "Fleaman.h"
+#include "Raven.h"
+#include "ZombieZone.h"
+#include "Skeleton.h"
+#include "PhantomBat.h"
+#include "Grid.h"
+#include "GroundObject.h"
 
 class CPlayScene: public CScene
 {
@@ -31,9 +37,10 @@ protected:
 	CMario *player;					// A play scene has to have player, right? 
 	Simon *simon;
 
-	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> nonGridObject;
 	LPTILEMAP tileMap;
 	CGame* game;
+	Grid* grid;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

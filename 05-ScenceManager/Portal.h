@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GameObject.h"
+#include "TransparentObjects.h"
 
 /*
 	Object that triggers scene switching
 */
-class CPortal : public CGameObject
+class CPortal : public TransparentObjects
 {
 	int scene_id;	// target scene to switch to 
 

@@ -17,10 +17,10 @@ void Items::Render()
 	animations[0]->Render(x, y);
 }
 
-void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	//DebugOut(L"[INFO] Item update\n");
-	CGameObject::Update(dt, coObjects);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -31,11 +31,10 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	//DebugOut(L"---coobject size: %d\n", coObjects->size());
 
-	for (int i = 1; i < coObjects->size(); i++) {
-		if (coObjects->at(i)->GetId() == ID_WALL)
-			wallObjects.push_back(coObjects->at(i));
+	for (auto i : gridObject) {
+		if (i->GetId() == ID_WALL)
+			wallObjects.push_back(i);
 	}
-		
 
 	CalcPotentialCollisions(&wallObjects, coEvents);
 

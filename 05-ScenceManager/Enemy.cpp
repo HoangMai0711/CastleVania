@@ -5,6 +5,7 @@ Enemy::Enemy()
 {
 	hitEffectStart = 0;
 	AddAnimation(ID_ANI_HIT_EFFECT);
+	AddAnimation(ID_ANI_ENEMY_HIDDEN);
 }
 
 
@@ -12,9 +13,9 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -25,9 +26,9 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 
 	//DebugOut(L"---coobject size: %d\n", coObjects->size());
 
-	for (int i = 1; i < objects->size(); i++) {
-		if (objects->at(i)->GetId() == ID_WALL)
-			wallObjects.push_back(objects->at(i));
+	for (auto i : gridObject) {
+		if (i->GetId() == ID_WALL)
+			wallObjects.push_back(i);
 	}
 
 
@@ -37,7 +38,7 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 	if (coEvents.size() == 0)
 	{
 		//DebugOut(L"----No collision\n");
-		//x += dx;
+		x += dx;
 		y += dy;
 	}
 	else
@@ -51,7 +52,8 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		//DebugOut(L"-----ny: %f\n", ny);
 
 		// block 
-		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.11f;
+		y += min_ty * dy + ny * 0.10f;
 
 		if (ny != 0)
 		{
@@ -92,7 +94,7 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 			reward = NULL;
 			break;
 		}
-		objects->push_back(reward);
+		nonGridObject->push_back(reward);
 	}
 }
 

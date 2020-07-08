@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameObject.h"
+#include "GroundObject.h"
 
-class TransparentObjects: public CGameObject
+class TransparentObjects: public GroundObject
 {
 public:
 	TransparentObjects();
@@ -10,6 +10,6 @@ public:
 
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	virtual void Render();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 };
 

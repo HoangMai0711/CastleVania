@@ -7,6 +7,7 @@
 #include "Sprites.h"
 #include "Animations.h"
 #include "define.h"
+#include <set>
 
 using namespace std;
 
@@ -80,8 +81,12 @@ public:
 	int GetId() { return this->id; }
 	int GetRewardId();
 
+	float GetX() { return this->x; }
+	float GetY() { return this->y; }
+
 	int GetNx() { return nx; }
 	int GetNy() { return ny; }
+
 	float GetVx() { return vx; }
 	float GetVy() { return vy; }
 
@@ -106,7 +111,7 @@ public:
 	void AddAnimation(int aniId);
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 	virtual void ResetAnimation();

@@ -2,7 +2,7 @@
 
 #include "Items.h"
 
-#define SMALL_HEART_GRAVITY			0.0003f
+#define SMALL_HEART_GRAVITY			0.0006f
 #define SMALL_HEART_BBOX_WIDTH		8
 #define SMALL_HEART_BBOX_HEIGHT		8
 
@@ -19,6 +19,6 @@ public:
 	~SmallHeart();
 
 	virtual void GetBoundingBox(float & left, float & top, float & right, float & bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 };
 

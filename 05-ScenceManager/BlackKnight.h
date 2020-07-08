@@ -5,10 +5,10 @@
 #define BLACK_KNIGHT_BBOX_WIDTH		15
 #define BLACK_KNIGHT_BBOX_HEIGHT	32
 
-#define BLACK_KNIGHT_WALKING_SPEED	0.03f
+#define BLACK_KNIGHT_WALKING_SPEED	0.015f
 
-#define BLACK_KNIGHT_ANI_WALKING_RIGHT	1
-#define BLACK_KNIGHT_ANI_WALKING_LEFT	2
+#define BLACK_KNIGHT_ANI_WALKING_RIGHT	2
+#define BLACK_KNIGHT_ANI_WALKING_LEFT	3
 
 class BlackKnight :
 	public Enemy
@@ -21,7 +21,7 @@ public:
 	~BlackKnight();
 
 	void Render();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 

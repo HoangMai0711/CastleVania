@@ -1,11 +1,11 @@
 #pragma once
-#include "GameObject.h"
+#include "GroundObject.h"
 #include "MoneyBag.h"
 
 #define HIDDEN_OBJ_BBOX_WIDTH	15
 #define HIDDEN_OBJ_BBOX_HEIGHT	10
 
-class HiddenObject : public CGameObject
+class HiddenObject : public GroundObject
 {
 	D3DXVECTOR2 rewardPosition;
 public:

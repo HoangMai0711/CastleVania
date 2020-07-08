@@ -2,8 +2,8 @@
 
 #include "Enemy.h"
 
-#define BAT_ANI_IDLE		1
-#define BAT_ANI_FLY			2
+#define BAT_ANI_IDLE		2
+#define BAT_ANI_FLY			3
 
 #define BAT_BBOX_WIDTH		18
 #define BAT_BBOX_HEIGHT		16
@@ -28,11 +28,11 @@ protected:
 	DWORD startFlyDown;
 	bool isActive = false;
 public:
-	Bat(D3DXVECTOR2 position, int width, int reward);
+	Bat(D3DXVECTOR2 position, int reward);
 	~Bat();
 
 	void Render();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	
 	void SetState(int state);

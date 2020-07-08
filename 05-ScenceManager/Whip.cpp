@@ -41,11 +41,11 @@ Whip::~Whip()
 {
 }
 
-void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR2 playerPos, int playerNx)
+void Whip::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject, D3DXVECTOR2 playerPos, int playerNx)
 {
 	//DebugOut(L"[INFO]Simon attack Whip\n");
 	
-	Weapon::Update(dt, coObjects);
+	Weapon::Update(dt, nonGridObject, gridObject);
 
 	this->x = playerPos.x;
 	this->y = playerPos.y;

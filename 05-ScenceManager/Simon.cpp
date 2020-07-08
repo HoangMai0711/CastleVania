@@ -148,12 +148,18 @@ void Simon::AttackSubWeapon()
 		subWeapon.push_back(boomerang);
 		break;
 	}
+	case ID_AXE:
+	{
+		Axe* axe = new Axe(simonCurrentPosition, nx);
+		subWeapon.push_back(axe);
+		break;
+	}
 	default:
 		break;
 	}
 }
 
-void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	//DebugOut(L"----Simon Pos x-y: %f-%f\n", x, y);
 	if (GetTickCount() - attackStart > SIMON_ATTACK_TIME)
@@ -162,25 +168,38 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount() - attackSubWeaponStart > SIMON_ATTACK_TIME)
 		attackSubWeaponStart = 0;
 
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 	if (!isOnStair)
 		vy += SIMON_GRAVITY * dt;
 
 	vector<LPGAMEOBJECT> *realCoObjects;
+	vector<LPGAMEOBJECT> *movingBrick;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
 	realCoObjects = new vector<LPGAMEOBJECT>;
+	movingBrick = new vector<LPGAMEOBJECT>;
 
-	for (auto i : *coObjects) {
+	//for (auto i : *nonGridObject) {
+	//	switch (i->GetId())
+	//	{
+	//	case ID_WALL:
+	//	case ID_HIDDEN_OBJECTS:
+	//	case ID_PORTAL:
+	//		realCoObjects->push_back(i);
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
+
+	for (auto i : gridObject) {
 		switch (i->GetId())
 		{
 		case ID_WALL:
 		case ID_HIDDEN_OBJECTS:
 		case ID_PORTAL:
-		case ID_MOVING_BRICK:
-			//case ID_STAIR:
 			realCoObjects->push_back(i);
 			break;
 		default:
@@ -230,12 +249,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
-
-			if (dynamic_cast<MovingBrick*>(e->obj)) {
-				DebugOut(L"-------Step on moving brick\n");
-				MovingBrick* movingBrick = dynamic_cast<MovingBrick*>(e->obj);
-				SetSpeed(movingBrick->GetVx(), vy);
-			}
 		}
 	}
 
@@ -243,9 +256,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchableStart = 0;
 
 	//Collision when attack
-	UpdateWhip(dt, coObjects);
+	UpdateWhip(dt, nonGridObject, gridObject);
 
-	UpdateSubWeapon(dt, coObjects);
+	UpdateSubWeapon(dt, nonGridObject, gridObject);
 
 	collidedStair = NULL;
 
@@ -254,7 +267,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		LPGAMEOBJECT object = i->obj;
 
 		//Skip if items is destroyed
-		CollideWithObjectAndItems(object, coObjects);
+		CollideWithObjectAndItems(object, nonGridObject);
 	}
 
 	//Enable control after flash time
@@ -267,8 +280,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	coEvents.clear();
 
+
 	//Check collision if 2 object is already overlapped
-	for (auto iter : *coObjects)
+	for (auto iter : *nonGridObject)
 	{
 		float al, at, ar, ab;
 		float bl, bt, br, bb;
@@ -280,7 +294,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		B = { long(bl),long(bt),long(br),long(bb) };
 
 		if (CGame::GetInstance()->IsColliding(A, B)) {
-			CollideWithObjectAndItems(iter, coObjects);
+			CollideWithObjectAndItems(iter, nonGridObject);
 		}
 	}
 
@@ -297,7 +311,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			stair = NULL;
 		}
 	}
-
 }
 
 void Simon::Render()
@@ -341,7 +354,7 @@ void Simon::Render()
 		break;
 	case SIMON_STATE_UPSTAIR:
 	{
-		
+
 		if (nx > 0)
 			ani = SIMON_ANI_WALK_UPSTAIR_RIGHT;
 		else
@@ -350,7 +363,7 @@ void Simon::Render()
 	}
 	case SIMON_STATE_DOWNSTAIR:
 	{
-		
+
 		if (nx > 0)
 			ani = SIMON_ANI_WALK_DOWNSTAIR_RIGHT;
 		else
@@ -494,7 +507,7 @@ void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 	}
 }
 
-void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	if (GetTickCount() - attackStart <= SIMON_ATTACK_TIME)
 	{
@@ -502,7 +515,7 @@ void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		playerY = (state == SIMON_STATE_SIT_ATTACK ? y + SIMON_BBOX_HEIGHT / 4 : y);
 		playerX = x - 2 * nx;
 
-		whip->Update(dt, objects, { playerX, playerY }, nx);
+		whip->Update(dt, nonGridObject, gridObject, { playerX, playerY }, nx);
 	}
 	else if (attackStart > 0)
 	{
@@ -512,7 +525,7 @@ void Simon::UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects)
 	}
 }
 
-void Simon::UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void Simon::UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	if (GetTickCount() - attackSubWeaponStart > SIMON_ATTACK_TIME && attackSubWeaponStart > 0) {
 		attackSubWeaponStart = 0;
@@ -520,7 +533,7 @@ void Simon::UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT>* objects)
 	}
 
 	for (auto i : subWeapon)
-		i->Update(dt, objects);
+		i->Update(dt, nonGridObject, gridObject);
 
 
 	//delete subweapon
@@ -576,6 +589,10 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		AddSubWeapon(ID_BOOMERANG);
 		object->SetState(STATE_DESTROYED);
 		break;
+	case ID_ITEM_AXE:
+		AddSubWeapon(ID_AXE);
+		object->SetState(STATE_DESTROYED);
+		break;
 	case ID_STAIR:
 		if (!isOnStair)
 			stair = dynamic_cast<Stair*>(object);
@@ -584,6 +601,9 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	case ID_BAT:
 	case ID_BLACK_KNIGHT:
 	case ID_GHOST:
+	case ID_FLEAMAN:
+	case ID_RAVEN:
+	case ID_PHANTOM_BAT:
 		if (untouchableStart > 0)
 			break;
 		BeInjured();
@@ -610,7 +630,7 @@ void Simon::BeInjured()
 	untouchableStart = GetTickCount();
 
 	if (!isOnStair) {
-		SetSpeed(-nx*SIMON_INJURED_DEFLECT_SPEED_X, -SIMON_INJURED_DEFLECT_SPEED_Y);
+		SetSpeed(-nx * SIMON_INJURED_DEFLECT_SPEED_X, -SIMON_INJURED_DEFLECT_SPEED_Y);
 		isOnGround = false;
 		state = SIMON_STATE_INJURED;
 	}

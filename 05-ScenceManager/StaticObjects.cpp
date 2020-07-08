@@ -15,9 +15,9 @@ StaticObjects::~StaticObjects()
 {
 }
 
-void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 	DWORD effectTimeCount = GetTickCount() - hitEffectStart;
 
 	if (effectTimeCount > HIT_EFFECT_TIME && hitEffectStart > 0) {
@@ -56,11 +56,14 @@ void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		case ID_BIG_MONEYBAG:
 			reward = new MoneyBag({ x,y }, rewardId);
 			break;
+		case ID_ITEM_AXE:
+			reward = new ItemAxe({ x,y });
+			break;
 		default:
 			reward = NULL;
 			break;
 		}
-		objects->push_back(reward);
+		nonGridObject->push_back(reward);
 	}
 }
 

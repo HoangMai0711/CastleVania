@@ -1,6 +1,5 @@
 #include "Ghost.h"
 
-
 Ghost::Ghost(D3DXVECTOR2 position)
 {
 	this->x = position.x;
@@ -8,13 +7,13 @@ Ghost::Ghost(D3DXVECTOR2 position)
 	id = ID_GHOST;
 	isActive = false;
 
-	state = GHOST_STATE_HIDDEN;
+	state = ENEMY_STATE_HIDDEN;
 	vx = vy = 0;
 
+	AddAnimation(ID_ANI_ENEMY_HIDDEN);
 	AddAnimation(ID_ANI_GHOST_FLY_RIGHT);
 	AddAnimation(ID_ANI_GHOST_FLY_LEFT);
 
-	AddAnimation(ID_ANI_GHOST_HIDDEN);
 }
 
 
@@ -28,9 +27,6 @@ void Ghost::Render()
 
 	switch (state)
 	{
-	case GHOST_STATE_HIDDEN:
-		ani = GHOST_ANI_HIDDEN;
-		break;
 	case ENEMY_STATE_HITTED:
 		ani = ENEMY_ANI_HITTED;
 		break;
@@ -40,6 +36,9 @@ void Ghost::Render()
 		else
 			ani = GHOST_ANI_FLY_LEFT;
 		break;
+	case ENEMY_STATE_HIDDEN:
+		ani = ENEMY_ANI_HIDDEN;
+		break;
 	default:
 		break;
 	}
@@ -47,9 +46,9 @@ void Ghost::Render()
 	animations[ani]->Render(x, y);
 }
 
-void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 	x += dx;
 	y += dy;
 
@@ -61,61 +60,42 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 	simon->GetBoundingBox(sl, st, sr, sb);
 	GetBoundingBox(gl, gt, gr, gb);
 
-	if (abs(gl - sl) > 100 && abs(gt - st) < 30) {
-		x += dx;
-		y += dy;
-		//DebugOut(L"-----Ghost is active. NX: %d\n", nx);
-		state = ENEMY_STATE_ACTIVE;
-	}
+	if (abs(gl - sl) > GHOST_ACTIVE_DISTANCE_WIDTH && abs(gt - st) < GHOST_ACTIVE_DISTANCE_HEIGHT)
+		//state = ENEMY_STATE_ACTIVE;
+		state = ENEMY_STATE_IDLE;
+	
 	if (state == ENEMY_STATE_ACTIVE) {
 		isActive = true;
 
-		if (!isActive && x < simon->GetX() - GHOST_DISTANCE_TO_SIMON)
-		{
-			nx = 1;
-			isActive = true;
-		}
-
-		if (isActive)
-		{
-			if (x > simon->GetX() + SIMON_BBOX_WIDTH / 2 + GHOST_DISTANCE_TO_SIMON)
-			{
-				nx = -1;
-				vx = -GHOST_SPEED_X;
-				vy = -GHOST_SPEED_Y;
-
-			}
-			else if (x < simon->GetX() - GHOST_DISTANCE_TO_SIMON)
-			{
-				nx = 1;
-				vx = GHOST_SPEED_X;
-				vy = -GHOST_SPEED_Y;
-			}
-		}
-
-		if (y < simon->GetY() + 5)
-		{
-			vy = GHOST_SPEED_Y;
-		}
-		else if (y > simon->GetY())
-		{
+		if (x > simon->GetX() + SIMON_BBOX_WIDTH / 2 + GHOST_DISTANCE_TO_SIMON_WIDTH) {
+			nx = -1;
+			vx = -GHOST_SPEED_X;
 			vy = -GHOST_SPEED_Y;
 		}
+		else if (x < simon->GetX() - GHOST_DISTANCE_TO_SIMON_WIDTH) {
+			nx = 1;
+			vx = GHOST_SPEED_X;
+			vy = -GHOST_SPEED_Y;
+		}
+
+		if (y < simon->GetY() + GHOST_DISTANCE_TO_SIMON_HEIGHT)
+			vy = GHOST_SPEED_Y;
+		else if (y > simon->GetY())
+			vy = -GHOST_SPEED_Y;
 	}
+
 	DWORD effectTimeCount = GetTickCount() - hitEffectStart;
+
 	if (effectTimeCount > HIT_EFFECT_TIME && hitEffectStart > 0) {
 		hitEffectStart = 0;
-
 		state = STATE_DESTROYED;
 	}
 }
 
 void Ghost::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-
-		left = x;
-		top = y;
-		right = x + GHOST_BBOX_WIDTH;
-		bottom = y + GHOST_BBOX_HEIGHT;
-
+	left = x;
+	top = y;
+	right = x + GHOST_BBOX_WIDTH;
+	bottom = y + GHOST_BBOX_HEIGHT;
 }

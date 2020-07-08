@@ -13,7 +13,7 @@ public:
 	Whip();
 	~Whip();
 
-	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects, D3DXVECTOR2 playerPos, int playerNx);
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject, D3DXVECTOR2 playerPos, int playerNx);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render();
 	void Upgrade();

@@ -2,19 +2,19 @@
 
 #include "Enemy.h"
 
-#define GHOST_STATE_HIDDEN			5
-
 #define GHOST_BBOX_WIDTH			16
 #define GHOST_BBOX_HEIGHT			16
 
-#define GHOST_SPEED_X				0.07f
-#define GHOST_SPEED_Y				0.06f
+#define GHOST_SPEED_X				0.05f
+#define GHOST_SPEED_Y				0.03f
 
-#define GHOST_ANI_HIDDEN			3
-#define GHOST_ANI_FLY_RIGHT			1
-#define GHOST_ANI_FLY_LEFT			2
+#define GHOST_ANI_FLY_RIGHT			2
+#define GHOST_ANI_FLY_LEFT			3
 
-#define GHOST_DISTANCE_TO_SIMON		50
+#define GHOST_DISTANCE_TO_SIMON_WIDTH	50
+#define GHOST_DISTANCE_TO_SIMON_HEIGHT	5
+#define GHOST_ACTIVE_DISTANCE_WIDTH		100
+#define GHOST_ACTIVE_DISTANCE_HEIGHT	30
 
 class Ghost :
 	public Enemy
@@ -26,7 +26,7 @@ public:
 	~Ghost();
 
 	void Render();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 

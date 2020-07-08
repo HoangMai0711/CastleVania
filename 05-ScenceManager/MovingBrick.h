@@ -4,7 +4,7 @@
 #define MOVING_BRICK_BBOX_WIDTH			31
 #define MOVING_BRICK_BBOX_HEIGHT		7
 
-#define MOVING_BRICK_SPEED				0.035f
+#define MOVING_BRICK_SPEED				0.033f
 
 class MovingBrick :
 	public CGameObject
@@ -14,7 +14,7 @@ public:
 	~MovingBrick();
 
 	void Render();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 

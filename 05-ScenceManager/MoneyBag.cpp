@@ -52,9 +52,9 @@ void MoneyBag::GetBoundingBox(float & left, float & top, float & right, float & 
 		left = top = right = bottom = 0;
 }
 
-void MoneyBag::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void MoneyBag::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	Items::Update(dt, objects);
+	Items::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround)
 		vy += MONEYBAG_GRAVITY * dt;

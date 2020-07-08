@@ -12,5 +12,6 @@ public:
 	~Wall();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	int GetLength() { return width; }
 };
 

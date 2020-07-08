@@ -7,17 +7,18 @@
 #include "TransparentObjects.h"
 #include "Utils.h"
 #include "Whip.h"
-#include "Wall.h"
+//#include "Wall.h"
 #include "Portal.h"
 #include "Torch.h"
 #include "Weapon.h"
 #include "Dagger.h"
 #include "Portal.h"
-#include "MoneyBag.h"
+//#include "MoneyBag.h"
 #include "HiddenObject.h"
 #include "Stair.h"
 #include "MovingBrick.h"
 #include "Boomerang.h"
+#include "Axe.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -113,13 +114,11 @@ public:
 	void Attack();
 	void AttackSubWeapon();
 
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void Render();
 	void SetState(int state);
 	void StartUntouchable() { untouchable = 1; untouchableStart = GetTickCount(); }
 
-	float GetX() { return this->x; }
-	float GetY() { return this->y; }
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 
 	bool IsOnAir() { return isOnAir; }
@@ -127,8 +126,8 @@ public:
 	DWORD GetTimeStartAttack() { return attackStart; }
 	bool GetDisableControl() { return disableControl; }
 
-	void UpdateWhip(DWORD dt, vector<LPGAMEOBJECT>* objects);
-	void UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT>* objects);
+	void UpdateWhip(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
+	void UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	void UpgradeWhip();
 
 	void DisableControl() { disableControl = true; }

@@ -11,10 +11,14 @@
 
 #define MAX_FRAME_RATE			120
 
+#define GRID_WIDTH				88
+#define GRID_HEIGHT				253
+
 //ID object
 #define ID_SIMON				0
 #define ID_WHIP					1
 #define ID_BOOMERANG			2
+#define ID_AXE					3
 
 #define ID_WALL					10
 #define ID_PORTAL				11
@@ -34,12 +38,19 @@
 #define ID_YELLOW_MONEYBAG 		106
 #define ID_BIG_MONEYBAG			107
 #define ID_ITEM_BOOMERANG		108
+#define ID_ITEM_AXE				109
 
 //ID Enemy
 #define ID_BAT					30
 #define ID_BLACK_KNIGHT			31
 #define ID_GHOST				32
 #define ID_FLEAMAN				33
+#define ID_ZOMBIE_ZONE			34
+#define ID_ZOMBIE				35
+#define ID_RAVEN				36
+#define ID_SKELETON				37
+#define ID_BONE					38
+#define ID_PHANTOM_BAT			39
 
 //ID textuters
 #define ID_TEX_SIMON			0
@@ -103,6 +114,10 @@
 #define ID_ANI_BOOMERANG_RIGHT		301
 #define ID_ANI_BOOMERANG_LEFT		302
 
+//Id animation of axe
+#define ID_ANI_AXE_RIGHT		303
+#define ID_ANI_AXE_LEFT			304
+
 //Id animation of static objects
 #define ID_ANI_TORCH			200
 #define ID_ANI_CANDLE			201
@@ -110,7 +125,7 @@
 
 //Id animation of hit effect
 #define ID_ANI_HIT_EFFECT		500
-#define HIT_EFFECT_TIME			450
+#define HIT_EFFECT_TIME			250
 
 //Id state item destroyed
 #define STATE_DESTROYED			99
@@ -123,6 +138,7 @@
 #define ID_ANI_BIG_MONEYBAG			404
 #define ID_ANI_ITEM_BOOMERANG		405
 #define ID_ANI_SMALL_HEART			406
+
 #define ID_ANI_RED_MONEYBAG			407
 #define ID_ANI_BLUE_MONEYBAG		408
 #define ID_ANI_YELLOW_MONEYBAG		409
@@ -130,6 +146,8 @@
 #define ID_ANI_BLUE_MONEYBAG_SCORE		411
 #define ID_ANI_YELLOW_MONEYBAG_SCORE	412
 #define ID_ANI_BIG_MONEYBAG_SCORE		413
+
+#define ID_ANI_ITEM_AXE				414
 
 //Id nx of item
 #define ITEM_RIGHT		0
@@ -145,8 +163,29 @@
 
 #define ID_ANI_GHOST_FLY_RIGHT		505
 #define ID_ANI_GHOST_FLY_LEFT		506
-#define ID_ANI_GHOST_HIDDEN			507
+#define ID_ANI_ENEMY_HIDDEN			507
 
-#define ID_ANI_FLEAMAN_IDLE_RIGHT	508
-#define ID_ANI_FLEAMAN_IDLE_LEFT	509
+#define ID_ANI_FLEAMAN_JUMP_RIGHT	508
+#define ID_ANI_FLEAMAN_JUMP_LEFT	509
 #define ID_ANI_FLEAMAN_PREATTACK	510
+#define ID_ANI_FLEAMAN_IDLE_RIGHT	511
+#define ID_ANI_FLEAMAN_IDLE_LEFT	512
+
+#define ID_ANI_ZOMBIE_WALK_RIGHT	513
+#define ID_ANI_ZOMBIE_WALK_LEFT		514
+
+#define ID_ANI_RAVEN_IDLE_RIGHT		518
+#define ID_ANI_RAVEN_IDLE_LEFT		515
+#define ID_ANI_RAVEN_FLY_RIGHT		516
+#define ID_ANI_RAVEN_FLY_LEFT		517
+
+#define ID_ANI_SKELETON_IDLE_RIGHT		520
+#define ID_ANI_SKELETON_IDLE_LEFT		521
+#define ID_ANI_SKELETON_WALKING_RIGHT	522
+#define ID_ANI_SKELETON_WALKING_LEFT	523
+
+#define ID_ANI_BONE			524
+
+#define ID_ANI_PHANTOM_BAT_IDLE			525
+#define ID_ANI_PHANTOM_BAT_ACTIVE		526
+#define ID_ANI_PHANTOM_BAT_HITTED		527

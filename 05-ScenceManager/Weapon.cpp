@@ -11,14 +11,17 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 
 	x += dx;
 	y += dy;
 
-	for (auto iter : *coObjects)
+	for (auto obj : gridObject)
+		nonGridObject->push_back(obj);
+
+	for (auto iter : *nonGridObject)
 	{
 		//DebugOut(L"----ID Object: %d\n", iter->GetId());
 		switch (iter->GetId())
@@ -28,6 +31,9 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case ID_BAT:
 		case ID_BLACK_KNIGHT:
 		case ID_GHOST:
+		case ID_FLEAMAN:
+		case ID_RAVEN:
+		case ID_PHANTOM_BAT:
 			float al, at, ar, ab;
 			float bl, bt, br, bb;
 			GetBoundingBox(al, at, ar, ab);

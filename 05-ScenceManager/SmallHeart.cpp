@@ -23,7 +23,7 @@ void SmallHeart::GetBoundingBox(float & left, float & top, float & right, float 
 	bottom = y + SMALL_HEART_BBOX_HEIGHT;
 }
 
-void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	if (!isOnGround)
 	{
@@ -32,5 +32,5 @@ void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = sin(delta) * SMALL_HEART_AMPLITUDE_X + originX;
 	}
 
-	Items::Update(dt, coObjects);
+	Items::Update(dt, nonGridObject, gridObject);
 }

@@ -17,12 +17,13 @@ MovingBrick::~MovingBrick()
 
 void MovingBrick::Render()
 {
+	//DebugOut(L"-----Render Moving brick\n");
 	animations[0]->Render(x,y);
 }
 
-void MovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void MovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -33,9 +34,9 @@ void MovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 
 	//DebugOut(L"---coobject size: %d\n", coObjects->size());
 
-	for (int i = 1; i < objects->size(); i++) {
-		if (objects->at(i)->GetId() == ID_WALL)
-			wallObjects.push_back(objects->at(i));
+	for (auto i : gridObject) {
+		if (i->GetId() == ID_WALL)
+			wallObjects.push_back(i);
 	}
 
 

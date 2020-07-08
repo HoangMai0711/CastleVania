@@ -49,6 +49,12 @@ void CPlayScene::Load()
 	tileMap->LoadTileMapFromFile(sceneFilePath);
 	DebugOut(L"[INFO] End loading tilemap\n");
 
+	int row, col;
+	row = tileMap->GetTileMapHeight() / GRID_HEIGHT + 1;
+	col = tileMap->GetTileMapWidth() / GRID_WIDTH + 1;
+
+	grid = new Grid(row, col);
+
 	float simonPosX, simonPosY;
 
 	ifstream f(sceneFilePath);
@@ -67,7 +73,14 @@ void CPlayScene::Load()
 
 				Wall* wall = new Wall(position, width, height);
 
-				objects.push_back(wall);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2({ float(row),float(col) });
+					wall->AddGridPositon(gridPos);
+				}
+
+				grid->AddObject(wall);
 				//DebugOut(L"---> Wall W-H-X-Y: %d-%d-%f-%f\n", width, height, x, y);
 			}
 		else if (iter["name"] == "Torch")
@@ -82,7 +95,14 @@ void CPlayScene::Load()
 
 				Torch* torch = new Torch(position, idReward);
 
-				objects.push_back(torch);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2({ float(row),float(col) });
+					torch->AddGridPositon(gridPos);
+				}
+
+				grid->AddObject(torch);
 				//DebugOut(L"--->Torch W-H-X-Y: %d-%d-%f-%f\nNext item:%d\n", width, height, x, y,idReward);
 			}
 		else if (iter["name"] == "Hidden Objects")
@@ -99,7 +119,14 @@ void CPlayScene::Load()
 
 				HiddenObject* hiddenObj = new HiddenObject(position, idReward, rewardPos);
 
-				objects.push_back(hiddenObj);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2({ float(row),float(col) });
+					hiddenObj->AddGridPositon(gridPos);
+				}
+
+				grid->AddObject(hiddenObj);
 				//DebugOut(L"--->Hidden object W-H-X-Y: %d-%d-%f-%f\n", width, height, x, y);
 			}
 		else if (iter["name"] == "Portal")
@@ -114,8 +141,15 @@ void CPlayScene::Load()
 
 				CPortal* portal = new CPortal(width, height, position, nextSceneId);
 
-				objects.push_back(portal);
-				DebugOut(L"--->Portal W-H-X-Y: %d-%d-%f-%f\nNext scene Id: %d\n", width, height, x, y, nextSceneId);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2({ float(row),float(col) });
+					portal->AddGridPositon(gridPos);
+				}
+
+				grid->AddObject(portal);
+				//DebugOut(L"--->Portal W-H-X-Y: %d-%d-%f-%f\nNext scene Id: %d\n", width, height, x, y, nextSceneId);
 			}
 		else if (iter["name"] == "SimonPos")
 			for (auto i : iter["objects"]) {
@@ -134,7 +168,14 @@ void CPlayScene::Load()
 
 				Candle* candle = new Candle(position, idReward);
 
-				objects.push_back(candle);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2({ float(row),float(col) });
+					candle->AddGridPositon(gridPos);
+				}
+
+				grid->AddObject(candle);
 			}
 		else if (iter["name"] == "Stair")
 			for (auto i : iter["objects"]) {
@@ -152,7 +193,14 @@ void CPlayScene::Load()
 
 				Stair* stair = new Stair(position, stairHeight, width, height, nx, ny);
 
-				objects.push_back(stair);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
+					stair->AddGridPositon(gridPos);
+				}
+
+				grid->AddObject(stair);
 			}
 		else if (iter["name"] == "Bat")
 			for (auto i : iter["objects"]) {
@@ -166,9 +214,9 @@ void CPlayScene::Load()
 
 				DebugOut(L"-----Add Bat: %s\n", ToLPCWSTR(i["name"]));
 
-				Bat* bat = new Bat(position, width, idReward);
+				Bat* bat = new Bat(position, idReward);
 
-				objects.push_back(bat);
+				nonGridObject.push_back(bat);
 			}
 		else if (iter["name"] == "BlackKnight")
 			for (auto i : iter["objects"]) {
@@ -184,7 +232,7 @@ void CPlayScene::Load()
 
 				BlackKnight* blackKnight = new BlackKnight(position, nx, idReward, edge);
 
-				objects.push_back(blackKnight);
+				nonGridObject.push_back(blackKnight);
 			}
 		else if (iter["name"] == "MovingBrick")
 			for (auto i : iter["objects"]) {
@@ -196,7 +244,7 @@ void CPlayScene::Load()
 
 				MovingBrick* movingBrick = new MovingBrick(position);
 
-				objects.push_back(movingBrick);
+				nonGridObject.push_back(movingBrick);
 			}
 		else if (iter["name"] == "Ghost")
 			for (auto i : iter["objects"]) {
@@ -208,7 +256,7 @@ void CPlayScene::Load()
 
 				Ghost* ghost = new Ghost(position);
 
-				objects.push_back(ghost);
+				nonGridObject.push_back(ghost);
 			}
 		else if (iter["name"] == "Fleaman")
 			for (auto i : iter["objects"]) {
@@ -220,7 +268,57 @@ void CPlayScene::Load()
 
 				Fleaman* fleaman = new Fleaman({ x,y });
 
-				objects.push_back(fleaman);
+				nonGridObject.push_back(fleaman);
+			}
+		else if (iter["name"] == "Raven")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				Raven* raven = new Raven(position);
+
+				nonGridObject.push_back(raven);
+			}
+		else if (iter["name"] == "ZombieZone")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				float zombieY = i["properties"][0]["value"];
+
+				ZombieZone* zombieZone = new ZombieZone(position, width, height, zombieY);
+
+				nonGridObject.push_back(zombieZone);
+			}
+		else if (iter["name"] == "Skeleton")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				Skeleton* skeleton = new Skeleton(position);
+
+				nonGridObject.push_back(skeleton);
+			}
+		else if (iter["name"] == "Boss")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				PhantomBat* boss = new PhantomBat(position);
+
+				nonGridObject.push_back(boss);
 			}
 	}
 
@@ -242,23 +340,33 @@ void CPlayScene::Update(DWORD dt)
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
-	simon->Update(dt, &objects);
+	vector<LPGAMEOBJECT> objects;
+	set<LPGAMEOBJECT> currentGridObjects;
 
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->GetState() == STATE_DESTROYED) {
-			objects.erase(objects.begin() + i);
-			i--;
+	currentGridObjects = grid->GetCurrentObject();
+
+	// merge non grid objects & grid objects to objects
+	//for (auto obj : nonGridObject)
+	//	objects.push_back(obj);
+	//for (auto obj : currentGridObjects)
+	//	objects.push_back(obj);
+
+	// update simon
+	simon->Update(dt, &nonGridObject, currentGridObjects);
+
+	// update non grid objects
+	for (auto obj : nonGridObject)
+		obj->Update(dt, &nonGridObject, currentGridObjects);
+
+	grid->Update(dt, &nonGridObject, currentGridObjects);
+
+	// delete destroyed objects
+	for (int i = 0; i < nonGridObject.size(); ++i) {
+		if (nonGridObject[i]->GetState() == STATE_DESTROYED) {
+			nonGridObject.erase(nonGridObject.begin() + i);
+			--i;
 		}
-		coObjects.push_back(objects[i]);
 	}
-
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &objects);
-	}
-
 
 	// Update camera to follow mario
 	float cx, cy;
@@ -300,10 +408,11 @@ void CPlayScene::Render()
 {
 	//DebugOut(L"[INFO]Render objects in Playscene\n");
 	tileMap->Draw({ 0,0 }, 255);
-	for (int i = 0; i < objects.size(); i++) {
-		objects[i]->RenderBoundingBox();
-		objects[i]->Render();
+	for (int i = 0; i < nonGridObject.size(); i++) {
+		nonGridObject[i]->RenderBoundingBox();
+		nonGridObject[i]->Render();
 	}
+	grid->Render();
 	simon->Render();
 }
 
@@ -312,10 +421,11 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
-
-	objects.clear();
+	for (int i = 0; i < nonGridObject.size(); i++)
+		delete nonGridObject[i];
+	nonGridObject.clear();
+	// ---------------------------------------------------
+	// TODO unload grid
 }
 
 void CPlayScene::LoadAnimations()

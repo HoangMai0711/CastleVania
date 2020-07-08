@@ -1,7 +1,5 @@
 #include "TransparentObjects.h"
 
-
-
 TransparentObjects::TransparentObjects()
 {
 }
@@ -18,6 +16,6 @@ void TransparentObjects::Render()
 {
 }
 
-void TransparentObjects::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void TransparentObjects::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 }

@@ -15,10 +15,10 @@ CMario::CMario() : CGameObject()
 	SetState(MARIO_STATE_IDLE);
 }
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	// Calculate dx, dy 
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 
 	// Simple fall down
 	vy += MARIO_GRAVITY*dt;
@@ -30,7 +30,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// turn off collision when die 
 	if (state!=MARIO_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
+		CalcPotentialCollisions(nonGridObject, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 

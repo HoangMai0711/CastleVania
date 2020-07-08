@@ -1,7 +1,7 @@
 #include "Bat.h"
 
 
-Bat::Bat(D3DXVECTOR2 position, int width, int reward)
+Bat::Bat(D3DXVECTOR2 position, int reward)
 {
 	this->x = position.x;
 	this->y = position.y;
@@ -26,7 +26,7 @@ Bat::~Bat()
 
 void Bat::Render()
 {
-	int ani = 0;
+	int ani;
 
 	switch (state)
 	{
@@ -45,11 +45,12 @@ void Bat::Render()
 	}
 
 	animations[ani]->Render(x, y);
+	//DebugOut(L"____bat ani: %d\n", ani);
 }
 
-void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
+void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, nonGridObject, gridObject);
 	x += dx;
 	y += dy;
 	if (state == ENEMY_STATE_IDLE) {
@@ -59,7 +60,7 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		Simon::GetInstance()->GetBoundingBox(sl, st, sr, sb);
 		GetBoundingBox(bl, bt, br, bb);
 
-		DebugOut(L"------Bl-Sl-Bb-St: %f/ %f/ %f/ %f\n", bl, sl, bb, st);
+		//DebugOut(L"------Bl-Sl-Bb-St: %f/ %f/ %f/ %f\n", bl, sl, bb, st);
 
 		if (abs(bl - sl) < BAT_ACTIVE_DISTANCE_WIDTH && abs(bb - st) < BAT_ACTIVE_DISTANCE_HEIGHT) {
 			if (!isActive)
@@ -111,7 +112,7 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 			reward = NULL;
 			break;
 		}
-		objects->push_back(reward);
+		nonGridObject->push_back(reward);
 	}
 
 	if (state == ENEMY_STATE_IDLE)
@@ -137,8 +138,8 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* objects)
 		B = { long(bl),long(bt),long(br),long(bb) };
 
 		if (!CGame::GetInstance()->IsColliding(A, B)) {
-			DebugOut(L"-----Bat vx, vy, state: %f/ %f/ %d\n", vx, vy, state);
-			DebugOut(L"------Bat fly out off screen\n");
+			//DebugOut(L"-----Bat vx, vy, state: %f/ %f/ %d\n", vx, vy, state);
+			//DebugOut(L"------Bat fly out off screen\n");
 			state = STATE_DESTROYED;
 		}
 	}
@@ -173,4 +174,5 @@ void Bat::SetState(int state)
 		y = sin(delta * 3.14 / 180) * 12 + originY;
 		break;
 	}
+	DebugOut(L"------Bat state: %d\n", state);
 }
