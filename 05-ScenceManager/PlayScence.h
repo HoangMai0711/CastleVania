@@ -30,6 +30,7 @@
 #include "PhantomBat.h"
 #include "Grid.h"
 #include "GroundObject.h"
+#include "Brick.h"
 
 class CPlayScene: public CScene
 {

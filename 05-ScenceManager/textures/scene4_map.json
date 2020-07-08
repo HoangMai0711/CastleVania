@@ -119,10 +119,6 @@
             {
               "col": 7,
               "row": 0
-            },
-            {
-              "col": 8,
-              "row": 0
             }
           ],
           "height": 14,
@@ -131,7 +127,7 @@
           "rotation": 0,
           "type": "Wall",
           "visible": true,
-          "width": 32,
+          "width": 16.1875,
           "x": 672,
           "y": 145
         },
@@ -202,6 +198,46 @@
           "width": 13,
           "x": -11.7272727272727,
           "y": -1.63636363636364
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 9,
+      "name": "Brick",
+      "objects": [
+        {
+          "gridPos": [
+            {
+              "col": 7,
+              "row": 0
+            },
+            {
+              "col": 8,
+              "row": 0
+            }
+          ],
+          "height": 13,
+          "id": 38,
+          "name": "1",
+          "properties": [
+            {
+              "name": "reward",
+              "type": "int",
+              "value": 0
+            }
+          ],
+          "rotation": 0,
+          "type": "Brick",
+          "visible": true,
+          "width": 16,
+          "x": 688.125,
+          "y": 146.25
         }
       ],
       "opacity": 1,
@@ -432,6 +468,32 @@
       "name": "ZombieZone",
       "objects": [
         {
+          "gridPos": [
+            {
+              "col": 0,
+              "row": 0
+            },
+            {
+              "col": 1,
+              "row": 0
+            },
+            {
+              "col": 2,
+              "row": 0
+            },
+            {
+              "col": 3,
+              "row": 0
+            },
+            {
+              "col": 4,
+              "row": 0
+            },
+            {
+              "col": 5,
+              "row": 0
+            }
+          ],
           "height": 25,
           "id": 25,
           "name": "1",
@@ -450,6 +512,20 @@
           "y": 150
         },
         {
+          "gridPos": [
+            {
+              "col": 1,
+              "row": 0
+            },
+            {
+              "col": 2,
+              "row": 0
+            },
+            {
+              "col": 3,
+              "row": 0
+            }
+          ],
           "height": 25,
           "id": 26,
           "name": "2",
@@ -777,8 +853,8 @@
       "y": 0
     }
   ],
-  "nextlayerid": 9,
-  "nextobjectid": 38,
+  "nextlayerid": 10,
+  "nextobjectid": 39,
   "orientation": "orthogonal",
   "properties": [
     {

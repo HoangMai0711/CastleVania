@@ -319,6 +319,20 @@ void CPlayScene::Load()
 
 				nonGridObject.push_back(boss);
 			}
+		else if (iter["name"] == "Brick")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				float idReward = i["properties"][0]["value"];
+
+				CBrick* brick = new CBrick(position, idReward);
+
+				nonGridObject.push_back(brick);
+			}
 	}
 
 	f.close();

@@ -27,7 +27,7 @@
 #define ID_CANDLE				14
 #define ID_STAIR				15
 #define ID_MOVING_BRICK			16
-#define ID_BRICK
+#define ID_BRICK				17
 
 //ID Items
 #define ID_SMALL_HEART			100
@@ -130,6 +130,7 @@
 #define ID_ANI_CANDLE			201
 #define ID_ANI_MOVING_BRICK		202
 #define ID_ANI_BRICK			203
+#define ID_ANI_BRICK_EFFECT		204
 
 //Id animation of hit effect
 #define ID_ANI_HIT_EFFECT		500

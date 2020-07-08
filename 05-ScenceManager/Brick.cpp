@@ -10,7 +10,7 @@ CBrick::CBrick(D3DXVECTOR2 position, int reward)
 	state = STATIC_OBJ_STATE_NORMAL;
 	isBroken = false;
 
-	//this->id = ID_BRICK;
+	this->id = ID_BRICK;
 
 	AddAnimation(ID_ANI_BRICK);
 }

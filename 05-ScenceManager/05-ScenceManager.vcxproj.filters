@@ -46,6 +46,9 @@
     <Filter Include="Game Object\GroundObject\Transparent Object">
       <UniqueIdentifier>{cb8134d2-82d1-41b1-b411-c047cec6aa01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Object\Effect">
+      <UniqueIdentifier>{955ef0c4-6d2c-4c67-878b-df74fce09558}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -199,7 +202,13 @@
       <Filter>Game Object\Items</Filter>
     </ClCompile>
     <ClCompile Include="MultishotItem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Object\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Game Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakableBrickEffect.cpp">
+      <Filter>Game Object\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -357,7 +366,13 @@
       <Filter>Game Object\Items</Filter>
     </ClInclude>
     <ClInclude Include="MultishotItem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Game Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBrickEffect.h">
+      <Filter>Game Object\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
