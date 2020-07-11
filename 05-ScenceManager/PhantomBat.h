@@ -50,7 +50,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void Render();
 
-	void BeDamaged();
+	void IsHitted();
 	void Reset();
 };
 

@@ -23,8 +23,8 @@ PhantomBat::PhantomBat(D3DXVECTOR2 position)
 
 	AddAnimation(ID_ANI_PHANTOM_BAT_IDLE);
 	AddAnimation(ID_ANI_PHANTOM_BAT_ACTIVE);
+	AddAnimation(ID_ANI_PHANTOM_BAT_DIE);
 	AddAnimation(ID_ANI_PHANTOM_BAT_HITTED);
-	AddAnimation(ID_ANI_HIT_EFFECT);
 }
 
 PhantomBat::~PhantomBat()
@@ -98,7 +98,7 @@ void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAM
 	if (hittedStart > 0)
 		vx = vy = 0;
 
-	if (hittedStart > 0 && GetTickCount() - hittedStart > PHANTOM_BAT_TIME_HITTED) {
+	if (hittedStart > 0 && GetTickCount() - hittedStart > PHANTOM_BAT_TIME_DIE) {
 		state = STATE_DESTROYED;
 	}
 
@@ -121,18 +121,18 @@ void PhantomBat::Render()
 	case PHANTOM_BAT_STATE_ACTIVE:
 		ani = PHANTOM_BAT_ANI_ACTIVE;
 		break;
-	case PHANTOM_BAT_STATE_HITTED:
-		ani = PHANTOM_BAT_ANI_HITTED;
+	case PHANTOM_BAT_STATE_DIE:
+		ani = PHANTOM_BAT_ANI_DIE;
 	default:
 		break;
 	}
 	animations[ani]->Render(x, y);
 
 	if (damagedStart > 0)
-		animations[PHANTOM_BAT_ANI_DAMAGED]->Render(x + 2 * PHANTOM_BAT_BBOX_WIDTH / 3, y + PHANTOM_BAT_BBOX_HEIGHT);
+		animations[PHANTOM_BAT_ANI_DAMAGED]->Render(x + PHANTOM_BAT_BBOX_WIDTH / 2, y + PHANTOM_BAT_BBOX_HEIGHT / 2);
 }
 
-void PhantomBat::BeDamaged()
+void PhantomBat::IsHitted()
 {
 	if (untouchableStart > 0)
 		return;
