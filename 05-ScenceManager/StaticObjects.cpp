@@ -59,11 +59,15 @@ void StaticObjects::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LP
 		case ID_ITEM_AXE:
 			reward = new ItemAxe({ x,y });
 			break;
+		case ID_POT_ROAST:
+			reward = new PotRoast({ x,y });
+			break;
 		default:
 			reward = NULL;
 			break;
 		}
-		nonGridObject->push_back(reward);
+		if (reward)
+			nonGridObject->push_back(reward);
 	}
 }
 

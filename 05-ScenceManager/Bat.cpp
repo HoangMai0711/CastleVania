@@ -61,6 +61,7 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT
 		GetBoundingBox(bl, bt, br, bb);
 
 		//DebugOut(L"------Bl-Sl-Bb-St: %f/ %f/ %f/ %f\n", bl, sl, bb, st);
+		//Check if bat is active
 
 		if (abs(bl - sl) < BAT_ACTIVE_DISTANCE_WIDTH && abs(bb - st) < BAT_ACTIVE_DISTANCE_HEIGHT) {
 			if (!isActive)
@@ -69,15 +70,17 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT
 				startFlyDown = GetTickCount();
 				SetState(BAT_FLY_DOWN);
 			}
-		
+
 		}
 	}
 
+	//Bat fly down
 	if (startFlyDown > 0 && GetTickCount() - startFlyDown >= BAT_TIME_FLYDOWN) {
 		startFlyDown = 0;
 		originY = y;
 	}
 
+	//Fly normal
 	if (startFlyDown == 0 && isActive) {
 		x += dx;
 		SetState(BAT_FLY_NORMAL);
@@ -112,7 +115,8 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT
 			reward = NULL;
 			break;
 		}
-		nonGridObject->push_back(reward);
+		if (reward)
+			nonGridObject->push_back(reward);
 	}
 
 	if (state == ENEMY_STATE_IDLE)
@@ -174,5 +178,4 @@ void Bat::SetState(int state)
 		y = sin(delta * 3.14 / 180) * 12 + originY;
 		break;
 	}
-	DebugOut(L"------Bat state: %d\n", state);
 }

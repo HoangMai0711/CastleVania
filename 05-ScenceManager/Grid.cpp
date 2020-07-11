@@ -79,6 +79,8 @@ void Grid::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJEC
 }
 void Grid::Render()
 {
-	for (auto obj : GetCurrentObject())
+	for (auto obj : GetCurrentObject()) {
 		obj->Render();
+		obj->RenderBoundingBox();
+	}
 }

@@ -94,7 +94,8 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 			reward = NULL;
 			break;
 		}
-		nonGridObject->push_back(reward);
+		if (reward)
+			nonGridObject->push_back(reward);
 	}
 }
 

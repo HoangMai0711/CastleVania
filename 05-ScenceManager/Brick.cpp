@@ -32,41 +32,26 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJ
 
 		switch (rewardId)
 		{
-		case ID_BIG_HEART:
-			reward = new BigHeart({ x,y });
+		case ID_DOUBLE_SHOT:
+			reward = new MultishotItem({ x,y }, rewardId);
 			break;
-		case ID_WHIP_UPGRADE:
-			reward = new WhipUpgrade({ x,y });
+		case ID_TRIPLE_SHOT:
+			reward = new MultishotItem({ x,y }, rewardId);
 			break;
-		case ID_DAGGER:
-			reward = new ItemDagger({ x,y });
-			break;
-		case ID_ITEM_BOOMERANG:
-			reward = new ItemBoomerang({ x,y });
-			break;
-		case ID_SMALL_HEART:
-			reward = new SmallHeart({ x,y });
-			break;
-		case ID_RED_MONEYBAG:
-			reward = new MoneyBag({ x,y }, rewardId);
-			break;
-		case ID_BLUE_MONEYBAG:
-			reward = new MoneyBag({ x,y }, rewardId);
-			break;
-		case ID_YELLOW_MONEYBAG:
-			reward = new MoneyBag({ x,y }, rewardId);
-			break;
-		case ID_BIG_MONEYBAG:
-			reward = new MoneyBag({ x,y }, rewardId);
-			break;
-		case ID_ITEM_AXE:
-			reward = new ItemAxe({ x,y });
+		case ID_POT_ROAST:
+			reward = new PotRoast({ x,y });
 			break;
 		default:
 			reward = NULL;
 			break;
 		}
-		nonGridObject->push_back(reward);
+		if (reward)
+			nonGridObject->push_back(reward);
+
+		float ex, ey;
+		GetPosition(ex, ey);
+		BreakableBrickEffect* effect = new BreakableBrickEffect({ ex, ey });
+		nonGridObject->push_back(effect);
 	}
 }
 

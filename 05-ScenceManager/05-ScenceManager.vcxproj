@@ -152,6 +152,7 @@
     <ClCompile Include="MultishotItem.cpp" />
     <ClCompile Include="PhantomBat.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PotRoast.cpp" />
     <ClCompile Include="Raven.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Skeleton.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="MultishotItem.h" />
     <ClInclude Include="PhantomBat.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PotRoast.h" />
     <ClInclude Include="Raven.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Skeleton.h" />

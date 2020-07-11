@@ -37,6 +37,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJ
 		case ID_FLEAMAN:
 		case ID_RAVEN:
 		case ID_PHANTOM_BAT:
+		case ID_BRICK:
 			float al, at, ar, ab;
 			float bl, bt, br, bb;
 

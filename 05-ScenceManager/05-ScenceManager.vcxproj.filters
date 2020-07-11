@@ -210,6 +210,9 @@
     <ClCompile Include="BreakableBrickEffect.cpp">
       <Filter>Game Object\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="PotRoast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="BreakableBrickEffect.h">
       <Filter>Game Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PotRoast.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

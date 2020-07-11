@@ -45,7 +45,7 @@ void CPlayScene::Load()
 	LoadAnimations();
 
 	tileMap = new TileMap();
-	//DebugOut(L"[INFO] Start loading tilemap\n");
+
 	tileMap->LoadTileMapFromFile(sceneFilePath);
 	DebugOut(L"[INFO] End loading tilemap\n");
 
@@ -198,7 +198,6 @@ void CPlayScene::Load()
 					D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
 					stair->AddGridPositon(gridPos);
 				}
-
 				grid->AddObject(stair);
 			}
 		else if (iter["name"] == "Bat")
@@ -331,7 +330,13 @@ void CPlayScene::Load()
 
 				CBrick* brick = new CBrick(position, idReward);
 
-				nonGridObject.push_back(brick);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
+					brick->AddGridPositon(gridPos);
+				}
+				grid->AddObject(brick);
 			}
 	}
 
@@ -357,7 +362,7 @@ void CPlayScene::Update(DWORD dt)
 
 	currentGridObjects = grid->GetCurrentObject();
 	//DebugOut(L"--current grid object: %d\n", currentGridObjects.size());
-	DebugOut(L"--non grid object: %d\n", nonGridObject.size());
+	//DebugOut(L"--non grid object: %d\n", nonGridObject.size());
 
 
 	// update simon
@@ -417,14 +422,11 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	//DebugOut(L"[INFO]Render objects in Playscene\n");
 	tileMap->Draw({ 0,0 }, 255);
 	for (int i = 0; i < nonGridObject.size(); i++) {
-		DebugOut(L"id: %d\n", nonGridObject[i]->GetId());
 		nonGridObject[i]->RenderBoundingBox();
 		nonGridObject[i]->Render();
 	}
-	DebugOut(L"--------------------------------------------------------\n");
 	grid->Render();
 	simon->Render();
 }
@@ -584,16 +586,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		else
 			simon->SetState(SIMON_STATE_WALKING_LEFT);
 
-	if (game->IsKeyDown(DIK_DOWN))
+	if (game->IsKeyDown(DIK_DOWN)) {
 		if (simon->IsOnStair()) {
 			simon->SetState(SIMON_STATE_DOWNSTAIR);
 		}
 		else if (simon->GetCollidedStair()) {
+			//DebugOut(L"--------simon downstair\n");
 			if (simon->GetCollidedStair()->GetNy() < 0) {
 				float x, y;
 				simon->GetCollidedStair()->GetPosition(x, y);
 				simon->SetStair(simon->GetCollidedStair());
-				simon->SetPosition(x, y - SIMON_BBOX_HEIGHT);
+				simon->SetPosition(x - 1, y - SIMON_BBOX_HEIGHT + 5);
 				simon->SetState(SIMON_STATE_DOWNSTAIR);
 			}
 			else
@@ -601,6 +604,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		}
 		else
 			simon->SetState(SIMON_STATE_SIT);
+	}
 
 	if (game->IsKeyDown(DIK_UP))
 		if (simon->IsOnStair()) {

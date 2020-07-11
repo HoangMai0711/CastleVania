@@ -9,6 +9,8 @@
 #include "SmallHeart.h"
 #include "MoneyBag.h"
 #include "ItemAxe.h"
+#include "MultishotItem.h"
+#include "PotRoast.h"
 
 #define STATIC_OBJ_STATE_NORMAL		0
 #define STATIC_OBJ_STATE_HITTED		1

@@ -6,7 +6,7 @@
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 #define SCREEN_WIDTH			272
-#define SCREEN_HEIGHT			264
+#define SCREEN_HEIGHT			269
 #define CAM_HEIGHT				192
 
 #define MAX_FRAME_RATE			120
@@ -42,6 +42,7 @@
 #define ID_ITEM_AXE				109
 #define ID_DOUBLE_SHOT			110
 #define ID_TRIPLE_SHOT			111
+#define ID_POT_ROAST			112
 
 //ID Enemy
 #define ID_BAT					30
@@ -157,6 +158,8 @@
 #define ID_ANI_BIG_MONEYBAG_SCORE		413
 
 #define ID_ANI_ITEM_AXE				414
+
+#define ID_ANI_POT_ROAST			415
 
 //Id nx of item
 #define ITEM_RIGHT		0

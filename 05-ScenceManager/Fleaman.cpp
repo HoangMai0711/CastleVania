@@ -132,7 +132,7 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 		GetBoundingBox(fl, ft, fr, fb);
 
 		if (abs(fl - sl) < FLEAMAN_ACTIVE_DISTANCE_WIDTH) {
-			StartActive();
+			//StartActive();
 			//DebugOut(L"--After first active vx, vy: %f/ %f\n", vx, vy);
 		}
 	}

@@ -102,6 +102,8 @@ void Simon::Attack()
 
 	if (state == SIMON_STATE_SIT)
 		SetState(SIMON_STATE_SIT_ATTACK);
+	else if (isOnStair)
+		SetState(SIMON_STATE_ATTACK_ON_STAIR);
 	else {
 		SetState(SIMON_STATE_ATTACK);
 		DebugOut(L"[INFO] Changed state to attack");
@@ -126,6 +128,8 @@ void Simon::AttackSubWeapon()
 
 	if (state == SIMON_STATE_SIT)
 		SetState(SIMON_STATE_SIT_ATTACK);
+	else if (isOnStair)
+		SetState(SIMON_STATE_ATTACK_ON_STAIR);
 	else
 		SetState(SIMON_STATE_ATTACK);
 
@@ -181,18 +185,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	realCoObjects = new vector<LPGAMEOBJECT>;
 	movingBrick = new vector<LPGAMEOBJECT>;
 
-	//for (auto i : *nonGridObject) {
-	//	switch (i->GetId())
-	//	{
-	//	case ID_WALL:
-	//	case ID_HIDDEN_OBJECTS:
-	//	case ID_PORTAL:
-	//		realCoObjects->push_back(i);
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
 
 	for (auto i : gridObject) {
 		switch (i->GetId())
@@ -200,6 +192,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		case ID_WALL:
 		case ID_HIDDEN_OBJECTS:
 		case ID_PORTAL:
+		case ID_BRICK:
 			realCoObjects->push_back(i);
 			break;
 		default:
@@ -260,14 +253,28 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 
 	UpdateSubWeapon(dt, nonGridObject, gridObject);
 
-	collidedStair = NULL;
+	for (auto iter : coEvents) delete iter;
+	coEvents.clear();
+
+	//collidedStair = NULL;
+
+	vector<LPGAMEOBJECT>* objects;
+	objects = new vector<LPGAMEOBJECT>;
+
+	for (auto obj : gridObject)
+		objects->push_back(obj);
+	for (auto obj : *nonGridObject)
+		objects->push_back(obj);
+
+	CalcPotentialCollisions(objects, coEvents);
 
 	//Collision with items
 	for (auto i : coEvents) {
 		LPGAMEOBJECT object = i->obj;
 
 		//Skip if items is destroyed
-		CollideWithObjectAndItems(object, nonGridObject);
+		//CollideWithObjectAndItems(object, nonGridObject);
+		CollideWithObjectAndItems(object, objects);
 	}
 
 	//Enable control after flash time
@@ -294,7 +301,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		B = { long(bl),long(bt),long(br),long(bb) };
 
 		if (CGame::GetInstance()->IsColliding(A, B)) {
-			CollideWithObjectAndItems(iter, nonGridObject);
+			//CollideWithObjectAndItems(iter, nonGridObject);
+			CollideWithObjectAndItems(iter, objects);
 		}
 	}
 
@@ -302,7 +310,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		float sx, sy;
 		stair->GetPosition(sx, sy);
 		if ((stair->GetNy() > 0 && (y <= sy - stair->GetStairHeight() - SIMON_BBOX_HEIGHT || y >= sy - SIMON_BBOX_HEIGHT + 5)) ||
-			(stair->GetNy() < 0 && (y + SIMON_BBOX_HEIGHT <= sy || y >= sy + stair->GetStairHeight() - SIMON_BBOX_HEIGHT + 5))) {
+			(stair->GetNy() < 0 && (y + SIMON_BBOX_HEIGHT <= sy + 4 || y >= sy + stair->GetStairHeight() - SIMON_BBOX_HEIGHT + 5))) {
 			isOnStair = false;
 			state = SIMON_STATE_IDLE;
 			SetSpeed(0, 0);
@@ -333,6 +341,16 @@ void Simon::Render()
 			ani = SIMON_ANI_SIT_ATTACK_RIGHT;
 		else
 			ani = SIMON_ANI_SIT_ATTACK_LEFT;
+		break;
+	case SIMON_STATE_ATTACK_ON_STAIR:
+		if (nx > 0 && ny > 0)
+			ani = SIMON_ANI_ATTACK_UPSTAIR_RIGHT;
+		else if (nx < 0 && ny > 0)
+			ani = SIMON_ANI_ATTACK_UPSTAIR_LEFT;
+		else if (nx > 0 && ny < 0)
+			ani = SIMON_ANI_ATTACK_DOWNSTAIR_RIGHT;
+		else if (nx < 0 && ny < 0)
+			ani = SIMON_ANI_ATTACK_DOWNSTAIR_LEFT;
 		break;
 	case SIMON_STATE_JUMP:
 		if (vy < 0) {
@@ -564,6 +582,9 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	{
 	case ID_BIG_HEART:
 	case ID_SMALL_HEART:
+	case ID_DOUBLE_SHOT:
+	case ID_TRIPLE_SHOT:
+	case ID_POT_ROAST:
 		object->SetState(STATE_DESTROYED);
 		break;
 	case ID_DAGGER:
@@ -594,10 +615,16 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		object->SetState(STATE_DESTROYED);
 		break;
 	case ID_STAIR:
+	{
+		DebugOut(L"----------Collide with stair\n");
 		if (!isOnStair)
 			stair = dynamic_cast<Stair*>(object);
 		collidedStair = dynamic_cast<Stair*>(object);
+		if (collidedStair != NULL)
+			DebugOut(L"------Stair is not NULL\n");
 		break;
+	}
+
 	case ID_BAT:
 	case ID_BLACK_KNIGHT:
 	case ID_GHOST:
