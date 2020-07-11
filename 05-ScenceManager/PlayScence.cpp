@@ -290,7 +290,7 @@ void CPlayScene::Load()
 
 				float zombieY = i["properties"][0]["value"];
 
-				ZombieZone* zombieZone = new ZombieZone(position, width, height, zombieY);
+				ZombieZone* zombieZone = new ZombieZone(position, width, height);
 
 				nonGridObject.push_back(zombieZone);
 			}

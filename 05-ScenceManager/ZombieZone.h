@@ -4,28 +4,19 @@
 #include "Simon.h"
 #include "Zombie.h"
 
-#define NUMBER_OF_ZOMBIE		3
-#define DELAY_TIME				3000
-#define TIME_BORN				800
+#define SPAWN_TIME				6000
 
 class ZombieZone :
 	public TransparentObjects
 {
+	DWORD spawStart;
+	int numOfZombie;
+	int currentNumZombie;
+
 	int width;
 	int height;
-	float zombiePosY;
-	int numOfZombie;
-	int zombieId;
-
-	int currentIter;
-	bool isActive;
-	DWORD delayStart;
-
-	bool firstSpawn;
-
-	void SpawnEnemy(vector<LPGAMEOBJECT>* objects);
 public:
-	ZombieZone(D3DXVECTOR2 position, int width, int height, int y);
+	ZombieZone(D3DXVECTOR2 position, int width, int height);
 	~ZombieZone();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);

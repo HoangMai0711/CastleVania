@@ -268,6 +268,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 
 	CalcPotentialCollisions(objects, coEvents);
 
+	collidedStair = NULL;
 	//Collision with items
 	for (auto i : coEvents) {
 		LPGAMEOBJECT object = i->obj;
@@ -289,7 +290,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 
 
 	//Check collision if 2 object is already overlapped
-	for (auto iter : *nonGridObject)
+	for (auto iter : *objects)
 	{
 		float al, at, ar, ab;
 		float bl, bt, br, bb;
