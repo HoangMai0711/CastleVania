@@ -10,6 +10,7 @@ class ZombieZone :
 	public TransparentObjects
 {
 	DWORD spawStart;
+	DWORD delayTime;
 	int numOfZombie;
 	int currentNumZombie;
 

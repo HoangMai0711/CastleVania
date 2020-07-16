@@ -9,6 +9,8 @@
 #define SCREEN_HEIGHT			269
 #define CAM_HEIGHT				192
 
+#define HUD_HEIGHT				40
+
 #define MAX_FRAME_RATE			120
 
 #define GRID_WIDTH				88
@@ -59,6 +61,8 @@
 //ID textuters
 #define ID_TEX_SIMON			0
 #define ID_TEX_WHIP				1
+#define ID_TEX_HUD				60
+#define ID_TEX_HEALTH			70
 
 //Id animation of simon
 #define ID_ANI_SIMON_IDLE_RIGHT					100

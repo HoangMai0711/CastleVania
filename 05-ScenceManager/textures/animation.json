@@ -5,7 +5,9 @@
     [ 20, "textures\\items.png", 4294902015 ],
     [ 30, "textures\\enemy.png", 4284499050 ],
     [ 40, "textures\\movingbrick.png", 4285822068 ],
-    [ 50, "textures\\boss.png", 4289210456 ]
+    [ 50, "textures\\boss.png", 4289210456 ],
+    [ 60, "textures\\HUD.png", 0 ],
+    [ 70, "textures\\health.png", 0 ]
   ],
   "sprites": [
     [ 10000, 104, 8, 121, 39, 0, 1, 0, 0 ],

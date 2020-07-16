@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Game.h"
 
 #define MOVING_BRICK_BBOX_WIDTH			31
 #define MOVING_BRICK_BBOX_HEIGHT		7

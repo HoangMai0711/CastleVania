@@ -86,8 +86,8 @@
           "rotation": 0,
           "type": "Wall",
           "visible": true,
-          "width": 48,
-          "x": 400,
+          "width": 49,
+          "x": 399,
           "y": 305
         },
         {
@@ -111,7 +111,7 @@
           "rotation": 0,
           "type": "Wall",
           "visible": true,
-          "width": 125,
+          "width": 127,
           "x": 257,
           "y": 273
         },
@@ -653,8 +653,8 @@
           "type": "SimonPos",
           "visible": true,
           "width": 20,
-          "x": 290,
-          "y": 304
+          "x": 70,
+          "y": 30
         }
       ],
       "opacity": 1,
@@ -1044,7 +1044,7 @@
           "type": "MovingBrick",
           "visible": true,
           "width": 31,
-          "x": 30.875,
+          "x": 33.875,
           "y": 80
         }
       ],

@@ -23,6 +23,24 @@ void MovingBrick::Render()
 
 void MovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
+	float al, at, ar, ab;
+	float bl, bt, br, bb;
+
+	al = CGame::GetInstance()->GetCamPosX();
+	at = CGame::GetInstance()->GetCamPosY();
+
+	ar = al + SCREEN_WIDTH;
+	ab = at + SCREEN_HEIGHT;
+
+	GetBoundingBox(bl, bt, br, bb);
+
+	RECT A, B;
+	A = { long(al),long(at),long(ar),long(ab) };
+	B = { long(bl),long(bt),long(br),long(bb) };
+
+	if (!CGame::GetInstance()->IsColliding(A, B))
+		return;
+
 	CGameObject::Update(dt, nonGridObject, gridObject);
 
 	vector<LPCOLLISIONEVENT> coEvents;

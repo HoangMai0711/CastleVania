@@ -17,5 +17,9 @@ public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render();
 	void Upgrade();
+
+	void Load();
+	int GetWhipLevel() { return level; }
+	void SetWhipLevel(int lv) { this->level = lv; }
 };
 

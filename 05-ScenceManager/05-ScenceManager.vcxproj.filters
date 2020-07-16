@@ -49,6 +49,9 @@
     <Filter Include="Game Object\Effect">
       <UniqueIdentifier>{955ef0c4-6d2c-4c67-878b-df74fce09558}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{b7b8c86b-527c-4702-8ffe-74b278753b39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -211,7 +214,13 @@
       <Filter>Game Object\Effect</Filter>
     </ClCompile>
     <ClCompile Include="PotRoast.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Object\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -378,7 +387,13 @@
       <Filter>Game Object\Effect</Filter>
     </ClInclude>
     <ClInclude Include="PotRoast.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Object\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>HUD</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -42,6 +42,7 @@ protected:
 	LPTILEMAP tileMap;
 	CGame* game;
 	Grid* grid;
+	ID3DXFont* font = nullptr;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

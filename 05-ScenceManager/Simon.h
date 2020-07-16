@@ -23,6 +23,7 @@
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define SIMON_DIE_DEFLECT_SPEED	 0.5f
+#define SIMON_MAX_HEALTH		16
 
 //Simon velocity
 #define SIMON_WALKING_SPEED		0.07f
@@ -86,6 +87,10 @@ private:
 
 	static Simon* __instance;
 
+	int time;
+	int heart;
+	int health;
+
 	bool isOnAir;
 	bool isOnStair;
 	int untouchable;
@@ -100,6 +105,8 @@ private:
 
 	Whip* whip;
 	vector<LPWEAPON> subWeapon;
+	int subweaponId;
+	int subweaponLevel;
 
 	Stair* stair;
 	Stair* collidedStair;
@@ -109,6 +116,7 @@ public:
 
 	static Simon* GetInstance();
 	void Load();
+	void LoadWhip();
 	void Unload();
 	void Jump();
 	void Attack();
@@ -143,5 +151,12 @@ public:
 	void SetStair(Stair* setStair) { stair = setStair; }
 
 	void BeInjured();
+
+	int GetMultiShotLevel() { return subweaponLevel; }
+	int GetSubweaponId() { return subweaponId; }
+	int GetScore() { return score; }
+	int GetTime() { return time; }
+	int GetHeart() { return heart; }
+	int GetHealth() { return health; }
 };
 

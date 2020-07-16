@@ -5,6 +5,23 @@ Simon* Simon::__instance;
 
 Simon::Simon()
 {
+	id = ID_SIMON;
+	isOnAir = false;
+	isOnGround = false;
+	isOnStair = false;
+
+	attackStart = 0;
+	attackSubWeaponStart = 0;
+	flashStart = 0;
+	untouchableStart = 0;
+
+	disableControl = false;
+
+	stair = NULL;
+	collidedStair = NULL;
+
+	whip = new Whip();
+
 	Load();
 }
 
@@ -30,10 +47,8 @@ Simon * Simon::GetInstance()
 
 void Simon::Load()
 {
-	whip = new Whip();
-
-	DebugOut(L"[INFO]Create Simon and add animation\n");
 	animations.clear();
+
 	AddAnimation(ID_ANI_SIMON_IDLE_RIGHT);				// Idle Right			0
 	AddAnimation(ID_ANI_SIMON_IDLE_LEFT);				// Idle Left			1
 	AddAnimation(ID_ANI_SIMON_WALK_RIGHT);				// Walk Right			2
@@ -62,20 +77,7 @@ void Simon::Load()
 	AddAnimation(ID_ANI_SIMON_FLASH_RIGHT);				// Flash Right				25
 	AddAnimation(ID_ANI_SIMON_FLASH_LEFT);				// Flash Left				26
 
-	id = ID_SIMON;
-	isOnAir = false;
-	isOnGround = false;
-	isOnStair = false;
-
-	attackStart = 0;
-	attackSubWeaponStart = 0;
-	flashStart = 0;
-	untouchableStart = 0;
-
-	disableControl = false;
-
-	stair = NULL;
-	collidedStair = NULL;
+	whip->Load();
 }
 
 void Simon::Unload()
@@ -315,8 +317,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 			isOnStair = false;
 			state = SIMON_STATE_IDLE;
 			SetSpeed(0, 0);
-			DebugOut(L"---Simon Pos X-Y: %f-%f\n", x, y);
-			DebugOut(L"---Stair POS x-y,NY: %f-%f,%d\n", sx, sy, stair->GetNy());
+			//DebugOut(L"---Simon Pos X-Y: %f-%f\n", x, y);
+			//DebugOut(L"---Stair POS x-y,NY: %f-%f,%d\n", sx, sy, stair->GetNy());
 			stair = NULL;
 		}
 	}
@@ -617,12 +619,10 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		break;
 	case ID_STAIR:
 	{
-		DebugOut(L"----------Collide with stair\n");
+		//DebugOut(L"----------Collide with stair\n");
 		if (!isOnStair)
 			stair = dynamic_cast<Stair*>(object);
 		collidedStair = dynamic_cast<Stair*>(object);
-		if (collidedStair != NULL)
-			DebugOut(L"------Stair is not NULL\n");
 		break;
 	}
 

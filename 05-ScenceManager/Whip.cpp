@@ -28,12 +28,7 @@ Whip::Whip()
 	vy = 0;
 	level = 0;
 
-	AddAnimation(ID_ANI_WHIP_SHORT_RIGHT);			// Level 1 Right - Ani ID: 0
-	AddAnimation(ID_ANI_WHIP_SHORT_LEFT);			// Level 1 Left - Ani ID: 1
-	AddAnimation(ID_ANI_WHIP_NORMAL_RIGHT);			// Level 2 Right - Ani ID: 2
-	AddAnimation(ID_ANI_WHIP_NORMAL_LEFT);			// Level 2 Left - Ani ID: 3
-	AddAnimation(ID_ANI_WHIP_LONG_RIGHT);			// Level 3 Right - Ani ID: 4
-	AddAnimation(ID_ANI_WHIP_LONG_LEFT);			// Level 3 Left - Ani ID: 5
+	Load();
 }
 
 
@@ -96,4 +91,15 @@ void Whip::Upgrade()
 {
 	if (level < 2)
 		level++;
+}
+
+void Whip::Load()
+{
+	animations.clear();
+	AddAnimation(ID_ANI_WHIP_SHORT_RIGHT);			// Level 1 Right - Ani ID: 0
+	AddAnimation(ID_ANI_WHIP_SHORT_LEFT);			// Level 1 Left - Ani ID: 1
+	AddAnimation(ID_ANI_WHIP_NORMAL_RIGHT);			// Level 2 Right - Ani ID: 2
+	AddAnimation(ID_ANI_WHIP_NORMAL_LEFT);			// Level 2 Left - Ani ID: 3
+	AddAnimation(ID_ANI_WHIP_LONG_RIGHT);			// Level 3 Right - Ani ID: 4
+	AddAnimation(ID_ANI_WHIP_LONG_LEFT);			// Level 3 Left - Ani ID: 5
 }
