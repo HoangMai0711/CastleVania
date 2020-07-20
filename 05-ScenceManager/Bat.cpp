@@ -37,15 +37,15 @@ void Bat::Render()
 	case BAT_FLY_NORMAL:
 		ani = BAT_ANI_FLY;
 		break;
+	case ENEMY_STATE_DIE:
+		ani = ENEMY_ANI_HITTED;
+		break;
 	default:
 		break;
 	}
 
 	animations[ani]->Render(x, y);
 	//DebugOut(L"____bat ani: %d\n", ani);
-
-	if (hitEffectStart > 0)
-		animations[ENEMY_ANI_HITTED]->Render(x, y);
 }
 
 void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
@@ -151,7 +151,7 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT
 
 void Bat::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (state != ENEMY_STATE_HITTED) {
+	if (state != ENEMY_STATE_DIE) {
 		left = x;
 		top = y;
 		right = x + BAT_BBOX_WIDTH;

@@ -35,7 +35,7 @@ void BlackKnight::Render()
 		else
 			ani = BLACK_KNIGHT_ANI_WALKING_LEFT;
 		break;
-	//case ENEMY_STATE_HITTED:
+	//case ENEMY_STATE_DIE:
 	//	ani = ENEMY_ANI_HITTED;
 	//	break;
 	default:
@@ -61,11 +61,17 @@ void BlackKnight::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGA
 		vx = -BLACK_KNIGHT_WALKING_SPEED;
 	}
 	x += dx;
+
+	//if (vx == 0 && vy == 0)
+	//	if (nx > 0)
+	//		SetSpeed(BLACK_KNIGHT_WALKING_SPEED, vy);
+	//	else
+	//		SetSpeed(-BLACK_KNIGHT_WALKING_SPEED, vy);
 }
 
 void BlackKnight::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (state != ENEMY_STATE_HITTED) {
+	if (state != ENEMY_STATE_DIE) {
 		left = x;
 		top = y;
 		right = x + BLACK_KNIGHT_BBOX_WIDTH;
@@ -73,4 +79,19 @@ void BlackKnight::GetBoundingBox(float & left, float & top, float & right, float
 	}
 	else
 		left = top = right = bottom = 0;
+}
+
+void BlackKnight::IsHitted()
+{
+
+	if (untouchableStart > 0)
+		return;
+
+	untouchableStart = GetTickCount();
+
+	DecreaseHealth();
+	if (health <= 0) {
+		SetSpeed(0, 0);
+	}
+	hitEffectStart = GetTickCount();
 }

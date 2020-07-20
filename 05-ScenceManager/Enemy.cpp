@@ -76,8 +76,7 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		hitEffectStart = 0;
 
 		if (health <= 0) {
-			DebugOut(L"---Enemy health: %d\n", health);
-			state = STATE_DESTROYED;
+				state = STATE_DESTROYED;
 
 			LPGAMEOBJECT reward;
 			int rewardId = GetRewardId();
@@ -114,9 +113,9 @@ void Enemy::IsHitted()
 	untouchableStart = GetTickCount();
 
 	DecreaseHealth();
+	state = ENEMY_STATE_DIE;
 	SetSpeed(0, 0);
 	hitEffectStart = GetTickCount();
-	//state = ENEMY_STATE_HITTED;
 }
 
 void Enemy::DecreaseHealth()

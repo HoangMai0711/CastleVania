@@ -27,6 +27,9 @@ void Zombie::Render()
 	int ani = 0;
 	switch (state)
 	{
+	case ENEMY_STATE_DIE:
+		ani = ENEMY_ANI_HITTED;
+		break;
 	case ENEMY_STATE_ACTIVE:
 		if (nx > 0)
 			ani = ZOMBIE_ANI_WALK_RIGHT;
@@ -37,9 +40,6 @@ void Zombie::Render()
 		break;
 	}
 	animations[ani]->Render(x, y);
-
-	if (hitEffectStart > 0)
-		animations[ENEMY_ANI_HITTED]->Render(x, y);
 }
 
 void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
@@ -49,7 +49,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJ
 	x += dx;
 	vx = nx * ZOMBIE_SPEED_X;
 
-	if (state != ENEMY_STATE_HITTED)
+	if (state != ENEMY_STATE_DIE)
 		vy += ZOMBIE_GRAVITY * dt;
 }
 

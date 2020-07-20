@@ -37,6 +37,9 @@ void Skeleton::Render()
 	int ani = 0;
 	switch (state)
 	{
+	case ENEMY_STATE_DIE:
+		ani = ENEMY_ANI_HITTED;
+		break;
 	case ENEMY_STATE_IDLE:
 		if (nx > 0)
 			ani = SKELETON_ANI_IDLE_RIGHT;
@@ -56,9 +59,6 @@ void Skeleton::Render()
 		break;
 	}
 	animations[ani]->Render(x, y);
-
-	if (hitEffectStart > 0)
-		animations[ENEMY_ANI_HITTED]->Render(x, y);
 }
 
 void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)

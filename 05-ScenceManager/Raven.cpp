@@ -28,6 +28,9 @@ void Raven::Render()
 	int ani = 0;
 	switch (state)
 	{
+	case ENEMY_STATE_DIE:
+		ani = ENEMY_ANI_HITTED;
+		break;
 	case ENEMY_STATE_IDLE:
 			ani = RAVEN_ANI_IDLE_LEFT;
 		break;
@@ -41,9 +44,6 @@ void Raven::Render()
 		break;
 	}
 	animations[ani]->Render(x, y);
-
-	if (hitEffectStart > 0)
-		animations[ENEMY_ANI_HITTED]->Render(x, y);
 }
 
 void Raven::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)

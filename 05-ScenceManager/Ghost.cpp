@@ -27,6 +27,9 @@ void Ghost::Render()
 
 	switch (state)
 	{
+	case ENEMY_STATE_DIE:
+		ani = ENEMY_ANI_HITTED;
+		break;
 	case ENEMY_STATE_ACTIVE:
 		if (nx > 0)
 			ani = GHOST_ANI_FLY_RIGHT;
@@ -41,9 +44,6 @@ void Ghost::Render()
 	}
 
 	animations[ani]->Render(x, y);
-
-	if (hitEffectStart > 0)
-		animations[ENEMY_ANI_HITTED]->Render(x, y);
 }
 
 void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
