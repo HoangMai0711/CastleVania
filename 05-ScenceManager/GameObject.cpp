@@ -165,6 +165,10 @@ void CGameObject::IsHitted()
 	
 }
 
+void CGameObject::Reset()
+{
+}
+
 CGameObject::~CGameObject()
 {
 

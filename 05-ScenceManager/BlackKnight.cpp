@@ -8,7 +8,7 @@ BlackKnight::BlackKnight(D3DXVECTOR2 position, int nx, int idReward, int edge)
 	this->idReward = idReward;
 	this->nx = nx;
 	vx = BLACK_KNIGHT_WALKING_SPEED;
-	//health = 2;
+	health = 2;
 	state = ENEMY_STATE_ACTIVE;
 	edgeLeft = position.x;
 	edgeRight = edge;
@@ -35,14 +35,17 @@ void BlackKnight::Render()
 		else
 			ani = BLACK_KNIGHT_ANI_WALKING_LEFT;
 		break;
-	case ENEMY_STATE_HITTED:
-		ani = ENEMY_ANI_HITTED;
-		break;
+	//case ENEMY_STATE_HITTED:
+	//	ani = ENEMY_ANI_HITTED;
+	//	break;
 	default:
 		break;
 	}
 
 	animations[ani]->Render(x, y);
+
+	if (hitEffectStart > 0)
+		animations[ENEMY_ANI_HITTED]->Render(x, y);
 }
 
 void BlackKnight::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)

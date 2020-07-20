@@ -116,6 +116,7 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 	virtual void ResetAnimation();
 	virtual void IsHitted();
+	virtual void Reset();
 
 	~CGameObject();
 };

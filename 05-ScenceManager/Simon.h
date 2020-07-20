@@ -19,6 +19,7 @@
 #include "MovingBrick.h"
 #include "Boomerang.h"
 #include "Axe.h"
+#include "Brick.h"
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -32,6 +33,7 @@
 #define SIMON_GRAVITY			0.0006f
 #define SIMON_FLASH_TIME		900
 #define SIMON_ATTACK_TIME		300
+#define SIMON_DIE_TIME			2000
 #define SIMON_INJURED_DEFLECT_SPEED_Y	0.15f
 #define SIMON_INJURED_DEFLECT_SPEED_X	0.06f
 
@@ -90,6 +92,7 @@ private:
 	int time;
 	int heart;
 	int health;
+	int life;
 
 	bool isOnAir;
 	bool isOnStair;
@@ -99,6 +102,7 @@ private:
 	DWORD attackStart;
 	DWORD attackSubWeaponStart;
 	DWORD flashStart;
+	DWORD dieStart;
 
 	bool disableControl;
 	int idSubWeapon;
@@ -111,12 +115,12 @@ private:
 	Stair* stair;
 	Stair* collidedStair;
 
+	D3DXVECTOR2 firstPos;
 public:
 	~Simon();
 
 	static Simon* GetInstance();
 	void Load();
-	void LoadWhip();
 	void Unload();
 	void Jump();
 	void Attack();
@@ -150,6 +154,8 @@ public:
 	Stair* GetCollidedStair() { return collidedStair; }
 	void SetStair(Stair* setStair) { stair = setStair; }
 
+	vector<LPWEAPON> GetSubweapon() { return subWeapon; }
+
 	void BeInjured();
 
 	int GetMultiShotLevel() { return subweaponLevel; }
@@ -158,5 +164,14 @@ public:
 	int GetTime() { return time; }
 	int GetHeart() { return heart; }
 	int GetHealth() { return health; }
+	int GetLife() { return life; }
+
+	void SetSubweaponLevel(int level) { subweaponLevel = level; }
+	void SetFisrtPosition(float x, float y) { firstPos.x = x; firstPos.y = y; }
+
+	void IncreaseHealth(int num);
+	void IncreaseHeart(int num);
+
+	void Revive(vector<LPGAMEOBJECT> *nonGridObject);
 };
 

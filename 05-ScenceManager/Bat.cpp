@@ -10,7 +10,7 @@ Bat::Bat(D3DXVECTOR2 position, int reward)
 	originY = y;
 	startFlyDown = 0;
 	isActive = false;
-	//health = 1;
+	health = 1;
 
 	SetState(ENEMY_STATE_IDLE);
 
@@ -37,15 +37,15 @@ void Bat::Render()
 	case BAT_FLY_NORMAL:
 		ani = BAT_ANI_FLY;
 		break;
-	case ENEMY_STATE_HITTED:
-		ani = ENEMY_ANI_HITTED;
-		break;
 	default:
 		break;
 	}
 
 	animations[ani]->Render(x, y);
 	//DebugOut(L"____bat ani: %d\n", ani);
+
+	if (hitEffectStart > 0)
+		animations[ENEMY_ANI_HITTED]->Render(x, y);
 }
 
 void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)

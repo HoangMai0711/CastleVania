@@ -27,6 +27,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJ
 
 	if (!isBroken && state == STATIC_OBJ_STATE_HITTED) {
 		isBroken = true;
+		state = STATE_DESTROYED;
 		LPGAMEOBJECT reward;
 		int rewardId = GetRewardId();
 

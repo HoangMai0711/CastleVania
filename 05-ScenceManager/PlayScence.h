@@ -31,6 +31,7 @@
 #include "Grid.h"
 #include "GroundObject.h"
 #include "Brick.h"
+#include "HUD.h"
 
 class CPlayScene: public CScene
 {
@@ -42,7 +43,9 @@ protected:
 	LPTILEMAP tileMap;
 	CGame* game;
 	Grid* grid;
-	ID3DXFont* font = nullptr;
+	LPHUD hud;
+
+	//void ReadFile_FONTS(LPTSTR path);
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

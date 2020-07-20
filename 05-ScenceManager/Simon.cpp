@@ -10,10 +10,19 @@ Simon::Simon()
 	isOnGround = false;
 	isOnStair = false;
 
+	life = 3;
+	health = SIMON_MAX_HEALTH;
+	time = 300;
+	heart = 5;
+	score = 0;
+
 	attackStart = 0;
 	attackSubWeaponStart = 0;
 	flashStart = 0;
 	untouchableStart = 0;
+
+	subweaponId = 0;
+	subweaponLevel = 1;
 
 	disableControl = false;
 
@@ -120,7 +129,7 @@ void Simon::AttackSubWeapon()
 		return;
 	if (attackSubWeaponStart > 0)
 		return;
-	if (subWeapon.size() > 0)
+	if (GetSubweapon().size() >= subweaponLevel)
 		return;
 
 	if (state != SIMON_STATE_JUMP)
@@ -194,7 +203,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		case ID_WALL:
 		case ID_HIDDEN_OBJECTS:
 		case ID_PORTAL:
-		case ID_BRICK:
+		//case ID_BRICK:
 			realCoObjects->push_back(i);
 			break;
 		default:
@@ -584,10 +593,15 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	switch (object->GetId())
 	{
 	case ID_BIG_HEART:
+		IncreaseHeart(10);
+		object->SetState(STATE_DESTROYED);
+		break;
 	case ID_SMALL_HEART:
-	case ID_DOUBLE_SHOT:
-	case ID_TRIPLE_SHOT:
+		IncreaseHeart(1);
+		object->SetState(STATE_DESTROYED);
+		break;
 	case ID_POT_ROAST:
+		IncreaseHealth(6);
 		object->SetState(STATE_DESTROYED);
 		break;
 	case ID_DAGGER:
@@ -645,6 +659,14 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		moneybag->StartShowScore();
 		break;
 	}
+	case ID_DOUBLE_SHOT:
+		SetSubweaponLevel(2);
+		object->SetState(STATE_DESTROYED);
+		break;
+	case ID_TRIPLE_SHOT:
+		SetSubweaponLevel(3);
+		object->SetState(STATE_DESTROYED);
+		break;
 	default:
 		break;
 	}
@@ -655,6 +677,15 @@ void Simon::BeInjured()
 	if (untouchableStart > 0)
 		return;
 
+	health -= 2;
+	if (health <= 0) {
+		health = 0;
+		state = SIMON_STATE_DIE;
+		isOnStair = false;
+		DisableControl();
+		return;
+	}
+
 	untouchableStart = GetTickCount();
 
 	if (!isOnStair) {
@@ -662,4 +693,30 @@ void Simon::BeInjured()
 		isOnGround = false;
 		state = SIMON_STATE_INJURED;
 	}
+}
+
+void Simon::IncreaseHealth(int num)
+{
+	health += num;
+	if (health > SIMON_MAX_HEALTH)
+		health = SIMON_MAX_HEALTH;
+}
+
+void Simon::IncreaseHeart(int num)
+{
+	heart += num;
+}
+
+void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)
+{
+	for (auto i : *nonGridObject)
+		if (i->GetId() == ID_PHANTOM_BAT)
+			i->Reset();
+	life -= 1;
+	time = 300;
+	health = SIMON_MAX_HEALTH;
+	state = SIMON_STATE_IDLE;
+	nx = 1;
+	SetPosition(firstPos.x, firstPos.y);
+	EnableControl();
 }

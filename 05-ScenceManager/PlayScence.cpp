@@ -346,11 +346,15 @@ void CPlayScene::Load()
 	simon = Simon::GetInstance();
 
 	simon->SetPosition(simonPosX, simonPosY);
+	simon->SetFisrtPosition(simonPosX, simonPosY);
 
 	if (!CGame::GetInstance()->IsFirstLoad())
 		simon->Load();
 
-	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+	hud = HUD::GetInstance();
+	hud->Load();
+
+	DebugOut(L"[INFO] Done loading scene resources: %s\n", sceneFilePath);
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -429,6 +433,7 @@ void CPlayScene::Render()
 	}
 	grid->Render();
 	simon->Render();
+	hud->Render();
 }
 
 /*

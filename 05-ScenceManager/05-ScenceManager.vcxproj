@@ -240,6 +240,9 @@
     <ClInclude Include="Zombie.h" />
     <ClInclude Include="ZombieZone.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="prstart.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

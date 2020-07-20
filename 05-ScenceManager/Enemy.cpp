@@ -4,6 +4,7 @@
 Enemy::Enemy()
 {
 	hitEffectStart = 0;
+	untouchableStart = 0;
 	AddAnimation(ID_ANI_HIT_EFFECT);
 	AddAnimation(ID_ANI_ENEMY_HIDDEN);
 }
@@ -67,47 +68,60 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	coEvents.clear();
 
+	if (untouchableStart > 0 && GetTickCount() - untouchableStart > ENEMY_UNTOUCHABLE_TIME)
+		untouchableStart = 0;
+
 	DWORD effectTimeCount = GetTickCount() - hitEffectStart;
 	if (effectTimeCount > HIT_EFFECT_TIME && hitEffectStart > 0) {
 		hitEffectStart = 0;
 
-		state = STATE_DESTROYED;
+		if (health <= 0) {
+			DebugOut(L"---Enemy health: %d\n", health);
+			state = STATE_DESTROYED;
 
-		LPGAMEOBJECT reward;
-		int rewardId = GetRewardId();
+			LPGAMEOBJECT reward;
+			int rewardId = GetRewardId();
 
-		switch (rewardId)
-		{
-		case ID_BIG_HEART:
-			reward = new BigHeart({ x,y });
-			break;
-		case ID_WHIP_UPGRADE:
-			reward = new WhipUpgrade({ x,y });
-			break;
-		case ID_DAGGER:
-			reward = new ItemDagger({ x,y });
-			break;
-		case ID_ITEM_BOOMERANG:
-			reward = new ItemBoomerang({ x,y });
-			break;
-		default:
-			reward = NULL;
-			break;
+			switch (rewardId)
+			{
+			case ID_BIG_HEART:
+				reward = new BigHeart({ x,y });
+				break;
+			case ID_WHIP_UPGRADE:
+				reward = new WhipUpgrade({ x,y });
+				break;
+			case ID_DAGGER:
+				reward = new ItemDagger({ x,y });
+				break;
+			case ID_ITEM_BOOMERANG:
+				reward = new ItemBoomerang({ x,y });
+				break;
+			default:
+				reward = NULL;
+				break;
+			}
+			if (reward)
+				nonGridObject->push_back(reward);
 		}
-		if (reward)
-			nonGridObject->push_back(reward);
 	}
 }
 
 void Enemy::IsHitted()
 {
-	//DecreaseHealth();
+	if (untouchableStart > 0)
+		return;
+
+	untouchableStart = GetTickCount();
+
+	DecreaseHealth();
 	SetSpeed(0, 0);
 	hitEffectStart = GetTickCount();
-	state = ENEMY_STATE_HITTED;
+	//state = ENEMY_STATE_HITTED;
 }
 
 void Enemy::DecreaseHealth()
 {
-	health--;
+	health -= 1;
+	if (health < 0)
+		health = 0;
 }

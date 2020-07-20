@@ -11,11 +11,14 @@
 #define ENEMY_ANI_HITTED		0
 #define ENEMY_ANI_HIDDEN		1
 
+#define ENEMY_UNTOUCHABLE_TIME			3000
+
 class Enemy : public CGameObject
 {
 protected:
 	int health;
 	DWORD hitEffectStart;
+	DWORD untouchableStart;
 public:
 	Enemy();
 	~Enemy();

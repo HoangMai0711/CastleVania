@@ -14,7 +14,7 @@
 #define MAX_FRAME_RATE			120
 
 #define GRID_WIDTH				88
-#define GRID_HEIGHT				253
+#define GRID_HEIGHT				196
 
 //ID object
 #define ID_SIMON				0

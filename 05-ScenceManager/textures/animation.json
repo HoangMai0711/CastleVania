@@ -1,5 +1,6 @@
 {
   "texture": [
+    [ -20, "textures\\font.png", 4282999428 ],
     [ 0, "textures\\simon.png", 4294902015 ],
     [ 10, "textures\\objects.png", 4294902015 ],
     [ 20, "textures\\items.png", 4294902015 ],
@@ -9,6 +10,7 @@
     [ 60, "textures\\HUD.png", 0 ],
     [ 70, "textures\\health.png", 0 ]
   ],
+
   "sprites": [
     [ 10000, 104, 8, 121, 39, 0, 1, 0, 0 ],
 

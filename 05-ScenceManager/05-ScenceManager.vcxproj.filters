@@ -396,4 +396,7 @@
       <Filter>HUD</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="prstart.ttf" />
+  </ItemGroup>
 </Project>
