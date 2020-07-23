@@ -60,7 +60,7 @@ void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAM
 			backStart = GetTickCount();
 
 			int desX = rand() % (PHANTOM_X_END - PHANTOM_X_START) + PHANTOM_X_START;
-			int desY = rand() % (PHANTOM_Y_END - PHANTOM_Y_START) + PHANTOM_Y_START;
+			int desY = rand() % (PHANTOM_Y_END - PHANTOM_Y_START) + PHANTOM_Y_START + HUD_HEIGHT;
 
 			vx = (desX - x) / PHANTOM_BAT_TIME_BACK;
 			vy = (desY - y) / PHANTOM_BAT_TIME_BACK;
@@ -78,6 +78,7 @@ void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAM
 			attackStart = GetTickCount();
 			float desX, desY;
 			Simon::GetInstance()->GetPosition(desX, desY);
+
 			vx = (desX - x) / PHANTOM_BAT_TIME_BACK;
 			vy = (desY - y) / PHANTOM_BAT_TIME_BACK;
 		}
