@@ -160,7 +160,7 @@ void CGameObject::ResetAnimation()
 	}
 }
 
-void CGameObject::IsHitted()
+void CGameObject::IsHitted(vector<LPGAMEOBJECT> *nonGridObject)
 {
 	
 }

@@ -17,6 +17,7 @@ PhantomBat::PhantomBat(D3DXVECTOR2 position)
 	hittedStart = 0;
 	deflectStart = 0;
 	backStart = 0;
+	health = 16;
 
 	id = ID_PHANTOM_BAT;
 	state = PHANTOM_BAT_STATE_IDLE;
@@ -100,6 +101,10 @@ void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAM
 
 	if (hittedStart > 0 && GetTickCount() - hittedStart > PHANTOM_BAT_TIME_DIE) {
 		state = STATE_DESTROYED;
+		hittedStart = 0;
+
+		CrystalBall* cBall = new CrystalBall({ x,y });
+		nonGridObject->push_back(cBall);
 	}
 
 	if (untouchableStart > 0 && GetTickCount() - untouchableStart > PHANTOM_BAT_TIME_UNTOUCHABLE)
@@ -140,6 +145,18 @@ void PhantomBat::IsHitted()
 	damagedStart = GetTickCount();
 	untouchableStart = GetTickCount();
 	deflectStart = GetTickCount();
+
+	health -= 2;
+	if (health <= 0)
+		health = 0;
+
+	HUD::GetInstance()->SetEnemyHealth(health);
+
+	if (health == 0 && state == PHANTOM_BAT_STATE_ACTIVE) {
+		state = PHANTOM_BAT_STATE_DIE;
+		hittedStart = GetTickCount();
+		SetSpeed(0, 0);
+	}
 }
 
 void PhantomBat::Reset()
@@ -154,6 +171,7 @@ void PhantomBat::Reset()
 	hittedStart = 0;
 	deflectStart = 0;
 	backStart = 0;
+	health = 16;
 
 	id = ID_PHANTOM_BAT;
 	state = PHANTOM_BAT_STATE_IDLE;

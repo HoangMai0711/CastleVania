@@ -115,7 +115,7 @@ public:
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 	virtual void ResetAnimation();
-	virtual void IsHitted();
+	virtual void IsHitted(vector<LPGAMEOBJECT> *nonGridObject = NULL);
 	virtual void Reset();
 
 	~CGameObject();

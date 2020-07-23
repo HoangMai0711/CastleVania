@@ -105,7 +105,7 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	}
 }
 
-void Enemy::IsHitted()
+void Enemy::IsHitted(vector<LPGAMEOBJECT> *nonGridObject)
 {
 	if (untouchableStart > 0)
 		return;

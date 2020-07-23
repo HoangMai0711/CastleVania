@@ -203,7 +203,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		case ID_WALL:
 		case ID_HIDDEN_OBJECTS:
 		case ID_PORTAL:
-		//case ID_BRICK:
+		case ID_BRICK:
 			realCoObjects->push_back(i);
 			break;
 		default:
@@ -605,6 +605,7 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		object->SetState(STATE_DESTROYED);
 		break;
 	case ID_DAGGER:
+		SetSubweaponId(ID_DAGGER);
 		AddSubWeapon(ID_DAGGER);
 		object->SetState(STATE_DESTROYED);
 		break;
@@ -624,10 +625,12 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		break;
 	}
 	case ID_ITEM_BOOMERANG:
+		SetSubweaponId(ID_BOOMERANG);
 		AddSubWeapon(ID_BOOMERANG);
 		object->SetState(STATE_DESTROYED);
 		break;
 	case ID_ITEM_AXE:
+		SetSubweaponId(ID_AXE);
 		AddSubWeapon(ID_AXE);
 		object->SetState(STATE_DESTROYED);
 		break;
@@ -665,6 +668,9 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		break;
 	case ID_TRIPLE_SHOT:
 		SetSubweaponLevel(3);
+		object->SetState(STATE_DESTROYED);
+		break;
+	case ID_CRYSTAL_BALL:
 		object->SetState(STATE_DESTROYED);
 		break;
 	default:

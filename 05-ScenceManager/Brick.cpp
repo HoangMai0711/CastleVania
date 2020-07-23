@@ -1,7 +1,7 @@
 #include "Brick.h"
 
 
-CBrick::CBrick(D3DXVECTOR2 position, int reward)
+CBrick::CBrick(D3DXVECTOR2 position, int reward, int idAni)
 {
 	this->x = position.x;
 	this->y = position.y;
@@ -12,20 +12,36 @@ CBrick::CBrick(D3DXVECTOR2 position, int reward)
 
 	this->id = ID_BRICK;
 
-	AddAnimation(ID_ANI_BRICK);
+	AddAnimation(idAni);;
+}
+
+CBrick::~CBrick()
+{
 }
 
 void CBrick::Render()
 {
-	if (state != STATIC_OBJ_STATE_NORMAL)
+	if (state == STATIC_OBJ_STATE_NORMAL)
 		animations[1]->Render(x, y);
 }
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
 	CGameObject::Update(dt, nonGridObject, gridObject);
+}
 
-	if (!isBroken && state == STATIC_OBJ_STATE_HITTED) {
+
+void CBrick::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+{
+	left = x;
+	top = y;
+	right = x + BRICK_BBOX_WIDTH;
+	bottom = y + BRICK_BBOX_HEIGHT;
+}
+
+void CBrick::IsHitted(vector<LPGAMEOBJECT> *nonGridObject)
+{
+	if (!isBroken) {
 		isBroken = true;
 		state = STATE_DESTROYED;
 		LPGAMEOBJECT reward;
@@ -54,18 +70,4 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJ
 		BreakableBrickEffect* effect = new BreakableBrickEffect({ ex, ey });
 		nonGridObject->push_back(effect);
 	}
-}
-
-
-void CBrick::GetBoundingBox(float &left, float &top, float &right, float &bottom)
-{
-	left = x;
-	top = y;
-	right = x + BRICK_BBOX_WIDTH;
-	bottom = y + BRICK_BBOX_HEIGHT;
-}
-
-void CBrick::IsHitted()
-{
-	state = STATIC_OBJ_STATE_HITTED;
 }

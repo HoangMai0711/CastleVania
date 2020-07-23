@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 #include "Simon.h"
+#include "HUD.h"
+#include "CrystalBall.h"
 
 #define PHANTOM_BAT_BBOX_WIDTH		50
 #define PHANTOM_BAT_BBOX_HEIGHT		25
@@ -42,6 +44,8 @@ protected:
 
 	float originalX;
 	float originalY;
+
+	int health;
 public:
 	PhantomBat(D3DXVECTOR2 position);
 	~PhantomBat();

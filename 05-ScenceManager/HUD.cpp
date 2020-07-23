@@ -72,15 +72,13 @@ void HUD::Draw(D3DXVECTOR2 pos)
 	}
 
 	// Draw Item
-	GetItemSprite()->Draw(pos.x + 165, pos.y + 31);
+	GetItemSprite()->Draw(pos.x + 165, pos.y + 18, 255, 1);
 
 	// Draw Multishot
-	GetMultiShootSprite()->Draw(pos.x + 230, pos.y + 32);
+	GetMultiShootSprite()->Draw(pos.x + 230, pos.y + 19, 255, 1);
 
 	// Draw Player's Life
 	text->DrawString(IntToChar(player->GetLife(), 2), { pos.x + 205, pos.y + 25 });
-
-	//DebugOut(L"------End draw HUD\n");
 }
 
 HUD * HUD::GetInstance()
@@ -126,6 +124,7 @@ LPSPRITE HUD::GetItemSprite()
 		spriteId = 0;
 		break;
 	}
+	//DebugOut(L"---Subweapon Sprite id: %d\n", spriteId);
 	return CSprites::GetInstance()->Get(spriteId);
 }
 
@@ -146,6 +145,7 @@ LPSPRITE HUD::GetMultiShootSprite()
 		spriteId = 0;
 		break;
 	}
+	//DebugOut(L"---Sprite id: %d\n", spriteId);
 	return CSprites::GetInstance()->Get(spriteId);
 }
 

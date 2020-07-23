@@ -167,6 +167,7 @@ public:
 	int GetLife() { return life; }
 
 	void SetSubweaponLevel(int level) { subweaponLevel = level; }
+	void SetSubweaponId(int id) { subweaponId = id; }
 	void SetFisrtPosition(float x, float y) { firstPos.x = x; firstPos.y = y; }
 
 	void IncreaseHealth(int num);

@@ -328,7 +328,9 @@ void CPlayScene::Load()
 
 				float idReward = i["properties"][0]["value"];
 
-				CBrick* brick = new CBrick(position, idReward);
+				int idAni = i["properties"][1]["value"];
+
+				CBrick* brick = new CBrick(position, idReward, idAni);
 
 				for (auto k : i["gridPos"]) {
 					int col = k["col"];

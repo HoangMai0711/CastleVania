@@ -26,7 +26,7 @@ public:
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void Render();
-	virtual void IsHitted();
+	virtual void IsHitted(vector<LPGAMEOBJECT> *nonGridObject);
 
 	int GetHitEffectTime() { return hitEffectStart; }
 };

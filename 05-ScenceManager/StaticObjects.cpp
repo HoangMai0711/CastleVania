@@ -79,7 +79,7 @@ void StaticObjects::Render()
 		animations[1]->Render(x, y);
 }
 
-void StaticObjects::IsHitted()
+void StaticObjects::IsHitted(vector<LPGAMEOBJECT> *nonGridObject)
 {
 	hitEffectStart = GetTickCount();
 	state = STATIC_OBJ_STATE_HITTED;

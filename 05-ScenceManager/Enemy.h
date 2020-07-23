@@ -24,7 +24,7 @@ public:
 	~Enemy();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
-	virtual void IsHitted();
+	virtual void IsHitted(vector<LPGAMEOBJECT> *nonGridObject);
 	virtual void DecreaseHealth();
 	int GetHealth() { return health; }
 };

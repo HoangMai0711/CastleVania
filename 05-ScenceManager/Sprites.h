@@ -22,7 +22,7 @@ class CSprite
 public: 
 	CSprite(int id, int left, int top, int right, int bottom, int idTexture, int isFlippedHorizontally, D3DXVECTOR2 position);
 
-	void Draw(float x, float y, int alpha = 255);
+	void Draw(float x, float y, int alpha = 255, bool isHUD=0);
 
 	//Get sprites position
 	D3DXVECTOR2 GetPosition() { return this->position; }

@@ -49,7 +49,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJ
 			B = { long(bl),long(bt),long(br),long(bb) };
 
 			if (CGame::GetInstance()->IsColliding(A, B)) {
-				iter->IsHitted();
+				iter->IsHitted(nonGridObject);
 				if (id == ID_DAGGER)
 					state = STATE_DESTROYED;
 			}

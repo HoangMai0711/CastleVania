@@ -23,13 +23,13 @@ CSprites *CSprites::GetInstance()
 	return __instance;
 }
 
-void CSprite::Draw(float x, float y, int alpha)
+void CSprite::Draw(float x, float y, int alpha, bool isHUD)
 {
 	CGame * game = CGame::GetInstance();
 	float newX = x + position.x;
 	float newY = y + position.y;
 
-	game->Draw(newX, newY, texture, left, top, right, bottom, alpha, isFlippedHorizontally);
+	game->Draw(newX, newY, texture, left, top, right, bottom, alpha, isFlippedHorizontally, isHUD);
 }
 
 void CSprites::Add(int id, int left, int top, int right, int bottom, int idTexture, int isFlippedHorizontally, D3DXVECTOR2 position)

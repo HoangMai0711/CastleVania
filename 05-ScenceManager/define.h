@@ -45,6 +45,7 @@
 #define ID_DOUBLE_SHOT			110
 #define ID_TRIPLE_SHOT			111
 #define ID_POT_ROAST			112
+#define ID_CRYSTAL_BALL			113
 
 //ID Enemy
 #define ID_BAT					30
@@ -164,6 +165,8 @@
 #define ID_ANI_ITEM_AXE				414
 
 #define ID_ANI_POT_ROAST			415
+
+#define ID_ANI_CRYSTAL_BALL			416
 
 //Id nx of item
 #define ITEM_RIGHT		0
