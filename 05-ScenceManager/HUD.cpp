@@ -112,13 +112,13 @@ LPSPRITE HUD::GetItemSprite()
 	switch (itemId)
 	{
 	case ID_DAGGER:
-		spriteId = 12003;
+		spriteId = 12004;
 		break;
 	case ID_AXE:
 		spriteId = 12031;
 		break;
 	case ID_BOOMERANG:
-		spriteId = 12016;
+		spriteId = 12012;
 		break;
 	default:
 		spriteId = 0;
@@ -136,10 +136,10 @@ LPSPRITE HUD::GetMultiShootSprite()
 	switch (multiShootLevel)
 	{
 	case 2:
-		spriteId = 12050;
+		spriteId = 12040;
 		break;
 	case 3:
-		spriteId = 12051;
+		spriteId = 12041;
 		break;
 	default:
 		spriteId = 0;

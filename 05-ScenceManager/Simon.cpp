@@ -25,7 +25,6 @@ Simon::Simon()
 	subweaponLevel = 1;
 
 	disableControl = false;
-	activatedWall = false;
 
 	stair = NULL;
 	collidedStair = NULL;
@@ -88,6 +87,7 @@ void Simon::Load()
 	AddAnimation(ID_ANI_SIMON_FLASH_LEFT);				// Flash Left				26
 
 	whip->Load();
+	activatedWall = false;
 }
 
 void Simon::Unload()
