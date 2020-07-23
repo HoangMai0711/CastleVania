@@ -25,6 +25,7 @@ Simon::Simon()
 	subweaponLevel = 1;
 
 	disableControl = false;
+	activatedWall = false;
 
 	stair = NULL;
 	collidedStair = NULL;
@@ -201,11 +202,18 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		switch (i->GetId())
 		{
 		case ID_WALL:
-		case ID_HIDDEN_OBJECTS:
 		case ID_PORTAL:
 		case ID_BRICK:
 			realCoObjects->push_back(i);
 			break;
+		case ID_ONE_WAY_WALL:
+			if (activatedWall == true) {
+				DebugOut(L"------Add one way wall to collide object\n");
+				realCoObjects->push_back(i);
+				break;
+			}
+			else
+				break;
 		default:
 			break;
 		}
@@ -673,6 +681,14 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	case ID_CRYSTAL_BALL:
 		object->SetState(STATE_DESTROYED);
 		break;
+	case ID_ACTIVE_BBOX:
+	{
+		ActiveBox* box = dynamic_cast<ActiveBox*>(object);
+		box->IsCollide();
+		activatedWall = true;
+		box->SetState(STATE_DESTROYED);
+		break;
+	}
 	default:
 		break;
 	}
@@ -723,6 +739,7 @@ void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)
 	health = SIMON_MAX_HEALTH;
 	state = SIMON_STATE_IDLE;
 	nx = 1;
+	activatedWall = false;
 	SetPosition(firstPos.x, firstPos.y);
 	EnableControl();
 }

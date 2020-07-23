@@ -41,6 +41,10 @@ typedef TileAtlas* LPTILEATLAS;
 
 class TileMap
 {
+	static TileMap* __instance;
+
+	TileMap();
+
 	int tileRow;
 	int tileColumn;
 	int height;
@@ -53,16 +57,21 @@ class TileMap
 	int startPosWidth, startPosHeight;
 	int endPosWidth, endPosHeight;
 public:
-	TileMap();
+	static TileMap* GetInstance();
+
 	~TileMap();
 
 	void LoadTileMapFromFile(LPCWSTR filePath);
 	void Draw(D3DXVECTOR2 position, int alpha = 255);
 	int GetTileMapWidth();
 	int GetTileMapHeight();
+	int GetMapMaxLevel();
+
 	int GetCamLtdMin(int numOfLevel);
 	int GetCamLtdMax(int numOfLevel);
-	int GetMapMaxLevel();
+
+	void SetCamLtdMin(int numOfLevel, int camMin);
+	void SetCamLtdMax(int numOfLevel, int camMax);
 };
 
 typedef TileMap* LPTILEMAP;

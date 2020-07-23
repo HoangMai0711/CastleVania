@@ -12,7 +12,7 @@ CBrick::CBrick(D3DXVECTOR2 position, int reward, int idAni)
 
 	this->id = ID_BRICK;
 
-	AddAnimation(idAni);;
+	AddAnimation(idAni);
 }
 
 CBrick::~CBrick()

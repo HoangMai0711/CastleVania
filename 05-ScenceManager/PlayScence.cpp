@@ -44,7 +44,7 @@ void CPlayScene::Load()
 
 	LoadAnimations();
 
-	tileMap = new TileMap();
+	tileMap = TileMap::GetInstance();
 
 	tileMap->LoadTileMapFromFile(sceneFilePath);
 	DebugOut(L"[INFO] End loading tilemap\n");
@@ -56,6 +56,7 @@ void CPlayScene::Load()
 	grid = new Grid(row, col);
 
 	float simonPosX, simonPosY;
+	int simonNx;
 
 	ifstream f(sceneFilePath);
 	json j = json::parse(f);
@@ -137,8 +138,9 @@ void CPlayScene::Load()
 				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
 
 				int nextSceneId = i["properties"][0]["value"];
+				simonNx = i["properties"][1]["value"];
 
-				CPortal* portal = new CPortal(width, height, position, nextSceneId);
+				CPortal* portal = new CPortal(width, height, position, nextSceneId, simonNx);
 
 				for (auto k : i["gridPos"]) {
 					int col = k["col"];
@@ -326,9 +328,9 @@ void CPlayScene::Load()
 				float y = i["y"];
 				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
 
-				float idReward = i["properties"][0]["value"];
+				float idReward = i["properties"][1]["value"];
 
-				int idAni = i["properties"][1]["value"];
+				int idAni = i["properties"][0]["value"];
 
 				CBrick* brick = new CBrick(position, idReward, idAni);
 
@@ -340,6 +342,42 @@ void CPlayScene::Load()
 				}
 				grid->AddObject(brick);
 			}
+		else if (iter["name"] == "ActiveBox")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				ActiveBox* box = new ActiveBox(position);
+
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
+					box->AddGridPositon(gridPos);
+				}
+				grid->AddObject(box);
+			}
+		else if (iter["name"] == "1-way Wall")
+		for (auto i : iter["objects"]) {
+			int width = i["width"];
+			int height = i["height"];
+			float x = i["x"];
+			float y = i["y"];
+			D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+			OneWayWall* onewayWall = new OneWayWall(position);
+
+			for (auto k : i["gridPos"]) {
+				int col = k["col"];
+				int row = k["row"];
+				D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
+				onewayWall->AddGridPositon(gridPos);
+			}
+			grid->AddObject(onewayWall);
+		}
 	}
 
 	f.close();
@@ -411,8 +449,12 @@ void CPlayScene::Update(DWORD dt)
 
 	camFloor = camFloor > maxMapLevel ? maxMapLevel : camFloor;
 
+	//DebugOut(L"----Simon pos Y - cam floor - max map level: %d/ %d/ %d\n", int(simonPosY), camFloor, maxMapLevel);
+
 	int minWidth = tileMap->GetCamLtdMin(camFloor);
 	int maxWidth = tileMap->GetCamLtdMax(camFloor);
+
+	//DebugOut(L"---Cam limit min-max, cam level: %d/ %d/ %d\n", tileMap->GetCamLtdMin(camFloor), tileMap->GetCamLtdMax(camFloor), camFloor);
 
 	if (cx < minWidth) {
 		//DebugOut(L"------cx<0: %f\n", cx);

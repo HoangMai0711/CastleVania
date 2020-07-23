@@ -1,7 +1,7 @@
 #pragma once
 #include <set>
 #include "Game.h"
-#include"GameObject.h"
+#include "GameObject.h"
 #include "GroundObject.h"
 
 class Grid

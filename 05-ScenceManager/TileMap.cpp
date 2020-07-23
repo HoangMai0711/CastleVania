@@ -1,6 +1,9 @@
 #include "TileMap.h"
 #include "Utils.h"
 
+
+TileMap* TileMap::__instance;
+
 TileAtlas::TileAtlas()
 {
 }
@@ -76,6 +79,12 @@ TileMap::TileMap()
 }
 
 
+TileMap * TileMap::GetInstance()
+{
+	if (__instance == NULL) __instance = new TileMap();
+	return __instance;
+}
+
 TileMap::~TileMap()
 {
 	for (int i = 0; i < tileRow; i++)
@@ -87,6 +96,7 @@ TileMap::~TileMap()
 
 void TileMap::LoadTileMapFromFile(LPCWSTR filePath)
 {
+	numOfLevel = 0;
 	DebugOut(L"[INFO]Start loading tilemap file: %s\n", filePath);
 	ifstream file(filePath);
 	json j = json::parse(file);
@@ -95,6 +105,7 @@ void TileMap::LoadTileMapFromFile(LPCWSTR filePath)
 	tileColumn = j["/layers/0/width"_json_pointer].get<int>();
 	height = j["/height"_json_pointer].get<int>();
 
+	// Load cam limit
 	camLimitX = new int*[j["cam_limit"].size()];
 	for (auto iter : j["cam_limit"])
 	{
@@ -105,9 +116,9 @@ void TileMap::LoadTileMapFromFile(LPCWSTR filePath)
 	}
 	//DebugOut(L"[INFO] Num of map level: %d", numOfLevel);
 
-	/*for (int i = 0; i < numOfLevel; ++i) {
+	for (int i = 0; i < numOfLevel; ++i) {
 		DebugOut(L"----asdc %d-%d\n", camLimitX[i][0], camLimitX[i][1]);
-	}*/
+	}
 
 	vector<int> data = j["/layers/0/data"_json_pointer].get<vector<int>>();
 
@@ -189,6 +200,16 @@ int TileMap::GetCamLtdMax(int numOfLevel)
 {
 	//DebugOut(L"[INFO] Cam limited max: %d\n", camLimitX[numOfLevel][1]);
 	return camLimitX[numOfLevel][1];
+}
+
+void TileMap::SetCamLtdMin(int numOfLevel, int camMin)
+{
+	camLimitX[numOfLevel][0] = camMin;
+}
+
+void TileMap::SetCamLtdMax(int numOfLevel, int camMax)
+{
+	camLimitX[numOfLevel][1] = camMax;
 }
 
 int TileMap::GetMapMaxLevel()

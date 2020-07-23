@@ -4,9 +4,6 @@
 #include "Scence.h"
 #include "GameObject.h"
 #include "Brick.h"
-#include "Mario.h"
-#include "Goomba.h"
-#include "Koopas.h"
 #include "Simon.h"
 #include "TileMap.h"
 #include "Wall.h"
@@ -32,11 +29,12 @@
 #include "GroundObject.h"
 #include "Brick.h"
 #include "HUD.h"
+#include "OneWayWall.h"
+#include "ActiveBox.h"
 
 class CPlayScene: public CScene
 {
-protected: 
-	CMario *player;					// A play scene has to have player, right? 
+protected: 				// A play scene has to have player, right? 
 	Simon *simon;
 
 	vector<LPGAMEOBJECT> nonGridObject;

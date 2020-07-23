@@ -69,6 +69,23 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 
 	Simon* simon = Simon::GetInstance();
 
+	float sl, st, sr, sb;
+	float l, t, r, b;
+
+	simon->GetBoundingBox(sl, st, sr, sb);
+	GetBoundingBox(l, t, r, b);
+
+	if (x < simon->GetX()) {
+		nx = 1;
+		leftBlock = simon->GetX() - SKELETON_KEEP_SIMON_DISTANCE - SKELETON_MOVING_SPACE;
+		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
+	}
+	else {
+		nx = -1;
+		leftBlock = simon->GetX() + SKELETON_KEEP_SIMON_DISTANCE;
+		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
+	}
+
 	vector<LPGAMEOBJECT> *realCoObjects;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -105,7 +122,6 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		x += dx;
 
 		if (nx != 0) {
 			vx = 0;
@@ -138,7 +154,8 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 							jumpStart = GetTickCount();
 							vy = -SKELETON_SPEED_Y;
 							y -= 5;
-							MoveToSimon();
+							vx = SKELETON_SPEED_Y;
+							//MoveToSimon();
 						}
 						if (r > edge) {
 							isOnGround = false;
@@ -146,7 +163,8 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 							jumpStart = GetTickCount();
 							vy = -SKELETON_SPEED_Y;
 							y -= 5;
-							MoveToSimon();
+							vx = SKELETON_SPEED_Y;
+							//MoveToSimon();
 						}
 					}
 				}
@@ -156,25 +174,6 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 			isJump = false;
 			jumpStart = 0;
 		}
-	}
-
-	UpdateWeapon(dt, nonGridObject, gridObject);
-
-	float sl, st, sr, sb;
-	float l, t, r, b;
-
-	simon->GetBoundingBox(sl, st, sr, sb);
-	GetBoundingBox(l, t, r, b);
-
-	if (x < simon->GetX()) {
-		nx = 1;
-		leftBlock = simon->GetX() - SKELETON_KEEP_SIMON_DISTANCE - SKELETON_MOVING_SPACE;
-		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
-	}
-	else {
-		nx = -1;
-		leftBlock = simon->GetX() + SKELETON_KEEP_SIMON_DISTANCE;
-		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
 	}
 
 	if (isFirstActive) {
@@ -188,19 +187,12 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 
 			MoveToSimon();
 
-			Attack(dt, nonGridObject, gridObject);
-
 		}
 	}
 	if (!isFirstActive && isActive) {
 		if (jumpStart > 0)
 			return;
 		MoveToSimon();
-
-		if (!isAttack)
-		{
-			Attack(dt, nonGridObject, gridObject);
-		}
 	}
 }
 

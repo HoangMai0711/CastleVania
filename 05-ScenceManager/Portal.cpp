@@ -1,7 +1,7 @@
 #include "Portal.h"
 
 
-CPortal::CPortal(int width, int height, D3DXVECTOR2 position, int nextSceneId)
+CPortal::CPortal(int width, int height, D3DXVECTOR2 position, int nextSceneId, int simonNx)
 {
 	this->width = width;
 	this->height = height;

@@ -1,9 +1,0 @@
-﻿  Source.cpp
-c:\users\hoangmai\downloads\castlevania\generategridposition\source.cpp(26): warning C4018: '<': signed/unsigned mismatch
-c:\users\hoangmai\downloads\castlevania\generategridposition\source.cpp(32): warning C4018: '<': signed/unsigned mismatch
-c:\users\hoangmai\downloads\castlevania\generategridposition\source.cpp(60): warning C4018: '<': signed/unsigned mismatch
-c:\users\hoangmai\downloads\castlevania\generategridposition\source.cpp(88): warning C4018: '<': signed/unsigned mismatch
-c:\users\hoangmai\downloads\castlevania\generategridposition\source.cpp(116): warning C4018: '<': signed/unsigned mismatch
-c:\users\hoangmai\downloads\castlevania\generategridposition\source.cpp(144): warning C4018: '<': signed/unsigned mismatch
-c:\users\hoangmai\downloads\castlevania\generategridposition\source.cpp(172): warning C4018: '<': signed/unsigned mismatch
-  GenerateGridPosition.vcxproj -> C:\Users\HoangMai\Downloads\CastleVania\Debug\GenerateGridPosition.exe

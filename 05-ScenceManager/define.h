@@ -30,6 +30,8 @@
 #define ID_STAIR				15
 #define ID_MOVING_BRICK			16
 #define ID_BRICK				17
+#define ID_ACTIVE_BBOX			18
+#define ID_ONE_WAY_WALL			19
 
 //ID Items
 #define ID_SMALL_HEART			100

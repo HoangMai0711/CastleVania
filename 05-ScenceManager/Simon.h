@@ -3,7 +3,6 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "define.h"
-#include "Goomba.h"
 #include "TransparentObjects.h"
 #include "Utils.h"
 #include "Whip.h"
@@ -20,8 +19,8 @@
 #include "Boomerang.h"
 #include "Axe.h"
 #include "Brick.h"
+#include "ActiveBox.h"
 
-#define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define SIMON_DIE_DEFLECT_SPEED	 0.5f
 #define SIMON_MAX_HEALTH		16
@@ -96,6 +95,7 @@ private:
 
 	bool isOnAir;
 	bool isOnStair;
+	bool activatedWall;
 	int untouchable;
 
 	DWORD untouchableStart;
@@ -137,6 +137,7 @@ public:
 	bool IsOnStair() { return isOnStair; }
 	DWORD GetTimeStartAttack() { return attackStart; }
 	bool GetDisableControl() { return disableControl; }
+	bool GetActivatedWall() { return activatedWall; }
 
 	void UpdateWhip(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	void UpdateSubWeapon(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
@@ -169,6 +170,7 @@ public:
 	void SetSubweaponLevel(int level) { subweaponLevel = level; }
 	void SetSubweaponId(int id) { subweaponId = id; }
 	void SetFisrtPosition(float x, float y) { firstPos.x = x; firstPos.y = y; }
+	void SetNx(int simonNx) { this->nx = simonNx; }
 
 	void IncreaseHealth(int num);
 	void IncreaseHeart(int num);
