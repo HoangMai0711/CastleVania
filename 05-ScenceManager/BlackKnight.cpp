@@ -5,8 +5,11 @@ BlackKnight::BlackKnight(D3DXVECTOR2 position, int nx, int idReward, int edge)
 {
 	this->x = position.x;
 	this->y = position.y;
-	this->idReward = idReward;
 	this->nx = nx;
+
+	this->firstPos = position;
+	this->firstEdge = edge;
+
 	vx = BLACK_KNIGHT_WALKING_SPEED;
 	health = 2;
 	state = ENEMY_STATE_ACTIVE;
@@ -15,6 +18,11 @@ BlackKnight::BlackKnight(D3DXVECTOR2 position, int nx, int idReward, int edge)
 	score = 200;
 
 	id = ID_BLACK_KNIGHT;
+
+	if (Simon::GetInstance()->GetWhipLevel() >= 2)
+		this->idReward = ID_SMALL_HEART;
+	else
+		this->idReward = idReward;
 
 	AddAnimation(ID_ANI_BLACK_KNIGHT_RIGHT);
 	AddAnimation(ID_ANI_BLACK_KNIGHT_LEFT);
@@ -80,4 +88,24 @@ void BlackKnight::GetBoundingBox(float & left, float & top, float & right, float
 	}
 	else
 		left = top = right = bottom = 0;
+}
+
+void BlackKnight::Reset()
+{
+	this->x = firstPos.x;
+	this->y = firstPos.y;
+	this->nx = nx;
+	vx = BLACK_KNIGHT_WALKING_SPEED;
+	health = 2;
+	state = ENEMY_STATE_ACTIVE;
+	edgeLeft = firstPos.x;
+	edgeRight = firstEdge;
+	score = 200;
+
+	id = ID_BLACK_KNIGHT;
+
+	if (Simon::GetInstance()->GetWhipLevel() >= 2)
+		this->idReward = ID_SMALL_HEART;
+	else
+		this->idReward = idReward;
 }

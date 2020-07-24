@@ -15,6 +15,10 @@ Zombie::Zombie(D3DXVECTOR2 position, int nx, int reward)
 	id = ID_ZOMBIE;
 	score = 200;
 	health = 1;
+	disappearStart = 0;
+
+	if (Simon::GetInstance()->GetWhipLevel() < 2)
+		this->idReward = ID_WHIP_UPGRADE;
 
 	AddAnimation(ID_ANI_ZOMBIE_WALK_RIGHT);
 	AddAnimation(ID_ANI_ZOMBIE_WALK_LEFT);
@@ -55,6 +59,15 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJ
 
 	if (state != ENEMY_STATE_DIE)
 		vy += ZOMBIE_GRAVITY * dt;
+
+	if (Simon::GetInstance()->GetState() == SIMON_STATE_DIE) {
+		//disappearStart = GetTickCount();
+		state = STATE_DESTROYED;
+	}
+	//if (disappearStart > 0 && GetTickCount() - disappearStart > 800) {
+	//	state = STATE_DESTROYED;
+	//	disappearStart = 0;
+	//}
 }
 
 void Zombie::GetBoundingBox(float & left, float & top, float & right, float & bottom)

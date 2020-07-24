@@ -48,6 +48,8 @@ class Skeleton :
 
 	vector<Bone*> weapon;
 	int numOfBone;
+
+	D3DXVECTOR2 firstPos;
 public:
 	Skeleton(D3DXVECTOR2 position);
 	~Skeleton();
@@ -59,9 +61,10 @@ public:
 	void MoveToSimon();
 	void SetMovingSpace();
 	void DeleteSkeleton();
-	void Antique();
 
 	void Attack();
 	void UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
+
+	void Reset();
 };
 

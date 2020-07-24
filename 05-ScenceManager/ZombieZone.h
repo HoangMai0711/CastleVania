@@ -13,6 +13,7 @@ class ZombieZone :
 	DWORD delayTime;
 	int numOfZombie;
 	int currentNumZombie;
+	int totalZombie;
 
 	int width;
 	int height;

@@ -19,6 +19,7 @@ protected:
 	int health;
 	DWORD hitEffectStart;
 	DWORD untouchableStart;
+	DWORD disappearStart;
 public:
 	Enemy();
 	~Enemy();

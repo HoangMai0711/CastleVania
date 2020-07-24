@@ -35,6 +35,8 @@ class Fleaman :
 	bool isStartAttack;
 	bool isActive;
 	bool isFirstJump;
+
+	D3DXVECTOR2 firstPos;
 public:
 	Fleaman(D3DXVECTOR2 position);
 	~Fleaman();
@@ -45,4 +47,5 @@ public:
 
 	void SetState(int state);
 	void StartActive();
+	void Reset();
 };

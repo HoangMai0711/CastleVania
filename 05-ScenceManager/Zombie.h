@@ -14,6 +14,7 @@
 class Zombie :
 	public Enemy
 {
+
 public:
 	Zombie(D3DXVECTOR2 position, int nx, int reward);
 	~Zombie();

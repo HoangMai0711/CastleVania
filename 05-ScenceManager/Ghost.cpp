@@ -4,6 +4,8 @@ Ghost::Ghost(D3DXVECTOR2 position)
 {
 	this->x = position.x;
 	this->y = position.y;
+	this->firstPos = position;
+
 	id = ID_GHOST;
 	isActive = false;
 
@@ -101,4 +103,18 @@ void Ghost::GetBoundingBox(float & left, float & top, float & right, float & bot
 	top = y;
 	right = x + GHOST_BBOX_WIDTH;
 	bottom = y + GHOST_BBOX_HEIGHT;
+}
+
+void Ghost::Reset()
+{
+	this->x = firstPos.x;
+	this->y = firstPos.y;
+
+	id = ID_GHOST;
+	isActive = false;
+
+	state = ENEMY_STATE_HIDDEN;
+	vx = vy = 0;
+	score = 200;
+	health = 1;
 }

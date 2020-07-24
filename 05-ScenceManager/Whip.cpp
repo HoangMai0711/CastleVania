@@ -93,6 +93,13 @@ void Whip::Upgrade()
 		level++;
 }
 
+void Whip::Degrade()
+{
+	level--;
+	if (level < 0)
+		level = 0;
+}
+
 void Whip::Load()
 {
 	animations.clear();

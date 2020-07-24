@@ -6,6 +6,8 @@ Raven::Raven(D3DXVECTOR2 position)
 {
 	this->x = position.x;
 	this->y = position.y;
+	this->firstPos = position;
+
 	state = ENEMY_STATE_IDLE;
 	vx = vy = 0;
 	nx = -1;
@@ -13,6 +15,9 @@ Raven::Raven(D3DXVECTOR2 position)
 
 	id = ID_RAVEN;
 	score = 200;
+
+	if (Simon::GetInstance()->GetWhipLevel() < 2)
+		this->idReward = ID_WHIP_UPGRADE;
 
 	//AddAnimation(ID_ANI_RAVEN_IDLE_RIGHT);
 	AddAnimation(ID_ANI_RAVEN_IDLE_LEFT);
@@ -155,5 +160,22 @@ void Raven::GetBoundingBox(float & left, float & top, float & right, float & bot
 	top = y;
 	right = x + RAVEN_BBOX_WIDTH;
 	bottom = y + RAVEN_BBOX_HEIGHT;
+}
+
+void Raven::Reset()
+{
+	this->x = firstPos.x;
+	this->y = firstPos.y;
+
+	state = ENEMY_STATE_IDLE;
+	vx = vy = 0;
+	nx = -1;
+	isActive = false;
+
+	id = ID_RAVEN;
+	score = 200;
+
+	if (Simon::GetInstance()->GetWhipLevel() < 2)
+		this->idReward = ID_WHIP_UPGRADE;
 }
 

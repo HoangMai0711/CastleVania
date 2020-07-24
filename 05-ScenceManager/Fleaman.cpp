@@ -4,6 +4,8 @@ Fleaman::Fleaman(D3DXVECTOR2 position)
 {
 	this->x = position.x;
 	this->y = position.y;
+	this->firstPos = position;
+
 	isStartAttack = false;
 	isActive = false;
 	isFirstJump = true;
@@ -154,7 +156,7 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 		GetBoundingBox(fl, ft, fr, fb);
 
 		if (abs(fl - sl) < FLEAMAN_ACTIVE_DISTANCE_WIDTH) {
-			//StartActive();
+			StartActive();
 			//DebugOut(L"--After first active vx, vy: %f/ %f\n", vx, vy);
 		}
 	}
@@ -257,4 +259,20 @@ void Fleaman::StartActive()
 	//ison
 	isFirstJump = false;
 	firstJumpStart = GetTickCount();
+}
+
+void Fleaman::Reset()
+{
+	this->x = firstPos.x;
+	this->y = firstPos.y;
+
+	isStartAttack = false;
+	isActive = false;
+	isFirstJump = true;
+	firstJumpStart = jumpOnGroundStart = attackStart = onGroundStart = 0;
+	score = 200;
+	health = 1;
+
+	id = ID_FLEAMAN;
+	SetState(FLEAMAN_STATE_PREATTACK);
 }

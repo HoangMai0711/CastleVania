@@ -6,6 +6,7 @@ Skeleton::Skeleton(D3DXVECTOR2 position)
 {
 	this->x = position.x;
 	this->y = position.y;
+	this->firstPos = position;
 	//this->nx = -Simon::GetInstance()->GetNx();
 	vx = vy = 0;
 	isActive = false;
@@ -24,6 +25,9 @@ Skeleton::Skeleton(D3DXVECTOR2 position)
 	id = ID_SKELETON;
 	score = 200;
 	health = 1;
+
+	if (Simon::GetInstance()->GetWhipLevel() < 2)
+		this->idReward = ID_WHIP_UPGRADE;
 
 	AddAnimation(ID_ANI_SKELETON_IDLE_RIGHT);
 	AddAnimation(ID_ANI_SKELETON_WALKING_RIGHT);
@@ -237,7 +241,30 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 	// Delete skeleton when hitted
 	DWORD effectTimeCount = GetTickCount() - hitEffectStart;
 	if (effectTimeCount > HIT_EFFECT_TIME && hitEffectStart > 0) {
-		hitEffectStart = 0;
+		hitEffectStart = 0; 
+		LPGAMEOBJECT reward;
+		int rewardId = GetRewardId();
+
+		switch (rewardId)
+		{
+		case ID_BIG_HEART:
+			reward = new BigHeart({ x,y });
+			break;
+		case ID_WHIP_UPGRADE:
+			reward = new WhipUpgrade({ x,y });
+			break;
+		case ID_DAGGER:
+			reward = new ItemDagger({ x,y });
+			break;
+		case ID_ITEM_BOOMERANG:
+			reward = new ItemBoomerang({ x,y });
+			break;
+		default:
+			reward = NULL;
+			break;
+		}
+		if (reward)
+			nonGridObject->push_back(reward);
 		state = STATE_DESTROYED;
 	}
 }
@@ -323,27 +350,6 @@ void Skeleton::DeleteSkeleton()
 	}
 }
 
-void Skeleton::Antique()
-{
-	float al, at, ar, ab;
-	float bl, bt, br, bb;
-
-	al = CGame::GetInstance()->GetCamPosX();
-	at = CGame::GetInstance()->GetCamPosY();
-
-	ar = al + SCREEN_WIDTH;
-	ab = at + SCREEN_HEIGHT;
-
-	GetBoundingBox(bl, bt, br, bb);
-
-	RECT A, B;
-	A = { long(al),long(at),long(ar),long(ab) };
-	B = { long(bl),long(bt),long(br),long(bb) };
-
-	if (!CGame::GetInstance()->IsColliding(A, B))
-		return;
-}
-
 void Skeleton::Attack()
 {
 	//DebugOut(L"-----Num of bone: %d\n", numOfBone);
@@ -397,4 +403,31 @@ void Skeleton::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<L
 
 	for (auto i : weapon)
 		i->Update(dt, nonGridObject, gridObject);
+}
+
+void Skeleton::Reset()
+{
+	this->x = firstPos.x;
+	this->y = firstPos.y;
+
+	vx = vy = 0;
+	isActive = false;
+	isFirstActive = true;
+	isJump = false;
+	isAttack = false;
+	isOnGround = true;
+
+	attackStart = 1;
+	jumpStart = 0;
+	spawnBoneStart = 0;
+	numOfBone = 0;
+
+	state = ENEMY_STATE_HIDDEN;
+
+	id = ID_SKELETON;
+	score = 200;
+	health = 1;
+
+	if (Simon::GetInstance()->GetWhipLevel() < 2)
+		this->idReward = ID_WHIP_UPGRADE;
 }

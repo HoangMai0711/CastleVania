@@ -21,6 +21,8 @@ class Ghost :
 {
 protected:
 	bool isActive;
+
+	D3DXVECTOR2 firstPos;
 public:
 	Ghost(D3DXVECTOR2 position);
 	~Ghost();
@@ -28,5 +30,6 @@ public:
 	void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void Reset();
 };
 

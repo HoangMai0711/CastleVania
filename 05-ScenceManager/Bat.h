@@ -27,6 +27,8 @@ protected:
 	int delta;
 	DWORD startFlyDown;
 	bool isActive = false;
+
+	D3DXVECTOR2 firstPos;
 public:
 	Bat(D3DXVECTOR2 position, int reward);
 	~Bat();
@@ -36,5 +38,6 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	
 	void SetState(int state);
+	void Reset();
 };
 

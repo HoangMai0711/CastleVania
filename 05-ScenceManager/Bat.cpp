@@ -6,6 +6,9 @@ Bat::Bat(D3DXVECTOR2 position, int reward)
 	this->x = position.x;
 	this->y = position.y;
 	this->idReward = reward;
+
+	this->firstPos = position;
+
 	delta = 0;
 	originY = y;
 	startFlyDown = 0;
@@ -180,4 +183,21 @@ void Bat::SetState(int state)
 		y = sin(delta * 3.14 / 180) * 12 + originY;
 		break;
 	}
+}
+
+void Bat::Reset()
+{
+	this->x = firstPos.x;
+	this->y = firstPos.y;
+
+	delta = 0;
+	originY = y;
+	startFlyDown = 0;
+	isActive = false;
+	health = 1;
+	score = 200;
+
+	SetState(ENEMY_STATE_IDLE);
+
+	id = ID_BAT;
 }

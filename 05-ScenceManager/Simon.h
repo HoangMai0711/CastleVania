@@ -35,9 +35,13 @@
 #define SIMON_DIE_TIME			2000
 #define SIMON_INJURED_DEFLECT_SPEED_Y	0.15f
 #define SIMON_INJURED_DEFLECT_SPEED_X	0.06f
+#define SIMON_FALLING_SPEED_Y			0.45f
 
 #define SIMON_UNTOUCHABLE_TIME		2000
 #define SIMON_LYING_TIME			2000
+#define SIMON_FALL_SIT_TIME			200
+#define SIMON_FALL_HIGHT_TIME_START	90
+
 
 #define SIMON_STATE_IDLE				0
 #define SIMON_STATE_WALKING_RIGHT		1
@@ -93,14 +97,19 @@ private:
 	int heart;
 	int health;
 	int life;
+	int dis2mBrick;
+	
 
 	bool isOnAir;
 	bool isOnStair;
 	bool activatedWall;
 	bool isOnMovingBrick;
+	bool isJumping;
+	bool isFalling;
 	
 	int untouchable;
 
+	DWORD onmBrickStart;
 	DWORD untouchableStart;
 	DWORD attackStart;
 	DWORD attackSubWeaponStart;
@@ -109,6 +118,8 @@ private:
 	DWORD calculateScoreStart;
 	DWORD timeStart;
 	DWORD lyingStart;
+	DWORD fallingStart;
+	DWORD fallSitStart;
 
 	bool disableControl;
 	int idSubWeapon;
@@ -121,6 +132,7 @@ private:
 	Stair* stair;
 	Stair* collidedStair;
 	MovingBrick* mBrick;
+	LPGAMEOBJECT colidingWall;
 
 	D3DXVECTOR2 firstPos;
 public:
@@ -174,6 +186,7 @@ public:
 	int GetHeart() { return heart; }
 	int GetHealth() { return health; }
 	int GetLife() { return life; }
+	int GetWhipLevel() { return whip->GetWhipLevel(); }
 
 	void SetSubweaponLevel(int level) { subweaponLevel = level; }
 	void SetSubweaponId(int id) { subweaponId = id; }

@@ -565,6 +565,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 	if (simon->GetDisableControl())
 		return;
+	if (simon->GetState() == SIMON_STATE_DIE)
+		return;
 
 	switch (KeyCode)
 	{
@@ -634,6 +636,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 		return;
 
 	if (simon->GetDisableControl())
+		return;
+
+	if (simon->GetState() == SIMON_STATE_DIE)
 		return;
 
 	simon->SetState(SIMON_STATE_IDLE);

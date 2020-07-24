@@ -19,6 +19,7 @@ void MovingBrick::Render()
 {
 	//DebugOut(L"-----Render Moving brick\n");
 	animations[0]->Render(x,y);
+	RenderBoundingBox();
 }
 
 void MovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)

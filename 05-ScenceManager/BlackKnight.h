@@ -16,6 +16,9 @@ class BlackKnight :
 protected:
 	float edgeLeft;
 	int edgeRight;
+
+	int firstEdge;
+	D3DXVECTOR2 firstPos;
 public:
 	BlackKnight(D3DXVECTOR2 position, int nx, int idReward, int edge);
 	~BlackKnight();
@@ -24,5 +27,6 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	//void IsHitted();
+	void Reset();
 };
 

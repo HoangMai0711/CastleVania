@@ -758,8 +758,8 @@
           "type": "SimonPos",
           "visible": true,
           "width": 20,
-          "x": 300,
-          "y": 336.5
+          "x": 747,
+          "y": 321
         }
       ],
       "opacity": 1,
@@ -887,7 +887,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 102
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -935,7 +935,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 102
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -983,7 +983,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 102
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -1079,7 +1079,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 100
+              "value": 104
             }
           ],
           "rotation": 0,
@@ -1131,7 +1131,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -1155,7 +1155,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -1179,7 +1179,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -1203,7 +1203,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -1227,7 +1227,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 100
             }
           ],
           "rotation": 0,
@@ -1251,7 +1251,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 106
             }
           ],
           "rotation": 0,
@@ -1275,7 +1275,7 @@
             {
               "name": "reward",
               "type": "float",
-              "value": 108
+              "value": 100
             }
           ],
           "rotation": 0,
