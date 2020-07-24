@@ -28,8 +28,8 @@ void WhipUpgrade::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGA
 	Item::Update(dt, nonGridObject, gridObject);
 
 	if (!isOnGround) {
-		DebugOut(L"----whip item isOnGround: FALSE\n");
+		//DebugOut(L"----whip item isOnGround: FALSE\n");
 		vy += WHIP_UPGRADE_GRAVITY * dt;
-		DebugOut(L"----WHIP vy: %f\n", vy);
+		//DebugOut(L"----WHIP vy: %f\n", vy);
 	}
 }

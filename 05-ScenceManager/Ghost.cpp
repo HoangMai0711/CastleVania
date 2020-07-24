@@ -9,8 +9,8 @@ Ghost::Ghost(D3DXVECTOR2 position)
 
 	state = ENEMY_STATE_HIDDEN;
 	vx = vy = 0;
+	score = 200;
 
-	AddAnimation(ID_ANI_ENEMY_HIDDEN);
 	AddAnimation(ID_ANI_GHOST_FLY_RIGHT);
 	AddAnimation(ID_ANI_GHOST_FLY_LEFT);
 
@@ -42,6 +42,8 @@ void Ghost::Render()
 	default:
 		break;
 	}
+	if (hitEffectStart > 0)
+		ani = ENEMY_ANI_HITTED;
 
 	animations[ani]->Render(x, y);
 }
@@ -61,8 +63,8 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	GetBoundingBox(gl, gt, gr, gb);
 
 	if (abs(gl - sl) > GHOST_ACTIVE_DISTANCE_WIDTH && abs(gt - st) < GHOST_ACTIVE_DISTANCE_HEIGHT)
-		//state = ENEMY_STATE_ACTIVE;
-		state = ENEMY_STATE_IDLE;
+		state = ENEMY_STATE_ACTIVE;
+		//state = ENEMY_STATE_IDLE;
 	
 	if (state == ENEMY_STATE_ACTIVE) {
 		isActive = true;

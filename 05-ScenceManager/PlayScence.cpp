@@ -576,6 +576,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_4:
 		game->SwitchScene(4);
 		break;
+	case DIK_P:
+		simon->SetHealth(12);
+		break;
 	}
 }
 

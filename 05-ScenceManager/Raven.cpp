@@ -12,6 +12,7 @@ Raven::Raven(D3DXVECTOR2 position)
 	isActive = false;
 
 	id = ID_RAVEN;
+	score = 200;
 
 	//AddAnimation(ID_ANI_RAVEN_IDLE_RIGHT);
 	AddAnimation(ID_ANI_RAVEN_IDLE_LEFT);
@@ -43,6 +44,8 @@ void Raven::Render()
 	default:
 		break;
 	}
+	if (hitEffectStart > 0)
+		ani = ENEMY_ANI_HITTED;
 	animations[ani]->Render(x, y);
 }
 

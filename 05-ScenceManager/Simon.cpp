@@ -11,7 +11,8 @@ Simon::Simon()
 	isOnStair = false;
 
 	life = 3;
-	health = SIMON_MAX_HEALTH;
+	//health = SIMON_MAX_HEALTH;
+	health = 2;
 	time = 300;
 	heart = 5;
 	score = 0;
@@ -20,6 +21,9 @@ Simon::Simon()
 	attackSubWeaponStart = 0;
 	flashStart = 0;
 	untouchableStart = 0;
+	calculateScoreStart = 0;
+	timeStart = GetTickCount();
+	lyingStart = 0;
 
 	subweaponId = 0;
 	subweaponLevel = 1;
@@ -88,6 +92,7 @@ void Simon::Load()
 
 	whip->Load();
 	activatedWall = false;
+	isOnMovingBrick = false;
 }
 
 void Simon::Unload()
@@ -118,7 +123,7 @@ void Simon::Attack()
 		SetState(SIMON_STATE_ATTACK_ON_STAIR);
 	else {
 		SetState(SIMON_STATE_ATTACK);
-		DebugOut(L"[INFO] Changed state to attack");
+		//DebugOut(L"[INFO] Changed state to attack\n");
 	}
 
 	attackStart = GetTickCount();
@@ -177,6 +182,7 @@ void Simon::AttackSubWeapon()
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
+	mBrick = NULL;
 	//DebugOut(L"----Simon Pos x-y: %f-%f\n", x, y);
 	if (GetTickCount() - attackStart > SIMON_ATTACK_TIME)
 		attackStart = 0;
@@ -184,7 +190,40 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	if (GetTickCount() - attackSubWeaponStart > SIMON_ATTACK_TIME)
 		attackSubWeaponStart = 0;
 
+	if (calculateScoreStart > 0)
+	{
+		if (health < SIMON_MAX_HEALTH)
+		{
+			if (GetTickCount() - calculateScoreStart > 100)
+			{
+				health++;
+				calculateScoreStart = GetTickCount();
+			}
+		}
+		else if (time > 0)
+		{
+			if (GetTickCount() - calculateScoreStart > 10)
+			{
+				time--;
+				AddScore(10);
+				calculateScoreStart = GetTickCount();
+			}
+		}
+		else if (heart > 0)
+		{
+			if (GetTickCount() - calculateScoreStart > 200)
+			{
+				heart--;
+				AddScore(100);
+			}
+		}
+		else
+		{
+			//move to next scene
+		}
+	}
 	CGameObject::Update(dt, nonGridObject, gridObject);
+
 	if (!isOnStair)
 		vy += SIMON_GRAVITY * dt;
 
@@ -204,6 +243,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		case ID_WALL:
 		case ID_PORTAL:
 		case ID_BRICK:
+		//case ID_MOVING_BRICK:
 			realCoObjects->push_back(i);
 			break;
 		case ID_ONE_WAY_WALL:
@@ -220,8 +260,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	}
 
 	//// turn off collision when die 
-	if (state != SIMON_STATE_DIE)
-		CalcPotentialCollisions(realCoObjects, coEvents);
+	//if (state != SIMON_STATE_DIE)
+	CalcPotentialCollisions(realCoObjects, coEvents);
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -249,6 +289,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		else {
 			y += dy;
 		}
+
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -285,7 +326,10 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	for (auto obj : *nonGridObject)
 		objects->push_back(obj);
 
-	CalcPotentialCollisions(objects, coEvents);
+
+	//turn off collision when die
+	if (state != SIMON_STATE_DIE)
+		CalcPotentialCollisions(objects, coEvents);
 
 	collidedStair = NULL;
 	//Collision with items
@@ -293,7 +337,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		LPGAMEOBJECT object = i->obj;
 
 		//Skip if items is destroyed
-		//CollideWithObjectAndItems(object, nonGridObject);
 		CollideWithObjectAndItems(object, objects);
 		CollideWithHiddenObject(object, nonGridObject);
 	}
@@ -302,6 +345,19 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	if (GetTickCount() - flashStart > SIMON_FLASH_TIME && flashStart > 0) {
 		EnableControl();
 		flashStart = 0;
+	}
+
+	// update die state
+	if (GetTickCount() - lyingStart > SIMON_LYING_TIME && lyingStart > 0)
+	{
+		DebugOut(L"----Lying\n");
+		lyingStart = 0;
+		if (life > 0)
+			Revive(nonGridObject);
+		else
+		{
+			// move to next scene
+		}
 	}
 
 	//Clean up SweptAABB collision events
@@ -322,7 +378,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		B = { long(bl),long(bt),long(br),long(bb) };
 
 		if (CGame::GetInstance()->IsColliding(A, B)) {
-			//CollideWithObjectAndItems(iter, nonGridObject);
 			CollideWithObjectAndItems(iter, objects);
 			CollideWithHiddenObject(iter, nonGridObject);
 		}
@@ -339,6 +394,27 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 			//DebugOut(L"---Simon Pos X-Y: %f-%f\n", x, y);
 			//DebugOut(L"---Stair POS x-y,NY: %f-%f,%d\n", sx, sy, stair->GetNy());
 			stair = NULL;
+		}
+	}
+
+	//if(mBrick != NULL )
+
+	if (GetTickCount() - timeStart > 1000)
+	{
+		if (calculateScoreStart > 0)
+			return;
+		timeStart = GetTickCount();
+		if (time > 0)
+			time--;
+
+		//Set Simon die if time is over
+		if (time == 0 && state != SIMON_STATE_DIE && calculateScoreStart == 0)
+		{
+			health = 0;
+			state = SIMON_STATE_DIE;
+			isOnStair = false;
+			DisableControl();
+			lyingStart = GetTickCount();
 		}
 	}
 }
@@ -418,11 +494,11 @@ void Simon::Render()
 		break;
 	case SIMON_STATE_INJURED:
 		if (nx > 0) {
-			DebugOut(L"----SIMON injured right\n");
+			//DebugOut(L"----SIMON injured right\n");
 			ani = SIMON_ANI_INJURED_RIGHT;
 		}
 		else {
-			DebugOut(L"----SIMON injured left\n");
+			//DebugOut(L"----SIMON injured left\n");
 			ani = SIMON_ANI_INJURED_LEFT;
 		}
 		break;
@@ -645,6 +721,11 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		collidedStair = dynamic_cast<Stair*>(object);
 		break;
 	}
+	case ID_MOVING_BRICK:
+	{
+		mBrick = dynamic_cast<MovingBrick*>(object);
+		break;
+	}
 
 	case ID_BAT:
 	case ID_BLACK_KNIGHT:
@@ -677,6 +758,7 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		break;
 	case ID_CRYSTAL_BALL:
 		object->SetState(STATE_DESTROYED);
+		StartCalculateScore();
 		break;
 	case ID_ACTIVE_BBOX:
 	{
@@ -721,6 +803,7 @@ void Simon::BeInjured()
 		state = SIMON_STATE_DIE;
 		isOnStair = false;
 		DisableControl();
+		lyingStart = GetTickCount();
 		return;
 	}
 
@@ -747,7 +830,12 @@ void Simon::IncreaseHeart(int num)
 
 void Simon::AddScore(int score)
 {
-	this->score = score;
+	this->score += score;
+}
+
+void Simon::StartCalculateScore()
+{
+	calculateScoreStart = GetTickCount();
 }
 
 void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)
@@ -757,7 +845,8 @@ void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)
 			i->Reset();
 	life -= 1;
 	time = 300;
-	health = SIMON_MAX_HEALTH;
+	//health = SIMON_MAX_HEALTH;
+	health = 2;
 	state = SIMON_STATE_IDLE;
 	nx = 1;
 	activatedWall = false;

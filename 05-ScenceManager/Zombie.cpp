@@ -13,6 +13,7 @@ Zombie::Zombie(D3DXVECTOR2 position, int nx, int reward)
 	state = ENEMY_STATE_ACTIVE;
 
 	id = ID_ZOMBIE;
+	score = 200;
 
 	AddAnimation(ID_ANI_ZOMBIE_WALK_RIGHT);
 	AddAnimation(ID_ANI_ZOMBIE_WALK_LEFT);
@@ -39,6 +40,8 @@ void Zombie::Render()
 	default:
 		break;
 	}
+	if (hitEffectStart > 0)
+		ani = ENEMY_ANI_HITTED;
 	animations[ani]->Render(x, y);
 }
 

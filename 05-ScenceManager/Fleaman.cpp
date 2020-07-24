@@ -8,6 +8,7 @@ Fleaman::Fleaman(D3DXVECTOR2 position)
 	isActive = false;
 	isFirstJump = true;
 	firstJumpStart = jumpOnGroundStart = attackStart = onGroundStart = 0;
+	score = 200;
 
 	id = ID_FLEAMAN;
 	SetState(FLEAMAN_STATE_PREATTACK);
@@ -61,6 +62,8 @@ void Fleaman::Render()
 	default:
 		break;
 	}
+	if (hitEffectStart > 0)
+		ani = ENEMY_ANI_HITTED;
 	animations[ani]->Render(x, y);
 }
 

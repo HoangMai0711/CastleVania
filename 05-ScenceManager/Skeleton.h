@@ -28,7 +28,7 @@
 
 #define SKELETON_TIME_ATTACK		3000
 #define SKELETON_TIME_JUMP			300
-#define SPAWN_BONE_TIME				200
+#define SPAWN_BONE_TIME				400
 
 class Skeleton :
 	public Enemy

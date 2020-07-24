@@ -11,6 +11,7 @@ Bat::Bat(D3DXVECTOR2 position, int reward)
 	startFlyDown = 0;
 	isActive = false;
 	health = 1;
+	score = 200;
 
 	SetState(ENEMY_STATE_IDLE);
 
@@ -38,12 +39,14 @@ void Bat::Render()
 		ani = BAT_ANI_FLY;
 		break;
 	case ENEMY_STATE_DIE:
+		DebugOut(L"----Render ani hitted\n");
 		ani = ENEMY_ANI_HITTED;
 		break;
 	default:
 		break;
 	}
-
+	if (hitEffectStart > 0)
+		ani = ENEMY_ANI_HITTED;
 	animations[ani]->Render(x, y);
 }
 

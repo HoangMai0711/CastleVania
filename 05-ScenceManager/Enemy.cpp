@@ -76,8 +76,6 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		hitEffectStart = 0;
 
 		if (health <= 0) {
-			state = STATE_DESTROYED;
-
 			LPGAMEOBJECT reward;
 			int rewardId = GetRewardId();
 
@@ -101,6 +99,7 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 			}
 			if (reward)
 				nonGridObject->push_back(reward);
+			state = STATE_DESTROYED;
 		}
 	}
 }
@@ -117,8 +116,10 @@ void Enemy::IsHitted(vector<LPGAMEOBJECT> *nonGridObject)
 
 	if (health <= 0) {
 		state = ENEMY_STATE_DIE;
+		DebugOut(L"-----Enemy die------, state: %d\n", state);
 		SetSpeed(0, 0);
 	}
+	Simon::GetInstance()->AddScore(score);
 }
 
 void Enemy::DecreaseHealth()

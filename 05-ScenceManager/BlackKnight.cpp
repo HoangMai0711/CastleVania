@@ -12,6 +12,7 @@ BlackKnight::BlackKnight(D3DXVECTOR2 position, int nx, int idReward, int edge)
 	state = ENEMY_STATE_ACTIVE;
 	edgeLeft = position.x;
 	edgeRight = edge;
+	score = 200;
 
 	id = ID_BLACK_KNIGHT;
 

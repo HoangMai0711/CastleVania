@@ -11,7 +11,7 @@
 #define ENEMY_ANI_HITTED		0
 #define ENEMY_ANI_HIDDEN		1
 
-#define ENEMY_UNTOUCHABLE_TIME			700
+#define ENEMY_UNTOUCHABLE_TIME			500
 
 class Enemy : public CGameObject
 {

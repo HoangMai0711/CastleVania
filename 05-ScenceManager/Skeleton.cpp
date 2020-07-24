@@ -14,7 +14,7 @@ Skeleton::Skeleton(D3DXVECTOR2 position)
 	isAttack = false;
 	isOnGround = true;
 
-	attackStart = 0;
+	attackStart = 1;
 	jumpStart = 0;
 	spawnBoneStart = 0; 
 	numOfBone = 0;
@@ -22,6 +22,7 @@ Skeleton::Skeleton(D3DXVECTOR2 position)
 	state = ENEMY_STATE_HIDDEN;
 
 	id = ID_SKELETON;
+	score = 200;
 
 	AddAnimation(ID_ANI_SKELETON_IDLE_RIGHT);
 	AddAnimation(ID_ANI_SKELETON_WALKING_RIGHT);
@@ -60,6 +61,8 @@ void Skeleton::Render()
 	default:
 		break;
 	}
+	if (hitEffectStart > 0)
+		ani = ENEMY_ANI_HITTED;
 	animations[ani]->Render(x, y);
 
 	if (attackStart > 0)
@@ -340,33 +343,32 @@ void Skeleton::Attack()
 		return;
 	}
 
-	attackStart = GetTickCount();
-
 	D3DXVECTOR2 skeletonPos = { x, y };
 
-	if (numOfBone == 0) {
-		DebugOut(L"----Num of bone: %d\n", numOfBone);
+	if (numOfBone == 0 && attackStart>0 && GetTickCount() - attackStart > SKELETON_TIME_ATTACK) {
+		attackStart = GetTickCount();
+		DebugOut(L"-------Restart attack\n");
+		//DebugOut(L"----Num of bone: %d\n", numOfBone);
+
 		numOfBone = rand() % 3 + 1;
 
 		if (attackStart > 0) {
-			DebugOut(L"-------Attack != 0\n");
+			//DebugOut(L"-------Attack != 0\n");
 			return;
 		}
 	}
 
 	//DebugOut(L"-----Num of bone: %d\n", numOfBone);
 
-	for (int i = 0; i < numOfBone; i++) {
-		if (spawnBoneStart == 0) {
+	if (spawnBoneStart == 0 && numOfBone > 0) {
 
-			spawnBoneStart = GetTickCount();
+		DebugOut(L"----Num of bone: %d\n", numOfBone);
+		spawnBoneStart = GetTickCount();
 
-			Bone* bone = new Bone(skeletonPos, nx);
-			weapon.push_back(bone);
+		Bone* bone = new Bone(skeletonPos, nx);
+		weapon.push_back(bone);
 
-			numOfBone--;
-		}
-		
+		numOfBone--;
 	}
 
 	if (spawnBoneStart > 0 && GetTickCount() - spawnBoneStart > SPAWN_BONE_TIME)

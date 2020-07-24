@@ -6,7 +6,7 @@
 #include "TransparentObjects.h"
 #include "Utils.h"
 #include "Whip.h"
-//#include "Wall.h"
+#include "Wall.h"
 #include "Portal.h"
 #include "Torch.h"
 #include "Weapon.h"
@@ -37,6 +37,7 @@
 #define SIMON_INJURED_DEFLECT_SPEED_X	0.06f
 
 #define SIMON_UNTOUCHABLE_TIME		2000
+#define SIMON_LYING_TIME			2000
 
 #define SIMON_STATE_IDLE				0
 #define SIMON_STATE_WALKING_RIGHT		1
@@ -96,6 +97,8 @@ private:
 	bool isOnAir;
 	bool isOnStair;
 	bool activatedWall;
+	bool isOnMovingBrick;
+	
 	int untouchable;
 
 	DWORD untouchableStart;
@@ -103,6 +106,9 @@ private:
 	DWORD attackSubWeaponStart;
 	DWORD flashStart;
 	DWORD dieStart;
+	DWORD calculateScoreStart;
+	DWORD timeStart;
+	DWORD lyingStart;
 
 	bool disableControl;
 	int idSubWeapon;
@@ -114,6 +120,7 @@ private:
 
 	Stair* stair;
 	Stair* collidedStair;
+	MovingBrick* mBrick;
 
 	D3DXVECTOR2 firstPos;
 public:
@@ -172,10 +179,12 @@ public:
 	void SetSubweaponId(int id) { subweaponId = id; }
 	void SetFisrtPosition(float x, float y) { firstPos.x = x; firstPos.y = y; }
 	void SetNx(int simonNx) { this->nx = simonNx; }
+	void SetHealth(int health) { this->health = health; }
 
 	void IncreaseHealth(int num);
 	void IncreaseHeart(int num);
 	void AddScore(int score);
+	void StartCalculateScore();
 
 	void Revive(vector<LPGAMEOBJECT> *nonGridObject);
 };
