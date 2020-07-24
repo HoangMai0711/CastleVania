@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "Game.h"
+#include "Simon.h"
 
 #define BONE_BBOX_WIDTH		16
 #define BONE_BBOX_HEIGHT	16

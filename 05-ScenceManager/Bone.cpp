@@ -31,9 +31,24 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJEC
 
 	vy += BONE_GRAVITY * dt;
 
+	Simon* simon = Simon::GetInstance();
+
+	float sl, st, sr, sb;
+	float l, t, r, b;
+
+	simon->GetBoundingBox(sl, st, sr, sb);
+	GetBoundingBox(l, t, r, b);
+
+	RECT S, B;
+	S = { long(sl),long(st),long(sr),long(sb) };
+	B = { long(l),long(t),long(r),long(b) };
+
+	if (CGame::GetInstance()->IsColliding(S, B)) {
+		simon->BeInjured();
+	}
+
 	//Delete when out off screen
 	float al, at, ar, ab;
-	float bl, bt, br, bb;
 
 	float x = CGame::GetInstance()->GetCamPosX();
 	float y = CGame::GetInstance()->GetCamPosY();
@@ -43,11 +58,8 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJEC
 	ar = x + SCREEN_WIDTH;
 	ab = y + SCREEN_HEIGHT;
 
-	GetBoundingBox(bl, bt, br, bb);
-
-	RECT A, B;
+	RECT A;
 	A = { long(al),long(at),long(ar),long(ab) };
-	B = { long(bl),long(bt),long(br),long(bb) };
 
 	if (!CGame::GetInstance()->IsColliding(A, B)) {
 		state = STATE_DESTROYED;
