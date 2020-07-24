@@ -16,6 +16,8 @@ Skeleton::Skeleton(D3DXVECTOR2 position)
 
 	attackStart = 0;
 	jumpStart = 0;
+	spawnBoneStart = 0; 
+	numOfBone = 0;
 
 	state = ENEMY_STATE_HIDDEN;
 
@@ -59,50 +61,44 @@ void Skeleton::Render()
 		break;
 	}
 	animations[ani]->Render(x, y);
+
+	if (attackStart > 0)
+		for (auto i : weapon) {
+			i->Render();
+		}
 }
 
 void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	float al, at, ar, ab;
-	float bl, bt, br, bb;
+	if (state == ENEMY_STATE_HIDDEN) {
+		//Don't update skeleton're out off screen
+		float al, at, ar, ab;
+		float bl, bt, br, bb;
 
-	al = CGame::GetInstance()->GetCamPosX();
-	at = CGame::GetInstance()->GetCamPosY();
+		al = CGame::GetInstance()->GetCamPosX();
+		at = CGame::GetInstance()->GetCamPosY();
 
-	ar = al + SCREEN_WIDTH;
-	ab = at + SCREEN_HEIGHT;
+		ar = al + SCREEN_WIDTH;
+		ab = at + SCREEN_HEIGHT;
 
-	GetBoundingBox(bl, bt, br, bb);
+		GetBoundingBox(bl, bt, br, bb);
 
-	RECT A, B;
-	A = { long(al),long(at),long(ar),long(ab) };
-	B = { long(bl),long(bt),long(br),long(bb) };
+		RECT A, B;
+		A = { long(al),long(at),long(ar),long(ab) };
+		B = { long(bl),long(bt),long(br),long(bb) };
 
-	if (!CGame::GetInstance()->IsColliding(A, B))
-		return;
+		if (!CGame::GetInstance()->IsColliding(A, B))
+			return;
+	}
+
+	Attack();
+	UpdateWeapon(dt, nonGridObject, gridObject);
 
 	CGameObject::Update(dt, nonGridObject, gridObject);
 
 	vy += SKELETON_GRAVITY * dt;
 
-	Simon* simon = Simon::GetInstance();
-
-	float sl, st, sr, sb;
-	float l, t, r, b;
-
-	simon->GetBoundingBox(sl, st, sr, sb);
-	GetBoundingBox(l, t, r, b);
-
-	if (x < simon->GetX()) {
-		nx = 1;
-		leftBlock = simon->GetX() - SKELETON_KEEP_SIMON_DISTANCE - SKELETON_MOVING_SPACE;
-		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
-	}
-	else {
-		nx = -1;
-		leftBlock = simon->GetX() + SKELETON_KEEP_SIMON_DISTANCE;
-		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
-	}
+	SetMovingSpace();
 
 	vector<LPGAMEOBJECT> *realCoObjects;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -166,23 +162,32 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 						GetBoundingBox(l, t, r, b);
 
 						float edge = wall->GetX() + wall->GetLength();
-						if (l < wall->GetX() - 5) {
-							isOnGround = false;
-							isJump = true;
-							jumpStart = GetTickCount();
-							vy = -SKELETON_SPEED_Y;
-							y -= 5;
-							vx = SKELETON_SPEED_Y;
-							//MoveToSimon();
+
+						if (b < wall->GetY()) {
+							if (l < wall->GetX() - 5) {
+								isOnGround = false;
+								isJump = true;
+								jumpStart = GetTickCount();
+								vy = -SKELETON_SPEED_Y;
+								y -= 5;
+
+								SetMovingSpace();
+								MoveToSimon();
+							}
+							if (r > edge) {
+								isOnGround = false;
+								isJump = true;
+								jumpStart = GetTickCount();
+								vy = -SKELETON_SPEED_Y;
+								y -= 5;
+
+								SetMovingSpace();
+								MoveToSimon();
+							}
 						}
-						if (r > edge) {
-							isOnGround = false;
-							isJump = true;
-							jumpStart = GetTickCount();
-							vy = -SKELETON_SPEED_Y;
-							y -= 5;
-							vx = SKELETON_SPEED_Y;
-							//MoveToSimon();
+						else {
+							SetMovingSpace();
+							MoveToSimon();
 						}
 					}
 				}
@@ -193,6 +198,14 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 			jumpStart = 0;
 		}
 	}
+
+	Simon* simon = Simon::GetInstance();
+
+	float sl, st, sr, sb;
+	float l, t, r, b;
+
+	simon->GetBoundingBox(sl, st, sr, sb);
+	GetBoundingBox(l, t, r, b);
 
 	if (isFirstActive) {
 		if (abs(l - sl) < SKELETON_ACTIVE_DISTANCE_WIDTH && abs(t - st) < SKELETON_ACTIVE_DISTANCE_HEIGHT) {
@@ -211,6 +224,10 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 		if (jumpStart > 0)
 			return;
 		MoveToSimon();
+	}
+
+	if (!(state == ENEMY_STATE_HIDDEN)) {
+		DeleteSkeleton();
 	}
 }
 
@@ -248,28 +265,125 @@ void Skeleton::MoveToSimon()
 		}
 }
 
-void Skeleton::Attack(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
+void Skeleton::SetMovingSpace()
 {
-	//DebugOut(L"-------Skeleton attack\n");
+	Simon* simon = Simon::GetInstance();
+
+	float sl, st, sr, sb;
+	float l, t, r, b;
+
+	simon->GetBoundingBox(sl, st, sr, sb);
+	GetBoundingBox(l, t, r, b);
+
+	if (x < simon->GetX()) {
+		nx = 1;
+		leftBlock = simon->GetX() - SKELETON_KEEP_SIMON_DISTANCE - SKELETON_MOVING_SPACE;
+		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
+	}
+	else {
+		nx = -1;
+		leftBlock = simon->GetX() + SKELETON_KEEP_SIMON_DISTANCE;
+		rightBlock = leftBlock + SKELETON_MOVING_SPACE;
+	}
+}
+
+void Skeleton::DeleteSkeleton()
+{
+	//Delete when out off screen
+	float al, at, ar, ab;
+	float bl, bt, br, bb;
+
+	float x = CGame::GetInstance()->GetCamPosX();
+	float y = CGame::GetInstance()->GetCamPosY();
+
+	al = x;
+	at = y;
+	ar = x + SCREEN_WIDTH;
+	ab = y + SCREEN_HEIGHT;
+
+	GetBoundingBox(bl, bt, br, bb);
+
+	RECT A, B;
+	A = { long(al),long(at),long(ar),long(ab) };
+	B = { long(bl),long(bt),long(br),long(bb) };
+
+	if (!CGame::GetInstance()->IsColliding(A, B)) {
+		state = STATE_DESTROYED;
+	}
+}
+
+void Skeleton::Antique()
+{
+	float al, at, ar, ab;
+	float bl, bt, br, bb;
+
+	al = CGame::GetInstance()->GetCamPosX();
+	at = CGame::GetInstance()->GetCamPosY();
+
+	ar = al + SCREEN_WIDTH;
+	ab = at + SCREEN_HEIGHT;
+
+	GetBoundingBox(bl, bt, br, bb);
+
+	RECT A, B;
+	A = { long(al),long(at),long(ar),long(ab) };
+	B = { long(bl),long(bt),long(br),long(bb) };
+
+	if (!CGame::GetInstance()->IsColliding(A, B))
+		return;
+}
+
+void Skeleton::Attack()
+{
+	//DebugOut(L"-----Num of bone: %d\n", numOfBone);
+	if (state == ENEMY_STATE_HIDDEN || weapon.size() > 3/* || attackStart > 0*/) {
+		return;
+	}
+
 	attackStart = GetTickCount();
 
-	D3DXVECTOR2 skeletonPos;
-	GetPosition(skeletonPos.x, skeletonPos.y);
+	D3DXVECTOR2 skeletonPos = { x, y };
 
-	int numOfBone = rand() % 3 + 1;
+	if (numOfBone == 0) {
+		DebugOut(L"----Num of bone: %d\n", numOfBone);
+		numOfBone = rand() % 3 + 1;
+
+		if (attackStart > 0) {
+			DebugOut(L"-------Attack != 0\n");
+			return;
+		}
+	}
+
+	//DebugOut(L"-----Num of bone: %d\n", numOfBone);
 
 	for (int i = 0; i < numOfBone; i++) {
-		Bone* bone = new Bone(skeletonPos, nx);
-		weapon.push_back(bone);
+		if (spawnBoneStart == 0) {
+
+			spawnBoneStart = GetTickCount();
+
+			Bone* bone = new Bone(skeletonPos, nx);
+			weapon.push_back(bone);
+
+			numOfBone--;
+		}
+		
 	}
+
+	if (spawnBoneStart > 0 && GetTickCount() - spawnBoneStart > SPAWN_BONE_TIME)
+		spawnBoneStart = 0;
+
+	//isAttack = true;
 }
 
 void Skeleton::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
-	if (attackStart > 0 && GetTickCount() - attackStart > SKELETON_TIME_ATTACK) {
-		attackStart = 0;
-		isAttack = false;
-	}
+	//delete bone
+	for (int i = 0; i < weapon.size(); i++)
+		if (weapon[i]->GetState() == STATE_DESTROYED)
+		{
+			weapon.erase(weapon.begin() + i);
+			i--;
+		}
 
 	for (auto i : weapon)
 		i->Update(dt, nonGridObject, gridObject);

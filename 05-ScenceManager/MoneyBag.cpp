@@ -22,6 +22,10 @@ MoneyBag::MoneyBag(D3DXVECTOR2 position, int id)
 		break;
 	case ID_BIG_MONEYBAG:
 		score = 1000;
+		break;
+	case ID_CROWN:
+		score = 2000;
+		break;
 	default:
 		break;
 	}
@@ -34,6 +38,9 @@ MoneyBag::MoneyBag(D3DXVECTOR2 position, int id)
 	AddAnimation(ID_ANI_YELLOW_MONEYBAG_SCORE);
 	AddAnimation(ID_ANI_BIG_MONEYBAG);
 	AddAnimation(ID_ANI_BIG_MONEYBAG_SCORE);
+	AddAnimation(ID_ANI_CROWN);
+	AddAnimation(ID_ANI_CROWN_SCORE);
+	DebugOut(L"------Add money bag id: %d\n", id);
 }
 
 MoneyBag::~MoneyBag()
@@ -94,10 +101,17 @@ void MoneyBag::Render()
 		else
 			ani = BIG_MONEYBAG_SCORE_ANI;
 		break;
+	case ID_CROWN:
+		if (showScoreStart == 0)
+			ani = CROWN_ANI;
+		else
+			ani = CROWN_SCORE_ANI;
+		break;
 	default:
 		break;
 	}
 	animations[ani]->Render(x, y);
+	DebugOut(L"----Id ani money bag: %d\n", ani);
 }
 
 void MoneyBag::StartShowScore()

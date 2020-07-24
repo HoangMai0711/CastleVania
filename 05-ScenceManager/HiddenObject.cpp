@@ -1,9 +1,12 @@
 #include "HiddenObject.h"
 
-HiddenObject::HiddenObject(D3DXVECTOR2 position, int reward, D3DXVECTOR2 rewardPos)
+HiddenObject::HiddenObject(D3DXVECTOR2 position, int reward, D3DXVECTOR2 rewardPos, int width, int height)
 {
 	x = position.x;
 	y = position.y;
+	this->width = width;
+	this->height = height;
+	
 	rewardPosition = rewardPos;
 
 	id = ID_HIDDEN_OBJECTS;
@@ -20,8 +23,8 @@ void HiddenObject::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
 	t = y;
-	r = x + HIDDEN_OBJ_BBOX_WIDTH;
-	b = y + HIDDEN_OBJ_BBOX_HEIGHT;
+	r = x + width;
+	b = y + height;
 }
 
 void HiddenObject::Render()
@@ -37,13 +40,17 @@ void HiddenObject::IsCollide(vector<LPGAMEOBJECT>* objects)
 	switch (rewardId)
 	{
 	case ID_BIG_MONEYBAG:
-		reward = new MoneyBag({ rewardPosition.x,rewardPosition.y }, rewardId);
-		DebugOut(L"-----Create reward object ID = %d", rewardId);
+		reward = new MoneyBag({ rewardPosition.x, rewardPosition.y }, rewardId);
+		DebugOut(L"-----Create reward object ID = %d\n", rewardId);
+		break;
+	case ID_CROWN:
+		reward = new MoneyBag({ rewardPosition.x, rewardPosition.y }, rewardId);
 		break;
 	default:
-		DebugOut(L"-----No ID = %d found", rewardId);
+		reward = NULL;
 		break;
 	}
-	objects->push_back(reward);
+	if (reward)
+		objects->push_back(reward);
 	state = STATE_DESTROYED;
 }

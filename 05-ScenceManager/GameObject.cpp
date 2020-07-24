@@ -125,7 +125,6 @@ void CGameObject::FilterCollision(
 
 int CGameObject::GetRewardId()
 {
-	DebugOut(L"-------ID Reward: %d\n", idReward);
 	return idReward;
 }
 

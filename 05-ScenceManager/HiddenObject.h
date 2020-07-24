@@ -8,8 +8,10 @@
 class HiddenObject : public GroundObject
 {
 	D3DXVECTOR2 rewardPosition;
+	int width;
+	int height;
 public:
-	HiddenObject(D3DXVECTOR2 position, int reward, D3DXVECTOR2 rewardPos);
+	HiddenObject(D3DXVECTOR2 position, int reward, D3DXVECTOR2 rewardPos, int width, int height);
 	~HiddenObject();
 
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);

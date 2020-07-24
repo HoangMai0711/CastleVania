@@ -117,7 +117,7 @@ void CPlayScene::Load()
 
 				D3DXVECTOR2 rewardPos = D3DXVECTOR2({ i["properties"][1]["value"],i["properties"][2]["value"] });
 
-				HiddenObject* hiddenObj = new HiddenObject(position, idReward, rewardPos);
+				HiddenObject* hiddenObj = new HiddenObject(position, idReward, rewardPos, width, height);
 
 				for (auto k : i["gridPos"]) {
 					int col = k["col"];

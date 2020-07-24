@@ -45,7 +45,6 @@ void Bat::Render()
 	}
 
 	animations[ani]->Render(x, y);
-	//DebugOut(L"____bat ani: %d\n", ani);
 }
 
 void Bat::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)

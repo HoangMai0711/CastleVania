@@ -6,8 +6,8 @@ Bone::Bone(D3DXVECTOR2 position, int nx)
 	this->x = position.x;
 	this->y = position.y;
 	this->nx = nx;
-	vx = BONE_SPEED_X;
-	vy = -RandomFloat(0.003, 0.2);
+	vx = nx * BONE_SPEED_X;
+	vy = -BONE_SPEED_Y;
 
 	id = ID_BONE;
 
@@ -20,7 +20,6 @@ Bone::~Bone()
 
 void Bone::Render()
 {
-	DebugOut(L"------Render BONE\n");
 	animations[0]->Render(x, y);
 }
 
@@ -30,7 +29,6 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJEC
 	x += dx;
 	y += dy;
 
-	vx = nx * BONE_SPEED_X;
 	vy += BONE_GRAVITY * dt;
 
 	//Delete when out off screen
@@ -51,8 +49,9 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJEC
 	A = { long(al),long(at),long(ar),long(ab) };
 	B = { long(bl),long(bt),long(br),long(bb) };
 
-	if (!CGame::GetInstance()->IsColliding(A, B))
+	if (!CGame::GetInstance()->IsColliding(A, B)) {
 		state = STATE_DESTROYED;
+	}
 }
 
 void Bone::GetBoundingBox(float & left, float & top, float & right, float & bottom)

@@ -26,6 +26,8 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void IsHitted(vector<LPGAMEOBJECT> *nonGridObject);
 	virtual void DecreaseHealth();
+
 	int GetHealth() { return health; }
+	int GetScore() { return this->score; }
 };
 

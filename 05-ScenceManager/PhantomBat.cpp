@@ -138,7 +138,7 @@ void PhantomBat::Render()
 		animations[PHANTOM_BAT_ANI_DAMAGED]->Render(x + PHANTOM_BAT_BBOX_WIDTH / 2, y + PHANTOM_BAT_BBOX_HEIGHT / 2);
 }
 
-void PhantomBat::IsHitted()
+void PhantomBat::IsHitted(vector<LPGAMEOBJECT> *nonGridObject)
 {
 	if (untouchableStart > 0)
 		return;

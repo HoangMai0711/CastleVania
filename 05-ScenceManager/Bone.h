@@ -6,7 +6,8 @@
 #define BONE_BBOX_WIDTH		16
 #define BONE_BBOX_HEIGHT	16
 
-#define BONE_SPEED_X		0.003f
+#define BONE_SPEED_X		0.08f
+#define BONE_SPEED_Y		0.15f
 #define BONE_GRAVITY		0.0006f
 
 class Bone :

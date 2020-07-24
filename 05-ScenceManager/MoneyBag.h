@@ -15,6 +15,8 @@
 #define YELLOW_MONEYBAG_SCORE_ANI		5
 #define BIG_MONEYBAG_ANI				6
 #define BIG_MONEYBAG_SCORE_ANI			7
+#define CROWN_ANI						8
+#define CROWN_SCORE_ANI					9
 
 class MoneyBag : public Item
 {
@@ -28,5 +30,7 @@ public:
 	virtual void Render();
 
 	void StartShowScore();
+
+	int GetScore() { return this->score; }
 };
 

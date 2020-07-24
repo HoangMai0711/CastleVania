@@ -54,7 +54,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void Render();
 
-	void IsHitted();
+	void IsHitted(vector<LPGAMEOBJECT> *nonGridObject);
 	void Reset();
 };
 

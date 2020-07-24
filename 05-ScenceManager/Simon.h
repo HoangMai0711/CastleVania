@@ -150,6 +150,7 @@ public:
 	void UnloadWhip();
 
 	void CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>* listObject);
+	void CollideWithHiddenObject(LPGAMEOBJECT object, vector<LPGAMEOBJECT> *nonGridObject);
 
 	Stair* GetStair() { return stair; }
 	Stair* GetCollidedStair() { return collidedStair; }
@@ -174,6 +175,7 @@ public:
 
 	void IncreaseHealth(int num);
 	void IncreaseHeart(int num);
+	void AddScore(int score);
 
 	void Revive(vector<LPGAMEOBJECT> *nonGridObject);
 };

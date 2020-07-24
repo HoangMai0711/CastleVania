@@ -295,6 +295,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		//Skip if items is destroyed
 		//CollideWithObjectAndItems(object, nonGridObject);
 		CollideWithObjectAndItems(object, objects);
+		CollideWithHiddenObject(object, nonGridObject);
 	}
 
 	//Enable control after flash time
@@ -323,6 +324,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		if (CGame::GetInstance()->IsColliding(A, B)) {
 			//CollideWithObjectAndItems(iter, nonGridObject);
 			CollideWithObjectAndItems(iter, objects);
+			CollideWithHiddenObject(iter, nonGridObject);
 		}
 	}
 
@@ -625,13 +627,6 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		DisableControl();
 		flashStart = GetTickCount();
 		break;
-	case ID_HIDDEN_OBJECTS:
-	{
-		//DebugOut(L"----Collide with hidden object\n");
-		HiddenObject* hiddenObj = dynamic_cast<HiddenObject*>(object);
-		hiddenObj->IsCollide(listObject);
-		break;
-	}
 	case ID_ITEM_BOOMERANG:
 		SetSubweaponId(ID_BOOMERANG);
 		AddSubWeapon(ID_BOOMERANG);
@@ -665,9 +660,11 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	case ID_BLUE_MONEYBAG:
 	case ID_YELLOW_MONEYBAG:
 	case ID_BIG_MONEYBAG:
+	case ID_CROWN:
 	{
 		MoneyBag* moneybag = dynamic_cast<MoneyBag*>(object);
 		moneybag->StartShowScore();
+		AddScore(moneybag->GetScore());
 		break;
 	}
 	case ID_DOUBLE_SHOT:
@@ -687,6 +684,25 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		box->IsCollide();
 		activatedWall = true;
 		box->SetState(STATE_DESTROYED);
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void Simon::CollideWithHiddenObject(LPGAMEOBJECT object, vector<LPGAMEOBJECT>* nonGridObject)
+{
+	if (object->GetState() == STATE_DESTROYED)
+		return;
+
+	switch (object->GetId())
+	{
+	case ID_HIDDEN_OBJECTS:
+	{
+		//DebugOut(L"----Collide with hidden object\n");
+		HiddenObject* hiddenObj = dynamic_cast<HiddenObject*>(object);
+		hiddenObj->IsCollide(nonGridObject);
 		break;
 	}
 	default:
@@ -727,6 +743,11 @@ void Simon::IncreaseHealth(int num)
 void Simon::IncreaseHeart(int num)
 {
 	heart += num;
+}
+
+void Simon::AddScore(int score)
+{
+	this->score = score;
 }
 
 void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)

@@ -35,9 +35,9 @@ void BlackKnight::Render()
 		else
 			ani = BLACK_KNIGHT_ANI_WALKING_LEFT;
 		break;
-	//case ENEMY_STATE_DIE:
-	//	ani = ENEMY_ANI_HITTED;
-	//	break;
+	case ENEMY_STATE_DIE:
+		ani = ENEMY_ANI_HITTED;
+		break;
 	default:
 		break;
 	}
@@ -79,19 +79,4 @@ void BlackKnight::GetBoundingBox(float & left, float & top, float & right, float
 	}
 	else
 		left = top = right = bottom = 0;
-}
-
-void BlackKnight::IsHitted()
-{
-
-	if (untouchableStart > 0)
-		return;
-
-	untouchableStart = GetTickCount();
-
-	DecreaseHealth();
-	if (health <= 0) {
-		SetSpeed(0, 0);
-	}
-	hitEffectStart = GetTickCount();
 }
