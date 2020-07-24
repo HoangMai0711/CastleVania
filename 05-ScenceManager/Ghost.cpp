@@ -10,6 +10,7 @@ Ghost::Ghost(D3DXVECTOR2 position)
 	state = ENEMY_STATE_HIDDEN;
 	vx = vy = 0;
 	score = 200;
+	health = 1;
 
 	AddAnimation(ID_ANI_GHOST_FLY_RIGHT);
 	AddAnimation(ID_ANI_GHOST_FLY_LEFT);

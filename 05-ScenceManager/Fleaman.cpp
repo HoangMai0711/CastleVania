@@ -9,6 +9,7 @@ Fleaman::Fleaman(D3DXVECTOR2 position)
 	isFirstJump = true;
 	firstJumpStart = jumpOnGroundStart = attackStart = onGroundStart = 0;
 	score = 200;
+	health = 1;
 
 	id = ID_FLEAMAN;
 	SetState(FLEAMAN_STATE_PREATTACK);

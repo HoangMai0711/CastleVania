@@ -733,6 +733,9 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	case ID_FLEAMAN:
 	case ID_RAVEN:
 	case ID_PHANTOM_BAT:
+	case ID_SKELETON:
+	case ID_BONE:
+	case ID_ZOMBIE:
 		if (untouchableStart > 0)
 			break;
 		BeInjured();

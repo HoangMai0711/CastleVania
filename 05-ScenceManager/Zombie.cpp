@@ -14,6 +14,7 @@ Zombie::Zombie(D3DXVECTOR2 position, int nx, int reward)
 
 	id = ID_ZOMBIE;
 	score = 200;
+	health = 1;
 
 	AddAnimation(ID_ANI_ZOMBIE_WALK_RIGHT);
 	AddAnimation(ID_ANI_ZOMBIE_WALK_LEFT);

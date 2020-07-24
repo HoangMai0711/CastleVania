@@ -23,6 +23,7 @@ Skeleton::Skeleton(D3DXVECTOR2 position)
 
 	id = ID_SKELETON;
 	score = 200;
+	health = 1;
 
 	AddAnimation(ID_ANI_SKELETON_IDLE_RIGHT);
 	AddAnimation(ID_ANI_SKELETON_WALKING_RIGHT);
@@ -231,6 +232,13 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 
 	if (!(state == ENEMY_STATE_HIDDEN)) {
 		DeleteSkeleton();
+	}
+
+	// Delete skeleton when hitted
+	DWORD effectTimeCount = GetTickCount() - hitEffectStart;
+	if (effectTimeCount > HIT_EFFECT_TIME && hitEffectStart > 0) {
+		hitEffectStart = 0;
+		state = STATE_DESTROYED;
 	}
 }
 

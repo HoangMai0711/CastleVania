@@ -58,6 +58,9 @@ void CBrick::IsHitted(vector<LPGAMEOBJECT> *nonGridObject)
 		case ID_POT_ROAST:
 			reward = new PotRoast({ x,y });
 			break;
+		case ID_BIG_HEART:
+			reward = new BigHeart({ x,y });
+			break;
 		default:
 			reward = NULL;
 			break;
