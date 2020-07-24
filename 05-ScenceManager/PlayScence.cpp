@@ -361,23 +361,41 @@ void CPlayScene::Load()
 				grid->AddObject(box);
 			}
 		else if (iter["name"] == "1-way Wall")
-		for (auto i : iter["objects"]) {
-			int width = i["width"];
-			int height = i["height"];
-			float x = i["x"];
-			float y = i["y"];
-			D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
 
-			OneWayWall* onewayWall = new OneWayWall(position);
+				OneWayWall* onewayWall = new OneWayWall(position);
 
-			for (auto k : i["gridPos"]) {
-				int col = k["col"];
-				int row = k["row"];
-				D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
-				onewayWall->AddGridPositon(gridPos);
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
+					onewayWall->AddGridPositon(gridPos);
+				}
+				grid->AddObject(onewayWall);
 			}
-			grid->AddObject(onewayWall);
-		}
+		else if (iter["name"] == "DeadZone")
+			for (auto i : iter["objects"]) {
+				int width = i["width"];
+				int height = i["height"];
+				float x = i["x"];
+				float y = i["y"];
+				D3DXVECTOR2 position = D3DXVECTOR2({ x,y });
+
+				DeadZone* deadzone = new DeadZone(position, width, height);
+
+				for (auto k : i["gridPos"]) {
+					int col = k["col"];
+					int row = k["row"];
+					D3DXVECTOR2 gridPos = D3DXVECTOR2{ float(row),float(col) };
+					deadzone->AddGridPositon(gridPos);
+				}
+				grid->AddObject(deadzone);
+			}
 	}
 
 	f.close();

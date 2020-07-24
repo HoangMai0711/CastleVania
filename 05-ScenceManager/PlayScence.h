@@ -31,6 +31,7 @@
 #include "HUD.h"
 #include "OneWayWall.h"
 #include "ActiveBox.h"
+#include "DeadZone.h"
 
 class CPlayScene: public CScene
 {

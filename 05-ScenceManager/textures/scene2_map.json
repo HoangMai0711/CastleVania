@@ -1,8 +1,4 @@
 {
-  "cam_limit": [
-    [ 0, 480 ],
-    [ 224, 480 ]
-  ],
   "height": 48,
   "infinite": false,
   "layers": [
@@ -521,12 +517,12 @@
             {
               "name": "rewardPosX",
               "type": "int",
-              "value": 362
+              "value": 0
             },
             {
               "name": "rewardPosY",
               "type": "int",
-              "value": 352
+              "value": 0
             }
           ],
           "rotation": 0,
@@ -1056,7 +1052,7 @@
             {
               "name": "reward",
               "type": "int",
-              "value": 101
+              "value": 111
             }
           ],
           "rotation": 0,
@@ -1065,6 +1061,55 @@
           "width": 16,
           "x": 352,
           "y": 80
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 17,
+      "name": "DeadZone",
+      "objects": [
+        {
+          "gridPos": [
+            {
+              "col": 0,
+              "row": 0
+            },
+            {
+              "col": 0,
+              "row": 1
+            },
+            {
+              "col": 1,
+              "row": 0
+            },
+            {
+              "col": 1,
+              "row": 1
+            },
+            {
+              "col": 2,
+              "row": 0
+            },
+            {
+              "col": 2,
+              "row": 1
+            }
+          ],
+          "height": 10,
+          "id": 83,
+          "name": "1",
+          "rotation": 0,
+          "type": "DeadZone",
+          "visible": true,
+          "width": 224,
+          "x": 0,
+          "y": 190
         }
       ],
       "opacity": 1,
@@ -1241,8 +1286,8 @@
       "y": 0
     }
   ],
-  "nextlayerid": 17,
-  "nextobjectid": 82,
+  "nextlayerid": 18,
+  "nextobjectid": 84,
   "orientation": "orthogonal",
   "properties": [
     {
@@ -1272,5 +1317,9 @@
   "tilewidth": 8,
   "type": "map",
   "version": 1.2,
-  "width": 64
+  "width": 64,
+  "cam_limit": [
+    [ 223, 480 ],
+    [ 0, 480 ]
+  ]
 }

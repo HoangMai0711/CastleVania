@@ -771,6 +771,14 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 		box->SetState(STATE_DESTROYED);
 		break;
 	}
+	case ID_DEADZONE:
+		health = 0;
+		state = SIMON_STATE_DIE;
+		vx = 0;
+		lyingStart = GetTickCount();
+		if (life > 0)
+			Revive(listObject);
+		break;
 	default:
 		break;
 	}
