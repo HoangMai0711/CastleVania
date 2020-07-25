@@ -72,6 +72,7 @@ void Fleaman::Render()
 
 void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
+	// Don't update if out off screen
 	float al, at, ar, ab;
 	float bl, bt, br, bb;
 
@@ -111,13 +112,13 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 		}
 	}
 
-	// turn off collision when die 
-	CalcPotentialCollisions(realCoObjects, coEvents);
+	// turn off collision when die
+	if (state != STATE_DESTROYED)
+		CalcPotentialCollisions(realCoObjects, coEvents);
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		//DebugOut(L"------No collision\n");
 		x += dx;
 		y += dy;
 	}
@@ -128,17 +129,10 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 		float rdy = 0;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		//DebugOut(L"----Fleaman ny: %d\n", ny);
 
-		//x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		
 		//DebugOut(L"--Fleaman vx, vy: %f/ %f\n", vx, vy);
 		x += dx;
 
-		//if (nx != 0) {
-		//	vx = 0;
-		//}
 		if (ny < 0) {
 			y += min_ty * dy + ny * 0.1f;
 			vy = 0;
@@ -148,6 +142,8 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 			y += dy;
 		}
 	}
+
+	//Set first activate
 	if (isFirstJump) {
 		float sl, st, sr, sb;
 		float fl, ft, fr, fb;
@@ -161,29 +157,36 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 		}
 	}
 	if (!isFirstJump && isActive) {
+		//Fleaman jump on ground
 		if (firstJumpStart > 0 && GetTickCount() - firstJumpStart > FLEAMAN_TIME_ATTACK) {
 			firstJumpStart = 0;
 			jumpOnGroundStart = GetTickCount();
 			nx = -simon->GetNx();
 			//DebugOut(L"nx first active: %d\n", nx);
 		}
+
+		// Determine fleaman direction and set idle on ground
 		if (jumpOnGroundStart && onGroundStart == 0) {
 			SetState(ENEMY_STATE_ACTIVE);
 			if (x < simon->GetX()) {
 				nx = 1;
-				vx = nx*vx;
+				vx = nx * vx;
 			}
 			if (x > simon->GetX()) {
 				nx = -1;
-				vx = nx*vx;
+				vx = nx * vx;
 			}
 			//DebugOut(L"----- vx, vy, nx: %f/ %f/ %d\n", vx, vy, nx);
 			onGroundStart = GetTickCount();
 		}
+
+		//Set start attack
 		if (jumpOnGroundStart && onGroundStart > 0 && GetTickCount() - onGroundStart > FLEAMAN_TIME_JUMP_ON_GROUND) {
 			onGroundStart = 0;
 			isStartAttack = true;
 		}
+
+		//Start attack Simon
 		if (isStartAttack) {
 			float sl, st, sr, sb;
 			float fl, ft, fr, fb;
@@ -203,12 +206,15 @@ void Fleaman::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOB
 				//DebugOut(L"-----Attack vx, vy, nx: %f/ %f/ %d\n", vx, vy, nx);
 			}
 		}
+		// Fleaman jump on ground
 		if (attackStart > 0 && GetTickCount() - attackStart > FLEAMAN_TIME_ATTACK) {
 			attackStart = 0;
 			isStartAttack = false;
 			jumpOnGroundStart = GetTickCount();
 		}
 	}
+
+	// Destroyed
 	DWORD effectTimeCount = GetTickCount() - hitEffectStart;
 
 	if (effectTimeCount > HIT_EFFECT_TIME && hitEffectStart > 0) {
@@ -259,20 +265,4 @@ void Fleaman::StartActive()
 	//ison
 	isFirstJump = false;
 	firstJumpStart = GetTickCount();
-}
-
-void Fleaman::Reset()
-{
-	this->x = firstPos.x;
-	this->y = firstPos.y;
-
-	isStartAttack = false;
-	isActive = false;
-	isFirstJump = true;
-	firstJumpStart = jumpOnGroundStart = attackStart = onGroundStart = 0;
-	score = 200;
-	health = 1;
-
-	id = ID_FLEAMAN;
-	SetState(FLEAMAN_STATE_PREATTACK);
 }

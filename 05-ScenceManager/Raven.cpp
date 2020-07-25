@@ -68,6 +68,7 @@ void Raven::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	simon->GetBoundingBox(sl, st, sr, sb);
 	GetBoundingBox(rl, rt, rr, rb);
 
+	//Set moving direction of raven
 	if (x > simon->GetX() && y < simon->GetY()) {
 		nx = -1;
 		ny = 1;
@@ -160,22 +161,5 @@ void Raven::GetBoundingBox(float & left, float & top, float & right, float & bot
 	top = y;
 	right = x + RAVEN_BBOX_WIDTH;
 	bottom = y + RAVEN_BBOX_HEIGHT;
-}
-
-void Raven::Reset()
-{
-	this->x = firstPos.x;
-	this->y = firstPos.y;
-
-	state = ENEMY_STATE_IDLE;
-	vx = vy = 0;
-	nx = -1;
-	isActive = false;
-
-	id = ID_RAVEN;
-	score = 200;
-
-	if (Simon::GetInstance()->GetWhipLevel() < 2)
-		this->idReward = ID_WHIP_UPGRADE;
 }
 

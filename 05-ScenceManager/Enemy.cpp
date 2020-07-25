@@ -93,6 +93,9 @@ void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 			case ID_ITEM_BOOMERANG:
 				reward = new ItemBoomerang({ x,y });
 				break;
+			case ID_SMALL_HEART:
+				reward = new SmallHeart({ x,y });
+				break;
 			default:
 				reward = NULL;
 				break;
@@ -127,4 +130,8 @@ void Enemy::DecreaseHealth()
 	health -= 1;
 	if (health < 0)
 		health = 0;
+}
+
+void Enemy::Reset()
+{
 }

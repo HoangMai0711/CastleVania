@@ -78,6 +78,7 @@ void Skeleton::Render()
 
 void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
 {
+	// Don't update if it's out off screen
 	if (state == ENEMY_STATE_HIDDEN) {
 		//Don't update skeleton're out off screen
 		float al, at, ar, ab;
@@ -215,6 +216,7 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 	simon->GetBoundingBox(sl, st, sr, sb);
 	GetBoundingBox(l, t, r, b);
 
+	//Activate skeleton
 	if (isFirstActive) {
 		if (abs(l - sl) < SKELETON_ACTIVE_DISTANCE_WIDTH && abs(t - st) < SKELETON_ACTIVE_DISTANCE_HEIGHT) {
 			isActive = true;
@@ -234,6 +236,7 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 		MoveToSimon();
 	}
 
+	// Delete skeleton when it's out off screen
 	if (!(state == ENEMY_STATE_HIDDEN)) {
 		DeleteSkeleton();
 	}
@@ -258,6 +261,9 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEO
 			break;
 		case ID_ITEM_BOOMERANG:
 			reward = new ItemBoomerang({ x,y });
+			break;
+		case ID_SMALL_HEART:
+			reward = new SmallHeart({ x,y });
 			break;
 		default:
 			reward = NULL;
@@ -352,24 +358,23 @@ void Skeleton::DeleteSkeleton()
 
 void Skeleton::Attack()
 {
-	//DebugOut(L"-----Num of bone: %d\n", numOfBone);
-	if (state == ENEMY_STATE_HIDDEN || weapon.size() > 3/* || attackStart > 0*/) {
+	// Turn off attack if skeleton is unactivated
+	if (state == ENEMY_STATE_HIDDEN || weapon.size() > 3) {
 		return;
 	}
 
 	D3DXVECTOR2 skeletonPos = { x, y };
 
+	// Set skeleton restart attack
 	if (numOfBone == 0 && attackStart>0 && GetTickCount() - attackStart > SKELETON_TIME_ATTACK) {
 		attackStart = GetTickCount();
-		DebugOut(L"-------Restart attack\n");
+		//DebugOut(L"-------Restart attack\n");
 		//DebugOut(L"----Num of bone: %d\n", numOfBone);
 
 		numOfBone = rand() % 3 + 1;
 
-		if (attackStart > 0) {
-			//DebugOut(L"-------Attack != 0\n");
+		if (attackStart > 0)
 			return;
-		}
 	}
 
 	//DebugOut(L"-----Num of bone: %d\n", numOfBone);
@@ -387,8 +392,6 @@ void Skeleton::Attack()
 
 	if (spawnBoneStart > 0 && GetTickCount() - spawnBoneStart > SPAWN_BONE_TIME)
 		spawnBoneStart = 0;
-
-	//isAttack = true;
 }
 
 void Skeleton::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<LPGAMEOBJECT> gridObject)
@@ -403,31 +406,4 @@ void Skeleton::UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT>* nonGridObject, set<L
 
 	for (auto i : weapon)
 		i->Update(dt, nonGridObject, gridObject);
-}
-
-void Skeleton::Reset()
-{
-	this->x = firstPos.x;
-	this->y = firstPos.y;
-
-	vx = vy = 0;
-	isActive = false;
-	isFirstActive = true;
-	isJump = false;
-	isAttack = false;
-	isOnGround = true;
-
-	attackStart = 1;
-	jumpStart = 0;
-	spawnBoneStart = 0;
-	numOfBone = 0;
-
-	state = ENEMY_STATE_HIDDEN;
-
-	id = ID_SKELETON;
-	score = 200;
-	health = 1;
-
-	if (Simon::GetInstance()->GetWhipLevel() < 2)
-		this->idReward = ID_WHIP_UPGRADE;
 }

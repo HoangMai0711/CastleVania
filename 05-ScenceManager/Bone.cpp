@@ -31,6 +31,7 @@ void Bone::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJEC
 
 	vy += BONE_GRAVITY * dt;
 
+	// Simon's injured when collide with bone
 	Simon* simon = Simon::GetInstance();
 
 	float sl, st, sr, sb;

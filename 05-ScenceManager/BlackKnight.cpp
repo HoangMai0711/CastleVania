@@ -89,23 +89,3 @@ void BlackKnight::GetBoundingBox(float & left, float & top, float & right, float
 	else
 		left = top = right = bottom = 0;
 }
-
-void BlackKnight::Reset()
-{
-	this->x = firstPos.x;
-	this->y = firstPos.y;
-	this->nx = nx;
-	vx = BLACK_KNIGHT_WALKING_SPEED;
-	health = 2;
-	state = ENEMY_STATE_ACTIVE;
-	edgeLeft = firstPos.x;
-	edgeRight = firstEdge;
-	score = 200;
-
-	id = ID_BLACK_KNIGHT;
-
-	if (Simon::GetInstance()->GetWhipLevel() >= 2)
-		this->idReward = ID_SMALL_HEART;
-	else
-		this->idReward = idReward;
-}

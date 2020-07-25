@@ -64,7 +64,5 @@ public:
 
 	void Attack();
 	void UpdateWeapon(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
-
-	void Reset();
 };
 

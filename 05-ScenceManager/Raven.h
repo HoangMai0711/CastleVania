@@ -33,6 +33,5 @@ public:
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void Reset();
 };
 

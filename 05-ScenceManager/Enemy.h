@@ -30,5 +30,7 @@ public:
 
 	int GetHealth() { return health; }
 	int GetScore() { return this->score; }
+
+	void Reset();
 };
 

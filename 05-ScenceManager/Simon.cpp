@@ -268,7 +268,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		case ID_WALL:
 		case ID_PORTAL:
 		case ID_BRICK:
-		
+
 			realCoObjects->push_back(i);
 			break;
 		case ID_ONE_WAY_WALL:
@@ -470,7 +470,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	}
 
 	if (mBrick != NULL)
-		DebugOut(L"dis y: %d \n",dis2mBrick);
+		DebugOut(L"dis y: %d \n", dis2mBrick);
 
 	if (mBrick != NULL && y + SIMON_BBOX_HEIGHT <= mBrick->GetY() && (state == SIMON_STATE_IDLE || state == SIMON_STATE_ATTACK || state == SIMON_STATE_SIT_ATTACK)) {
 		x = mBrick->GetX() - dis2mBrick;
@@ -486,6 +486,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 			Revive(nonGridObject);
 		else
 		{
+			Restart();
 			// move to next scene
 		}
 	}
@@ -920,13 +921,12 @@ void Simon::StartCalculateScore()
 
 void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)
 {
-	for (auto i : *nonGridObject)
-		//if (i->GetId() == ID_PHANTOM_BAT)
-			i->Reset();
+
+	CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetCurrentStage());	
 	life -= 1;
 	time = 300;
-	//health = SIMON_MAX_HEALTH;
-	health = 2;
+	health = SIMON_MAX_HEALTH;
+	//health = 2;
 	state = SIMON_STATE_IDLE;
 	nx = 1;
 
@@ -937,4 +937,49 @@ void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)
 	activatedWall = false;
 	SetPosition(firstPos.x, firstPos.y);
 	EnableControl();
+}
+
+void Simon::Restart()
+{
+	CGame::GetInstance()->SwitchScene(1);
+
+	id = ID_SIMON;
+	state = SIMON_STATE_IDLE;
+	nx = 1;
+	isOnAir = false;
+	isOnGround = false;
+	isOnStair = false;
+	isJumping = false;
+	isFalling = false;
+
+	life = 3;
+	health = SIMON_MAX_HEALTH;
+	time = 300;
+	heart = 5;
+	score = 0;
+
+	attackStart = 0;
+	onmBrickStart = 0;
+	attackSubWeaponStart = 0;
+	flashStart = 0;
+	untouchableStart = 0;
+	calculateScoreStart = 0;
+	timeStart = GetTickCount();
+	lyingStart = 0;
+	fallingStart = 0;
+	fallSitStart = 0;
+
+	subweaponId = 0;
+	subweaponLevel = 1;
+
+	disableControl = false;
+
+	stair = NULL;
+	collidedStair = NULL;
+	mBrick = NULL;
+	colidingWall = NULL;
+
+	whip = new Whip();
+
+	Load();
 }

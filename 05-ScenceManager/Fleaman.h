@@ -47,5 +47,4 @@ public:
 
 	void SetState(int state);
 	void StartActive();
-	void Reset();
 };

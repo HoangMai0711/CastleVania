@@ -200,5 +200,7 @@ public:
 	void StartCalculateScore();
 
 	void Revive(vector<LPGAMEOBJECT> *nonGridObject);
+
+	void Restart();
 };
 
