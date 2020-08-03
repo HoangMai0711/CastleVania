@@ -27,7 +27,7 @@ void Axe::Render()
 		ani = AXE_ANI_RIGHT;
 	else
 		ani = AXE_ANI_LEFT;
-	DebugOut(L"------render axe ani: %d\n", ani);
+	//DebugOut(L"------render axe ani: %d\n", ani);
 	animations[ani]->Render(x, y);
 }
 

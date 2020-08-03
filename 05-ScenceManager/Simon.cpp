@@ -13,8 +13,8 @@ Simon::Simon()
 	isFalling = false;
 
 	life = 3;
-	//health = SIMON_MAX_HEALTH;
-	health = 2;
+	health = SIMON_MAX_HEALTH;
+	//health = 2;
 	time = 300;
 	heart = 5;
 	score = 0;
@@ -88,10 +88,10 @@ void Simon::Load()
 	AddAnimation(ID_ANI_SIMON_WALK_UPSTAIR_LEFT);		// Walk Upstair Left		16
 	AddAnimation(ID_ANI_SIMON_WALK_DOWNSTAIR_RIGHT);	// Walk Downstair Right		17
 	AddAnimation(ID_ANI_SIMON_WALK_DOWNSTAIR_LEFT);		// Walk Downstair Left		18
-	AddAnimation(ID_ANI_SIMON_ATTACK_UPSTAIR_RIGHT);	// Attack Upstair Right		19
-	AddAnimation(ID_ANI_SIMON_ATTACK_UPSTAIR_LEFT);		// Attack Upstair Left		20
-	AddAnimation(ID_ANI_SIMON_ATTACK_DOWNSTAIR_RIGHT);	// Attack Downstair Right	21
-	AddAnimation(ID_ANI_SIMON_ATTACK_DOWNSTAIR_LEFT);	// Attack Downstair Left	22
+	AddAnimation(ID_ANI_SIMON_ATTACK_UPSTAIR_RIGHT);	// Attack Upstair Right		19 129
+	AddAnimation(ID_ANI_SIMON_ATTACK_UPSTAIR_LEFT);		// Attack Upstair Left		20 130
+	AddAnimation(ID_ANI_SIMON_ATTACK_DOWNSTAIR_RIGHT);	// Attack Downstair Right	21 131
+	AddAnimation(ID_ANI_SIMON_ATTACK_DOWNSTAIR_LEFT);	// Attack Downstair Left	22 132
 	AddAnimation(ID_ANI_SIMON_INJURED_DEFLECT_RIGHT);	// Injured Deflect Right	23
 	AddAnimation(ID_ANI_SIMON_INJURED_DEFLECT_LEFT);	// Injured Deflect Left		24
 	AddAnimation(ID_ANI_SIMON_FLASH_RIGHT);				// Flash Right				25
@@ -109,6 +109,8 @@ void Simon::Unload()
 
 void Simon::Jump()
 {
+	if (isOnStair)
+		return;
 	SetState(SIMON_STATE_JUMP);
 	isOnAir = true;
 	isJumping = true;
@@ -145,9 +147,11 @@ void Simon::AttackSubWeapon()
 		return;
 	if (attackSubWeaponStart > 0)
 		return;
-	if (GetSubweapon().size() >= subweaponLevel)
+	if (GetSubweapon().size() >= subweaponLevel || subWeapon.size() < 0)
 		return;
 	if (isFalling || fallSitStart > 0)
+		return;
+	if (heart < 0)
 		return;
 
 	if (state != SIMON_STATE_JUMP)
@@ -190,6 +194,7 @@ void Simon::AttackSubWeapon()
 	default:
 		break;
 	}
+	heart--;
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJECT> gridObject)
@@ -298,7 +303,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	//if (state != SIMON_STATE_DIE)
 	CalcPotentialCollisions(realCoObjects, coEvents);
 
-	if (onmBrickStart > 0 && GetTickCount() - onmBrickStart > 150) {
+	if (onmBrickStart > 0 && GetTickCount() - onmBrickStart > 50) {
 		mBrick = NULL;
 		onmBrickStart = 0;
 	}
@@ -393,7 +398,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(objects, coEvents);
 
+	//Reset stair
 	collidedStair = NULL;
+
 	//Collision with items
 	for (auto i : coEvents) {
 		LPGAMEOBJECT object = i->obj;
@@ -420,7 +427,14 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *nonGridObject, set<LPGAMEOBJE
 		float al, at, ar, ab;
 		float bl, bt, br, bb;
 		GetBoundingBox(al, at, ar, ab);
+
+		if (iter->GetId() < 0 || iter->GetId() > 100)
+		{
+			continue;
+		}
 		iter->GetBoundingBox(bl, bt, br, bb);
+
+		// 
 
 		RECT A, B;
 		A = { long(al),long(at),long(ar),long(ab) };
@@ -633,6 +647,8 @@ void Simon::SetState(int state)
 		return;
 	if (attackSubWeaponStart > 0)
 		return;
+	if (!isOnGround && state != SIMON_STATE_ATTACK && state != SIMON_STATE_ATTACK_SUBWEAPON)
+		return;
 
 
 	CGameObject::SetState(state);
@@ -844,10 +860,16 @@ void Simon::CollideWithObjectAndItems(LPGAMEOBJECT object, vector<LPGAMEOBJECT>*
 	case ID_DEADZONE:
 		health = 0;
 		state = SIMON_STATE_DIE;
-		vx = 0;
-		lyingStart = GetTickCount();
+		//lyingStart = GetTickCount();
+		//if (life > 0)
+		//	Revive(listObject);
 		if (life > 0)
 			Revive(listObject);
+		else
+		{
+			Restart();
+			// move to next scene
+		}
 		break;
 	default:
 		break;
@@ -922,7 +944,7 @@ void Simon::StartCalculateScore()
 void Simon::Revive(vector<LPGAMEOBJECT>* nonGridObject)
 {
 
-	CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetCurrentStage());	
+	CGame::GetInstance()->SwitchScene(CGame::GetInstance()->GetCurrentStage());
 	life -= 1;
 	time = 300;
 	health = SIMON_MAX_HEALTH;

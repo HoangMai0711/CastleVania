@@ -517,12 +517,12 @@
             {
               "name": "rewardPosX",
               "type": "int",
-              "value": 0
+              "value": 362
             },
             {
               "name": "rewardPosY",
               "type": "int",
-              "value": 0
+              "value": 350
             }
           ],
           "rotation": 0,
@@ -700,7 +700,7 @@
           "type": "SimonPos",
           "visible": true,
           "width": 20,
-          "x": 263,
+          "x": 265,
           "y": 339
         }
       ],
@@ -1052,7 +1052,7 @@
             {
               "name": "reward",
               "type": "int",
-              "value": 111
+              "value": 101
             }
           ],
           "rotation": 0,
